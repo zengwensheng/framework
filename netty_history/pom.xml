@@ -14,7 +14,6 @@
     <modules>
         <module>nio</module>
         <module>aio</module>
-        <module>netty_reactor</module>
     </modules>
 
 
