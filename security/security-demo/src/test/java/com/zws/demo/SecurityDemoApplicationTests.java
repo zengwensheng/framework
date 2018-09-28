@@ -1,15 +1,18 @@
-package com.zws.security.demo;
+package com.zws.demo;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -31,5 +34,24 @@ public class SecurityDemoApplicationTests {
     @Before
     public void setUp() throws Exception{
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
+    }
+
+    @Test
+    public void userInfo() throws Exception{
+       String result = mvc.perform(get("/user/1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println("result = " + result);
+    }
+
+    @Test
+    public void createUser() throws Exception{
+        String result = mvc.perform(post("/user")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\"userName\":\"\",\"password\":\"123456\",\"age\":\"20\",\"birthDay\":1538119366341}"))
+                .andExpect(status().is4xxClientError())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(result);
     }
 }
