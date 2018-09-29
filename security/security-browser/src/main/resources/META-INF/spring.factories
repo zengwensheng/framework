@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.zws.browser.config.BrowserSecurityConfig
+com.zws.browser.config.BrowserSecurityConfig,\
+com.zws.browser.config.BrowserSecurityBeanConfig

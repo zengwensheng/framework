@@ -24,7 +24,7 @@ public class UserVo {
     private String id;
     @ApiModelProperty(name = "用户名")
     @JsonView(SimpleUserView.class)
-    private String userName;
+    private String username;
     @ApiModelProperty(name = "用户密码")
     @JsonView(PasswordUserView.class)
     private String password;

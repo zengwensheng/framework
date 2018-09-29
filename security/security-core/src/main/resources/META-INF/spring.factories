@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.zws.core.config.SecurityCoreConfig,\
+com.zws.core.config.ValidateCodeBeanConfig,\
+com.zws.core.config.ValidateSecurityConfig

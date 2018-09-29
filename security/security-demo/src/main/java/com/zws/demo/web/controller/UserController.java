@@ -3,8 +3,10 @@ package com.zws.demo.web.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.zws.demo.entity.dto.UserDto;
 import com.zws.demo.entity.vo.UserVo;
+import com.zws.demo.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,8 @@ import java.util.List;
 @Api(value="/user", tags="用户模块")
 public class UserController {
 
+    @Autowired
+    private UserService userDetailServiceImpl;
 
     @GetMapping("/{id:\\d+}")
     @ApiOperation(value = "查询用户详情")
@@ -30,7 +34,7 @@ public class UserController {
     public UserVo getUserInfo(@PathVariable String id){
        UserVo userVo =new UserVo();
        userVo.setId("1");
-       userVo.setUserName("zws");
+       userVo.setUsername("zws");
        userVo.setAge("20");
        userVo.setPassword("123456");
        userVo.setBirthDay(new Date());
@@ -44,7 +48,7 @@ public class UserController {
         List<UserVo> userVoList = new ArrayList<>();
         UserVo userVo =new UserVo();
         userVo.setId("1");
-        userVo.setUserName("zws");
+        userVo.setUsername("zws");
         userVo.setAge("20");
         userVo.setPassword("123456");
         userVo.setBirthDay(new Date());
@@ -55,11 +59,6 @@ public class UserController {
     @PostMapping
     @ApiOperation(value = "用户添加")
     public UserVo createUser(@RequestBody @Valid UserDto userDto, BindingResult bindingResult){
-         UserVo userVo = new UserVo();
-         userVo.setId("1");
-         userVo.setAge(userDto.getAge());
-         userVo.setUserName(userDto.getUserName());
-         userVo.setBirthDay(userDto.getBirthDay());
-         return userVo;
+         return userDetailServiceImpl.insert(userDto);
     }
 }

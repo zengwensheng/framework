@@ -19,10 +19,11 @@ import java.util.Date;
  */
 @Data
 public class UserDto {
-
+    @ApiModelProperty(name = "用户id")
+    private String id;
     @ApiModelProperty(name = "用户名")
     @NotEmpty(message = "用户名不能为空")
-    private String userName;
+    private String username;
     @ApiModelProperty(name = "用户密码")
     @NotEmpty(message = "密码不能为空")
     private String password;

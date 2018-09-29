@@ -3,6 +3,7 @@ package com.zws.demo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+
 public class SecurityDemoApplicationTests {
     @Autowired
     private WebApplicationContext context;
@@ -49,8 +51,8 @@ public class SecurityDemoApplicationTests {
     public void createUser() throws Exception{
         String result = mvc.perform(post("/user")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content("{\"userName\":\"\",\"password\":\"123456\",\"age\":\"20\",\"birthDay\":1538119366341}"))
-                .andExpect(status().is4xxClientError())
+                .content("{\"username\":\"zws\",\"password\":\"123456\",\"age\":\"20\",\"birthDay\":1538119366341}"))
+                .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         System.out.println(result);
     }
