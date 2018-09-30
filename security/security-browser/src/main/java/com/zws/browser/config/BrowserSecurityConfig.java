@@ -1,21 +1,21 @@
 package com.zws.browser.config;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zws.browser.security.AuthenticationFailureHandlerImpl;
-import com.zws.browser.security.AuthenticationSuccessHandlerImpl;
 import com.zws.core.config.AbstractSecurityConfig;
-import com.zws.core.properties.SecurityConstants;
+import com.zws.core.config.ValidateSecurityConfig;
+import com.zws.core.support.SecurityConstants;
 import com.zws.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * @author zws
@@ -29,11 +29,24 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
 
     @Autowired
     private SecurityProperties securityProperties;
+    @Autowired
+    private ValidateSecurityConfig validateSecurityConfig;
+    @Autowired
+    private UserDetailsService userDetailsServiceImpl;
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         applyPasswordAuthenticationConfig(http);
-        http.authorizeRequests()
+        http.apply(validateSecurityConfig)
+                .and()
+             .rememberMe()
+                .tokenRepository(persistentTokenRepository(dataSource))
+                .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
+                .userDetailsService(userDetailsServiceImpl)
+                .and()
+             .authorizeRequests()
                 .antMatchers(securityProperties.getBrowser().getLoginPage()
                             ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL
                             ,SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL
@@ -43,7 +56,16 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .csrf().disable();
+              .csrf()
+                .disable();
+    }
+
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository(DataSource dataSource){
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
     }
 
 
@@ -52,6 +74,7 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
 
 
 }

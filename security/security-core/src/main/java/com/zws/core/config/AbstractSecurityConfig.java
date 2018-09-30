@@ -1,7 +1,6 @@
 package com.zws.core.config;
 
-import com.zws.core.properties.SecurityConstants;
-import com.zws.core.properties.SecurityProperties;
+import com.zws.core.support.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;

@@ -12,6 +12,6 @@ spring:
 security:
    core:
       browser:
-        login-type: REDIRECT
+        login-type: JSON
 
 

@@ -1,9 +1,13 @@
 package com.zws.core.config;
 
+import com.zws.core.validate.ValidateCodeFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 
 /**
  * @author zws
@@ -12,8 +16,13 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
  */
 @Configuration
 public class ValidateSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain,HttpSecurity> {
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
 
+
+    @Autowired
+    private ValidateCodeFilter validateCodeFilter;
+
+    @Override
+    public void configure(HttpSecurity http)  {
+          http.addFilterAfter(validateCodeFilter,AbstractPreAuthenticatedProcessingFilter.class);
     }
 }

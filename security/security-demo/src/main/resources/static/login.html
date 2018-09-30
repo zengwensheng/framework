@@ -5,7 +5,7 @@
 <title>登录</title>
 </head>
 <body>
-	<h2>Demo注册页</h2>
+	<h2>用户名登录</h2>
 	
 	<form action="/login" method="post">
 		<table>
@@ -20,14 +20,41 @@
 			<tr>
 				<td>图形验证码:</td>
 				<td>
-					<input type="text" name="">
+					<input type="text" name="imgCode">
 				    <img src="/createCode"/>
 				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" name="remember-me" />记住我
 
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button type="submit" name="type" value="regist">登录</button>
+					<button type="submit" name="type" value="usernameLogin">登录</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+
+    <h2>手机号登录</h2>
+	<form action="" method="post">
+		<table>
+			<tr>
+				<td>手机号:</td>
+				<td><input type="text" name="mobile"></td>
+			</tr>
+			<tr>
+				<td>手机验证码:</td>
+				<td>
+					<input type="text" name="smsCode">
+					<img src=""/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button type="submit" name="type" value="mobileLogin">登录</button>
 				</td>
 			</tr>
 		</table>

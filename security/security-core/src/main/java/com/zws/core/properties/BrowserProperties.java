@@ -1,5 +1,6 @@
 package com.zws.core.properties;
 
+import com.zws.core.support.SecurityConstants;
 import lombok.Data;
 
 /**
@@ -15,6 +16,9 @@ public class BrowserProperties {
     private String loginPage = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
 
     private String failureUrl = SecurityConstants.DEFAULT_FAILURE_URL;
+
+
+    private int rememberMeSeconds = 3600;
 
 
     private LoginResponseType loginType = LoginResponseType.JSON;

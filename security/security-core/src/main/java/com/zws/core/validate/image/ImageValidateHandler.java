@@ -1,48 +1,25 @@
-package com.zws.core.validate;
+package com.zws.core.validate.image;
 
-import com.zws.core.validate.image.ImageCode;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.zws.core.validate.AbstractValidateHandler;
+import com.zws.core.validate.ValidateCode;
 import org.springframework.web.context.request.ServletWebRequest;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 
 /**
  * @author zws
  * @email 2848392861@qq.com
- * date 2018/9/29
+ * date 2018/9/30
  */
-@RestController
-public class ValidateController extends AbstractController {
-
-
+public class ImageValidateHandler extends AbstractValidateHandler {
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    protected ValidateCode generator(ServletWebRequest servletWebRequest) {
         return null;
     }
 
-    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-
-    @GetMapping("/createCode")
-    public void createCode(HttpServletRequest request,HttpServletResponse response) throws Exception {
-        ServletWebRequest servletWebRequest =  new ServletWebRequest(request,response);
-        ImageCode imageCode=  generate();
-        sessionStrategy.setAttribute(servletWebRequest,"imgCode",imageCode);
-        ImageIO.write(imageCode.getImage(),"JPEG",response.getOutputStream());
-
-    }
-
-    public ImageCode generate() {
+    private ImageCode generate() {
         int width = 100;
         int height = 20;
         int length =4;
@@ -99,4 +76,14 @@ public class ValidateController extends AbstractController {
         return new Color(r, g, b);
     }
 
+
+    @Override
+    protected void send(ValidateCode validateCode) {
+
+    }
+
+    @Override
+    protected ValidateCode getValidateCode(ServletWebRequest servletWebRequest) {
+        return null;
+    }
 }
