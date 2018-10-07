@@ -1,29 +1,31 @@
 package com.zws.core.validate.image;
 
-import com.zws.core.validate.AbstractValidateHandler;
+import com.zws.core.properties.SecurityProperties;
 import com.zws.core.validate.ValidateCode;
-import org.springframework.web.context.request.ServletWebRequest;
+import com.zws.core.validate.ValidateCodeGenerator;
+import lombok.Data;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
- * @author zws
- * @email 2848392861@qq.com
- * date 2018/9/30
+ * @Author: Gosin
+ * @Date: 2018/10/2 11:51
+ * @Email: 2848392861@qq.com
  */
-public class ImageValidateHandler extends AbstractValidateHandler {
-    @Override
-    protected ValidateCode generator(ServletWebRequest servletWebRequest) {
-        return null;
-    }
+@Data
+public class ImgValidateCodeGenerator  implements ValidateCodeGenerator {
 
-    private ImageCode generate() {
-        int width = 100;
-        int height = 20;
-        int length =4;
-        Long expireIn = 3600L;
+
+    public SecurityProperties securityProperties;
+
+    @Override
+    public ValidateCode generator() {
+        int width = securityProperties.getCode().getImage().getWidth();
+        int height = securityProperties.getCode().getImage().getHeight();
+        int length =securityProperties.getCode().getImage().getLength();
+        Long expireIn = securityProperties.getCode().getImage().getExpireIn();
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         Graphics g = image.getGraphics();
@@ -74,16 +76,5 @@ public class ImageValidateHandler extends AbstractValidateHandler {
         int g = fc + random.nextInt(bc - fc);
         int b = fc + random.nextInt(bc - fc);
         return new Color(r, g, b);
-    }
-
-
-    @Override
-    protected void send(ValidateCode validateCode) {
-
-    }
-
-    @Override
-    protected ValidateCode getValidateCode(ServletWebRequest servletWebRequest) {
-        return null;
     }
 }

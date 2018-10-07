@@ -12,6 +12,8 @@ public enum  ErrorEnum {
     VALIDATE_CODE_NOT_EXIST(4,"验证码不存在"),
     VALIDATE_CODE_ERROR(5,"验证码错误"),
     VALIDATE_CODE_EXPIRE(6,"验证码已过期"),
+    VALIDATE__GENERATOR_NOT_EXIST(7,"验证码生成器不存在"),
+    VALIDATE__HANDLER_NOT_EXIST(8,"验证码处理器不存在"),
     ;
     private int errorCode;
     private String errorMsg;

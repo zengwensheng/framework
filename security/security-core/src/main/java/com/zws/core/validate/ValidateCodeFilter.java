@@ -1,22 +1,26 @@
 package com.zws.core.validate;
 
-import com.zws.core.support.SecurityConstants;
 import com.zws.core.properties.SecurityProperties;
-import com.zws.core.validate.image.ImageCode;
+import com.zws.core.support.SecurityConstants;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.http.HttpMethod;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author zws
@@ -24,7 +28,7 @@ import java.io.IOException;
  * date 2018/9/29
  */
 @Data
-public class ValidateCodeFilter extends OncePerRequestFilter {
+public class ValidateCodeFilter extends OncePerRequestFilter  implements InitializingBean{
 
 
 
@@ -34,30 +38,37 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
+    private ValidateCodeHandlerHolder validateCodeHandlerHolder;
 
+    private Map<String, ValidateCodeType> urlMap = new HashMap<>();
+
+    private AntPathMatcher pathMatcher = new AntPathMatcher();
+
+    @Override
+    public void afterPropertiesSet() throws ServletException {
+        super.afterPropertiesSet();
+        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL, ValidateCodeType.IMAGE);
+        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
+
+        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
+        addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
+    }
+
+    protected void addUrlToMap(String urlString, ValidateCodeType type) {
+        if (StringUtils.isNotBlank(urlString)) {
+            String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(urlString, ",");
+            for (String url : urls) {
+                urlMap.put(url, type);
+            }
+        }
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-         String url = request.getRequestURI();
-        if(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL.equals(url) &&  request.getMethod().equalsIgnoreCase(HttpMethod.POST.name())){
-
+         ValidateCodeType type = getValidateCodeType(request);
+        if(type!=null){
             try {
-                String code = request.getParameter("imgCode");
-                if (StringUtils.isEmpty(code)) {
-                    throw new ValidateCodeException("验证码为空");
-                }
-
-                ServletWebRequest servletWebRequest = new ServletWebRequest(request, response);
-                ImageCode imageCode = (ImageCode) sessionStrategy.getAttribute(servletWebRequest, "imgCode");
-                if (imageCode == null) {
-                    throw new ValidateCodeException("验证码不存在");
-                }
-                if (!imageCode.getCode().equalsIgnoreCase(code)) {
-                    throw new ValidateCodeException("验证码不正确");
-                }
-                if (imageCode.isExpire()) {
-                    throw new ValidateCodeException("验证码已过期");
-                }
+               validateCodeHandlerHolder.findValidateCodeProcessor(type).validate(new ServletWebRequest(request,response));
             }catch (AuthenticationException authenticationException){
                 authenticationFailureHandlerImpl.onAuthenticationFailure(request,response,authenticationException);
                 return;
@@ -65,5 +76,18 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
         }
         chain.doFilter(request, response);
+    }
+
+    private ValidateCodeType getValidateCodeType(HttpServletRequest request) {
+        ValidateCodeType result = null;
+        if (!StringUtils.equalsIgnoreCase(request.getMethod(), "get")) {
+            Set<String> urls = urlMap.keySet();
+            for (String url : urls) {
+                if (pathMatcher.match(url, request.getRequestURI())) {
+                    result = urlMap.get(url);
+                }
+            }
+        }
+        return result;
     }
 }

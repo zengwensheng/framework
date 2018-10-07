@@ -14,7 +14,7 @@ public class SecurityProperties {
 
     private BrowserProperties browser = new BrowserProperties();
 
-    private ImageCodeProperties imageCode = new ImageCodeProperties();
+    private ValidateCodeProperties code = new ValidateCodeProperties();
 
 
 }

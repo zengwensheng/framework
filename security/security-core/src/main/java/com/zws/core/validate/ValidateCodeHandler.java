@@ -9,6 +9,8 @@ import org.springframework.web.context.request.ServletWebRequest;
  */
 public interface ValidateCodeHandler {
 
+
+
     void create(ServletWebRequest servletWebRequest);
 
     void validate(ServletWebRequest servletWebRequest)  throws  ValidateCodeException;
