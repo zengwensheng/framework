@@ -1,18 +1,16 @@
 package com.zws.browser.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zws.browser.security.AuthenticationFailureHandlerImpl;
-import com.zws.browser.security.AuthenticationSuccessHandlerImpl;
-import com.zws.browser.security.BrowserSecurityController;
+import com.zws.browser.authentication.AuthenticationFailureHandlerImpl;
+import com.zws.browser.authentication.AuthenticationSuccessHandlerImpl;
+import com.zws.browser.authentication.BrowserSecurityController;
 import com.zws.core.properties.SecurityProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author zws

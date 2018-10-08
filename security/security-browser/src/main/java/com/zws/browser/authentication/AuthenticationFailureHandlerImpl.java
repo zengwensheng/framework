@@ -1,4 +1,4 @@
-package com.zws.browser.security;
+package com.zws.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zws.core.properties.LoginResponseType;
@@ -32,7 +32,7 @@ public class AuthenticationFailureHandlerImpl extends SimpleUrlAuthenticationFai
         if(securityProperties.getBrowser().getLoginType() ==LoginResponseType.JSON) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType(SecurityConstants.DEFAULT_CONTENT_TYPE);
-            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(ErrorEnum.LOGIN_SUCCESS)));
+            response.getWriter().write(exception.getMessage());
         }else{
             super.onAuthenticationFailure(request,response,exception);
         }

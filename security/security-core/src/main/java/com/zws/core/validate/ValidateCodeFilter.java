@@ -47,8 +47,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter  implements Initial
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL, ValidateCodeType.IMAGE);
-        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
+        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL, ValidateCodeType.IMG);
+        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMG);
 
         urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
         addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);

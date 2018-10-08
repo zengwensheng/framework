@@ -22,4 +22,16 @@ public class JsonUtils {
             return "";
         }
     }
+
+    public static <T> T readValue(String result,Class<T> obj){
+         try{
+            return objectMapper.readValue(result,obj);
+         }catch (Exception e){
+            return null;
+         }
+    }
+
+
+
+
 }

@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Data
 public class ValidateCode {
 
-    private String key;
 
     private String code;
 

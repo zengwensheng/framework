@@ -6,12 +6,24 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   session:
     store-type: none
-  redis:
-    host: 192.168.1.154
-    port: 6379
+  #redis:
+   # host: 192.168.1.154
+    #port: 6379
 security:
    core:
       browser:
         login-type: JSON
+authentication:
+  core:
+    social:
+       qq:
+         app-id:
+         app-secret:
+         provider-id: qq
+
+
+
+
+
 
 

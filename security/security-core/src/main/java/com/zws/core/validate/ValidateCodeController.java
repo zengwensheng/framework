@@ -30,8 +30,8 @@ public class ValidateCodeController extends AbstractController {
 
 
     @GetMapping("/code/{type}")
-    public void createCode(HttpServletRequest request,HttpServletResponse response,@PathVariable  String type) throws Exception {
-       validateCodeHandlerHolder.findValidateCodeProcessor(type).create(new ServletWebRequest(request,response));
+    public void createCode(HttpServletRequest request,HttpServletResponse response,@PathVariable  String type) {
+        validateCodeHandlerHolder.findValidateCodeProcessor(type).create(new ServletWebRequest(request, response));
     }
 
 

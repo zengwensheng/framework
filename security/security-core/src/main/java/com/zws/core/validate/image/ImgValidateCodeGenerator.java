@@ -18,7 +18,7 @@ import java.util.Random;
 public class ImgValidateCodeGenerator  implements ValidateCodeGenerator {
 
 
-    public SecurityProperties securityProperties;
+    private SecurityProperties securityProperties;
 
     @Override
     public ValidateCode generator() {

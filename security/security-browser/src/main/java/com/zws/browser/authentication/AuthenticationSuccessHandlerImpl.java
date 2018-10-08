@@ -1,4 +1,4 @@
-package com.zws.browser.security;
+package com.zws.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zws.core.properties.LoginResponseType;

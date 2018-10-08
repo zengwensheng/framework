@@ -2,6 +2,7 @@ package com.zws.core.validate;
 
 import com.zws.core.support.ErrorEnum;
 import com.zws.core.support.SimpleResponse;
+import lombok.Data;
 
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import java.util.Map;
  * @Date: 2018/10/4 11:58
  * @Email: 2848392861@qq.com
  */
+@Data
 public class ValidateCodeHandlerHolder {
 
 
@@ -23,7 +25,7 @@ public class ValidateCodeHandlerHolder {
         String name = type.toLowerCase() + ValidateCodeHandler.class.getSimpleName();
         ValidateCodeHandler validateCodeHandler = validateCodeHandlerMap.get(name);
         if (validateCodeHandler == null) {
-              throw  new ValidateCodeException(new SimpleResponse(ErrorEnum.VALIDATE__HANDLER_NOT_EXIST));
+              throw new ValidateCodeException(ErrorEnum.VALIDATE__HANDLER_NOT_EXIST);
         }
         return validateCodeHandler;
     }

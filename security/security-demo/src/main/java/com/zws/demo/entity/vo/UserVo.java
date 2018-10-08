@@ -34,6 +34,9 @@ public class UserVo {
     @ApiModelProperty(name = "出生日期")
     @JsonView(SimpleUserView.class)
     private Date birthDay;
+    @ApiModelProperty(name = "手机号码")
+    @JsonView(SimpleUserView.class)
+    private String mobile;
 
 
 }

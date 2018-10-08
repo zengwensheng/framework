@@ -1,4 +1,4 @@
-package com.zws.core.config;
+package com.zws.core.authentication;
 
 import com.zws.core.support.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,10 @@
-package com.zws.demo.security;
+package com.zws.demo.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zws.core.authentication.sms.SmsCodeUserDetailsService;
+import com.zws.core.support.ErrorEnum;
+import com.zws.core.support.JsonUtils;
+import com.zws.core.support.SimpleResponse;
 import com.zws.demo.entity.dto.UserDto;
 import com.zws.demo.entity.vo.UserVo;
 import com.zws.demo.mapper.UserMapper;
@@ -21,7 +26,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class UserDetailsServiceImpl implements UserDetailsService, UserService {
+public class UserDetailsServiceImpl implements UserDetailsService, UserService,SmsCodeUserDetailsService {
 
 
     @Autowired
@@ -33,9 +38,18 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         com.zws.demo.entity.po.User user = userMapper.getUserByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("用户名不存在");
+            throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(ErrorEnum.LOGIN_USERNAME_NOT_EXIST)));
         }
         return new User(user.getUsername(), user.getPassword(), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+    }
+
+    @Override
+    public UserDetails loadUserBySms(String sms) throws UsernameNotFoundException {
+        com.zws.demo.entity.po.User user = userMapper.getUserByMobile(sms);
+        if (user == null) {
+            throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(ErrorEnum.LOGIN_USERNAME_NOT_EXIST)));
+        }
+        return new User(user.getUsername(),user.getPassword(), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.zws.core.validate;
 
 import com.zws.core.support.ErrorEnum;
 import com.zws.core.support.SimpleResponse;
+import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -16,6 +17,7 @@ import java.util.Objects;
  * @email 2848392861@qq.com
  * date 2018/9/30
  */
+@Data
 public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> implements ValidateCodeHandler {
 
 
@@ -29,7 +31,7 @@ public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> imple
 
 
     @Override
-    public void create(ServletWebRequest servletWebRequest) {
+    public void create(ServletWebRequest servletWebRequest){
         C validateCode = generator(servletWebRequest);
         save(servletWebRequest, validateCode);
         send(validateCode,servletWebRequest);
@@ -42,7 +44,7 @@ public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> imple
         String generatorName = type+ValidateCodeGenerator.class.getSimpleName();
         ValidateCodeGenerator validateCodeGenerator =    validateGeneratorMap.get(generatorName);
         if(validateCodeGenerator ==null){
-            throw new ValidateCodeException(new SimpleResponse(ErrorEnum.VALIDATE__GENERATOR_NOT_EXIST));
+            throw new ValidateCodeException(ErrorEnum.VALIDATE__GENERATOR_NOT_EXIST);
         }
         return (C) validateCodeGenerator.generator();
     }
@@ -58,9 +60,9 @@ public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> imple
         sessionStrategy.setAttribute(servletWebRequest,getKey(servletWebRequest), sessionCode);
     }
 
-    protected  abstract  String getKey(ServletWebRequest servletWebRequest);
+    protected  abstract  String getKey(ServletWebRequest servletWebRequest) ;
 
-    protected abstract void send(C validateCode,ServletWebRequest servletWebRequest);
+    protected abstract void send(C validateCode,ServletWebRequest servletWebRequest) ;
 
 
 
@@ -70,19 +72,24 @@ public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> imple
 
         String code = obtainValidateCode(servletWebRequest.getRequest());
         if (StringUtils.isEmpty(code)) {
-            throw new ValidateCodeException(new SimpleResponse(ErrorEnum.VALIDATE_CODE_EMPTY));
+            throw new ValidateCodeException(ErrorEnum.VALIDATE_CODE_EMPTY);
         }
 
         ValidateCode validateCode = getValidateCode(servletWebRequest);
         if (validateCode == null) {
-            throw new ValidateCodeException(new SimpleResponse(ErrorEnum.VALIDATE_CODE_NOT_EXIST));
+            throw new ValidateCodeException(ErrorEnum.VALIDATE_CODE_NOT_EXIST);
         }
         if (!Objects.equals(code, validateCode.getCode())) {
-            throw new ValidateCodeException(new SimpleResponse(ErrorEnum.VALIDATE_CODE_ERROR));
+            throw new ValidateCodeException(ErrorEnum.VALIDATE_CODE_ERROR);
         }
         if (validateCode.isExpire()) {
-            throw new ValidateCodeException(new SimpleResponse(ErrorEnum.VALIDATE_CODE_EXPIRE));
+            throw new ValidateCodeException(ErrorEnum.VALIDATE_CODE_EXPIRE);
         }
+        remove(servletWebRequest);
+    }
+
+    protected void remove(ServletWebRequest servletWebRequest) {
+        sessionStrategy.setAttribute(servletWebRequest,getKey(servletWebRequest), null);
     }
 
     protected  ValidateCode getValidateCode(ServletWebRequest servletWebRequest){
@@ -92,6 +99,6 @@ public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> imple
 
 
     protected String obtainValidateCode(HttpServletRequest request) {
-        return request.getParameter(getClass().getSimpleName()+SECURITY_FORM_USERNAME_KEY);
+        return request.getParameter(SECURITY_FORM_USERNAME_KEY);
     }
 }

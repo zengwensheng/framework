@@ -1,6 +1,7 @@
 package com.zws.demo.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -27,6 +28,9 @@ public class UserDto {
     @ApiModelProperty(name = "用户密码")
     @NotEmpty(message = "密码不能为空")
     private String password;
+
+    @ApiModelProperty(name = "手机号")
+    private String mobile;
 
     @ApiModelProperty(name = "用户年龄")
     @Size(max = 100,min = 1,message = "用户年龄必须在0到100之间")

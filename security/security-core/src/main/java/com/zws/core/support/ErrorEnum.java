@@ -6,14 +6,21 @@ package com.zws.core.support;
  * date 2018/9/30
  */
 public enum  ErrorEnum {
-    LOGIN_SUCCESS(1,"登录成功"),
-    NOT_LOGIN(2,"请先登录"),
-    VALIDATE_CODE_EMPTY(3,"请填写验证码"),
-    VALIDATE_CODE_NOT_EXIST(4,"验证码不存在"),
-    VALIDATE_CODE_ERROR(5,"验证码错误"),
-    VALIDATE_CODE_EXPIRE(6,"验证码已过期"),
-    VALIDATE__GENERATOR_NOT_EXIST(7,"验证码生成器不存在"),
-    VALIDATE__HANDLER_NOT_EXIST(8,"验证码处理器不存在"),
+    SYSTEM_ERROR(0001,"系统异常"),
+    LOGIN_USERNAME_NOT_EXIST(1001,"用户名不存在"),
+    NOT_LOGIN(1002,"请先登录"),
+
+    VALIDATE_CODE_EMPTY(2001,"请填写验证码"),
+    VALIDATE_CODE_NOT_EXIST(2002,"验证码不存在"),
+    VALIDATE_CODE_ERROR(2003,"验证码错误"),
+    VALIDATE_CODE_EXPIRE(2004,"验证码已过期"),
+    VALIDATE__GENERATOR_NOT_EXIST(2005,"验证码生成器不存在"),
+    VALIDATE__HANDLER_NOT_EXIST(2006,"验证码处理器不存在"),
+    VALIDATE_SMS_NOT_EMPTY(2007,"手机号为空"),
+    VALIDATE_IMAGE_SEND_ERROR(2008,"验证码发送失败"),
+
+    SOCAIL_QQ_USER_INFO_ERROR(3001,"获取用户信息错误"),
+    SOCAIL_QQ_OPEN_ID_ERROR(3002,"获取openid错误"),
     ;
     private int errorCode;
     private String errorMsg;

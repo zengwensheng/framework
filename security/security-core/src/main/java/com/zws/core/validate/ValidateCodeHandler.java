@@ -11,7 +11,7 @@ public interface ValidateCodeHandler {
 
 
 
-    void create(ServletWebRequest servletWebRequest);
+    void create(ServletWebRequest servletWebRequest) ;
 
-    void validate(ServletWebRequest servletWebRequest)  throws  ValidateCodeException;
+    void validate(ServletWebRequest servletWebRequest);
 }

@@ -1,4 +1,4 @@
-package com.zws.browser.security;
+package com.zws.browser.authentication;
 
 import com.zws.core.support.ErrorEnum;
 import com.zws.core.support.SecurityConstants;

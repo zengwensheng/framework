@@ -15,7 +15,7 @@ public enum  ValidateCodeType {
         }
     },
 
-    IMAGE {
+    IMG {
         @Override
         public String getParamNameOnValidate() {
             return SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_IMAGE;

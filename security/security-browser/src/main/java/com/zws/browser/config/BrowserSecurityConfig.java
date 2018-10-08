@@ -1,8 +1,9 @@
 package com.zws.browser.config;
 
 
-import com.zws.core.config.AbstractSecurityConfig;
-import com.zws.core.config.ValidateSecurityConfig;
+import com.zws.core.authentication.AbstractSecurityConfig;
+import com.zws.core.authentication.sms.SmsCodeAuthenticationSecurityConfig;
+import com.zws.core.validate.ValidateSecurityConfig;
 import com.zws.core.support.SecurityConstants;
 import com.zws.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     @Autowired
     private ValidateSecurityConfig validateSecurityConfig;
     @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+    @Autowired
     private UserDetailsService userDetailsServiceImpl;
     @Autowired
     private DataSource dataSource;
@@ -40,6 +43,8 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     protected void configure(HttpSecurity http) throws Exception {
         applyPasswordAuthenticationConfig(http);
         http.apply(validateSecurityConfig)
+                .and()
+             .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
              .rememberMe()
                 .tokenRepository(persistentTokenRepository(dataSource))
@@ -51,7 +56,8 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                             ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL
                             ,SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL
                             ,securityProperties.getBrowser().getFailureUrl()
-                            ,"/createCode")
+                            ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
+                            ,SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

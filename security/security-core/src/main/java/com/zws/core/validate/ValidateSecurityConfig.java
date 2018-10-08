@@ -1,4 +1,4 @@
-package com.zws.core.config;
+package com.zws.core.validate;
 
 import com.zws.core.validate.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;

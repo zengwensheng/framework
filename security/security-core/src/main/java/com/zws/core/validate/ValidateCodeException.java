@@ -23,8 +23,8 @@ public class ValidateCodeException extends AuthenticationException {
         super(msg);
     }
 
-    public ValidateCodeException(SimpleResponse simpleResponse) {
-        super(JsonUtils.writeValueAsString(simpleResponse));
+    public ValidateCodeException(ErrorEnum errorEnum) {
+        super(JsonUtils.writeValueAsString(new SimpleResponse(errorEnum)));
     }
 
 
