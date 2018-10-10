@@ -43,7 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService,S
         if (user == null) {
             throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(ErrorEnum.LOGIN_USERNAME_NOT_EXIST)));
         }
-        return new User(user.getUsername(), user.getPassword(), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        return builderUser(user);
     }
 
     @Override
@@ -52,15 +52,19 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService,S
         if (user == null) {
             throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(ErrorEnum.LOGIN_USERNAME_NOT_EXIST)));
         }
-        return new User(user.getUsername(),user.getPassword(), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        return builderUser(user);
     }
 
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
-        com.zws.demo.entity.po.User user = userMapper.getUserId(userId);
+        com.zws.demo.entity.po.User user = userMapper.getUserByUsername(userId);
         if (user == null) {
             throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(ErrorEnum.LOGIN_USERNAME_NOT_EXIST)));
         }
+        return builderUser(user);
+    }
+
+    private SocialUserDetails builderUser(com.zws.demo.entity.po.User user){
         return new SocialUser(user.getUsername(),user.getPassword(),true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
     }
 

@@ -28,10 +28,13 @@ public class WXAdapter implements ApiAdapter<WX> {
 
     @Override
     public void setConnectionValues(WX WX, ConnectionValues connectionValues) {
-        WXUserInfo WXUserInfo = WX.getUserInfo(openId);
-        connectionValues.setProviderUserId(WXUserInfo.getOpenid());
-        connectionValues.setDisplayName(WXUserInfo.getNickname());
-        connectionValues.setImageUrl(WXUserInfo.getHeadimgurl());
+        WXUserInfo wxUserInfo = WX.getUserInfo(openId);
+        if(wxUserInfo==null){
+            return;
+        }
+        connectionValues.setProviderUserId(wxUserInfo.getOpenid());
+        connectionValues.setDisplayName(wxUserInfo.getNickname());
+        connectionValues.setImageUrl(wxUserInfo.getHeadimgurl());
     }
 
     @Override

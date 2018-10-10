@@ -80,7 +80,7 @@ public class UserController {
     @ApiOperation(value = "绑定")
     public  void binding(UserDto userDto, HttpServletRequest request){
         UserVo userVo = userDetailServiceImpl.insert(userDto);
-        providerSignInUtils.doPostSignUp(userVo.getId(),new ServletWebRequest(request));
+        providerSignInUtils.doPostSignUp(userVo.getUsername(),new ServletWebRequest(request));
     }
 
 
