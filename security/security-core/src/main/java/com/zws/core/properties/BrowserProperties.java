@@ -17,6 +17,9 @@ public class BrowserProperties {
 
     private String failureUrl = SecurityConstants.DEFAULT_FAILURE_URL;
 
+    private String signUpUrl = "/sign_up.html";
+
+    private String signInUrl = "/sign_in.html";
 
     private int rememberMeSeconds = 3600;
 

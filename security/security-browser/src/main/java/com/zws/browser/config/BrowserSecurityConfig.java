@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -38,6 +39,8 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     private UserDetailsService userDetailsServiceImpl;
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private SpringSocialConfigurer customerSocialConfigurer;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,6 +48,8 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
         http.apply(validateSecurityConfig)
                 .and()
              .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+             .apply(customerSocialConfigurer)
                 .and()
              .rememberMe()
                 .tokenRepository(persistentTokenRepository(dataSource))
@@ -57,7 +62,9 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                             ,SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL
                             ,securityProperties.getBrowser().getFailureUrl()
                             ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
-                            ,SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
+                            ,SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*"
+                            ,securityProperties.getBrowser().getSignUpUrl()
+                            ,"/user/binding")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

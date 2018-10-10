@@ -1,12 +1,11 @@
-package com.zws.core.social.qq.config;
+package com.zws.core.social.wx.config;
 
-import com.zws.core.properties.QQProperties;
 import com.zws.core.properties.SecurityProperties;
-import com.zws.core.social.qq.connect.QQConnectionFactory;
+import com.zws.core.properties.WXProperties;
+import com.zws.core.social.wx.connect.WXConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.social.SocialAutoConfigurerAdapter;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionFactory;
 
@@ -16,15 +15,15 @@ import org.springframework.social.connect.ConnectionFactory;
  * date 2018/10/8
  */
 @Configuration
-@ConditionalOnProperty(prefix = "authentication.core.social.qq",name = "app-id")
-public class QQAutoConfig extends SocialAutoConfigurerAdapter {
+@ConditionalOnProperty(prefix = "authentication.core.social.wx",name = "app-id")
+public class WXAutoConfig extends SocialAutoConfigurerAdapter {
 
     @Autowired
     private SecurityProperties securityProperties;
 
     @Override
     protected ConnectionFactory<?> createConnectionFactory() {
-        QQProperties qqProperties = securityProperties.getSocial().getQq();
-        return new QQConnectionFactory(qqProperties.getProviderId(),qqProperties.getAppId(),qqProperties.getAppSecret());
+        WXProperties wxProperties = securityProperties.getSocial().getWx();
+        return new WXConnectionFactory(wxProperties.getProviderId(),wxProperties.getAppId(),wxProperties.getAppSecret());
     }
 }

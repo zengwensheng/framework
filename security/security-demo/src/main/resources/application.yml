@@ -1,3 +1,5 @@
+server:
+  port: 8080
 spring:
   datasource:
     username: root
@@ -9,17 +11,19 @@ spring:
   #redis:
    # host: 192.168.1.154
     #port: 6379
-security:
+secur=ity:
    core:
       browser:
         login-type: JSON
 authentication:
   core:
     social:
-       qq:
-         app-id:
-         app-secret:
-         provider-id: qq
+       filterProcessesUrl: /qqLogin
+       wx:
+         app-id: wxd99431bbff8305a0
+         app-secret: 60f78681d063590a469f1b297feff3c4
+         provider-id: weixin
+
 
 
 

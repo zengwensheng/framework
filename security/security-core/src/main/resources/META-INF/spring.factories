@@ -4,4 +4,5 @@ com.zws.core.validate.ValidateCodeBeanConfig,\
 com.zws.core.validate.ValidateSecurityConfig,\
 com.zws.core.authentication.sms.SmsCodeAuthenticationSecurityConfig,\
 com.zws.core.social.qq.config.QQAutoConfig,\
-com.zws.core.social.SocialConfig
+com.zws.core.social.SocialConfig,\
+com.zws.core.social.wx.config.WXAutoConfig

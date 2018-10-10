@@ -9,9 +9,13 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +33,8 @@ public class UserController {
 
     @Autowired
     private UserService userDetailServiceImpl;
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
 
     @GetMapping("/{id:\\d+}")
     @ApiOperation(value = "查询用户详情")
@@ -68,4 +74,15 @@ public class UserController {
     public UserVo createUser(@RequestBody @Valid UserDto userDto, BindingResult bindingResult){
          return userDetailServiceImpl.insert(userDto);
     }
+
+
+    @PostMapping("/binding")
+    @ApiOperation(value = "绑定")
+    public  void binding(UserDto userDto, HttpServletRequest request){
+        UserVo userVo = userDetailServiceImpl.insert(userDto);
+        providerSignInUtils.doPostSignUp(userVo.getId(),new ServletWebRequest(request));
+    }
+
+
+
 }

@@ -11,5 +11,5 @@ import org.springframework.boot.autoconfigure.social.SocialProperties;
 @Data
 public class WXProperties extends SocialProperties {
 
-    private String providerId = "weixin";
+    private String providerId = "wx";
 }

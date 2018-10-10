@@ -21,8 +21,11 @@ public interface UserMapper {
      @Select("select * from user where mobile = #{mobile}")
      User getUserByMobile(@Param("mobile")String mobile);
 
+     @Select("select * from user  where id =#{userId}")
+     User getUserId(@Param("userId") String userId);
+
      @Insert("insert into user (id,username,password,age) values (#{id},#{username},#{password},#{age})")
      @SelectKey(keyProperty = "id", resultType = String.class, before = true,
              statement = "select replace(uuid(), '-', '') as id from dual")
-             Integer insert(UserDto userDto);
+             int insert(UserDto userDto);
 }

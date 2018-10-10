@@ -1,5 +1,6 @@
 package com.zws.core.social;
 
+import com.zws.core.properties.SecurityProperties;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
 
@@ -11,16 +12,17 @@ import org.springframework.social.security.SpringSocialConfigurer;
 public class CustomerSocialConfigurer extends SpringSocialConfigurer {
 
 
-    private String filterProcessesUrl;
+    private SecurityProperties securityProperties;
 
-    public CustomerSocialConfigurer(String filterProcessesUrl) {
-        this.filterProcessesUrl = filterProcessesUrl;
+    public CustomerSocialConfigurer(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
     }
 
     @Override
     protected <T> T postProcess(T object) {
         SocialAuthenticationFilter filter = (SocialAuthenticationFilter) super.postProcess(object);
-        filter.setFilterProcessesUrl(filterProcessesUrl);
+        filter.setFilterProcessesUrl(securityProperties.getSocial().getFilterProcessesUrl());
+        filter.setSignupUrl(securityProperties.getBrowser().getSignUpUrl());
         return (T) filter;
     }
 }
