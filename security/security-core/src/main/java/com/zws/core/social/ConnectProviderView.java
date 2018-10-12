@@ -13,13 +13,12 @@ import java.util.Map;
  * @email 2848392861@qq.com
  * date 2018/10/10
  */
-@Component("connect/weixin")
 public class ConnectProviderView extends AbstractView {
 
     @Override
     protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setContentType("text/html;charset=UTF-8");
-        if (model.get("connection") == null) {
+        if (model.get("connections") == null) {
             response.getWriter().write("<h3>解绑成功</h3>");
         } else {
             response.getWriter().write("<h3>绑定成功</h3>");

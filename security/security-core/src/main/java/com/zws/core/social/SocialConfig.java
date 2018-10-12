@@ -2,6 +2,7 @@ package com.zws.core.social;
 
 import com.zws.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -9,10 +10,12 @@ import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.SpringSocialConfigurer;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.AbstractView;
 
 import javax.sql.DataSource;
@@ -23,7 +26,6 @@ import javax.sql.DataSource;
  * date 2018/10/8
  */
 @Configuration
-@Import(ConnectProviderView.class)
 @EnableSocial
 public class SocialConfig extends SocialConfigurerAdapter {
 
@@ -32,10 +34,15 @@ public class SocialConfig extends SocialConfigurerAdapter {
     private DataSource dataSource;
 
 
+    @Autowired(required =  false)
+    private ConnectionSignUp connectionSignUp;
+
+
 
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource,connectionFactoryLocator, Encryptors.noOpText());
+        repository.setConnectionSignUp(connectionSignUp);
         return repository;
     }
 
@@ -49,6 +56,13 @@ public class SocialConfig extends SocialConfigurerAdapter {
     public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator){
         return new ProviderSignInUtils(connectionFactoryLocator,getUsersConnectionRepository(connectionFactoryLocator));
     }
+
+    @Bean("connect/status")
+    @ConditionalOnMissingBean(name = "connectStatusView")
+    public View connectStatusView(){
+        return new ConnectStatusView();
+    }
+
 
 
 

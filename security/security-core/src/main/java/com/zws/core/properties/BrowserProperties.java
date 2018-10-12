@@ -3,6 +3,9 @@ package com.zws.core.properties;
 import com.zws.core.support.SecurityConstants;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author zws
  * @email 2848392861@qq.com
@@ -11,7 +14,7 @@ import lombok.Data;
 @Data
 public class BrowserProperties {
 
-
+    private SessionProperties session = new SessionProperties();
 
     private String loginPage = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
 
@@ -23,8 +26,12 @@ public class BrowserProperties {
 
     private int rememberMeSeconds = 3600;
 
+    private List<String> permitUrl=new ArrayList<>();
+
 
     private LoginResponseType loginType = LoginResponseType.JSON;
+
+
 
 
 }

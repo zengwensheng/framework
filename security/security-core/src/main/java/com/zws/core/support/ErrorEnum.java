@@ -21,6 +21,10 @@ public enum  ErrorEnum {
 
     SOCAIL_QQ_USER_INFO_ERROR(3001,"获取用户信息错误"),
     SOCAIL_QQ_OPEN_ID_ERROR(3002,"获取openid错误"),
+
+
+    SESSION_INVAILD(4001,"session已过期，请重新登录"),
+    SESSION_CONCURRENT(4002,"您的账号已在其他地方登录，如不是本人请修改秘密"),
     ;
     private int errorCode;
     private String errorMsg;

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zws.browser.authentication.AuthenticationFailureHandlerImpl;
 import com.zws.browser.authentication.AuthenticationSuccessHandlerImpl;
 import com.zws.browser.authentication.BrowserSecurityController;
+import com.zws.browser.session.ExpiredSessionStrategy;
+import com.zws.browser.session.InvalidSessionStrategy;
 import com.zws.core.properties.SecurityProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
 /**
  * @author zws
@@ -38,6 +41,18 @@ public class BrowserSecurityBeanConfig {
         authenticationFailureHandlerImpl.setSecurityProperties(securityProperties);
         authenticationFailureHandlerImpl.setDefaultFailureUrl(securityProperties.getBrowser().getFailureUrl());
         return authenticationFailureHandlerImpl;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(InvalidSessionStrategy.class)
+    public InvalidSessionStrategy invalidSessionStrategy(SecurityProperties securityProperties){
+        return new InvalidSessionStrategy(securityProperties.getBrowser().getSession().getSessionInvalidUrl());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SessionInformationExpiredStrategy.class)
+    public SessionInformationExpiredStrategy sessionInformationExpiredStrategy(SecurityProperties securityProperties){
+        return new ExpiredSessionStrategy(securityProperties.getBrowser().getSession().getSessionInvalidUrl());
     }
 
 

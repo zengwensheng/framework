@@ -29,6 +29,8 @@ public interface SecurityConstants {
 
     String DEFAULT_PARAMETER_NAME_CODE_IMAGE ="img";
 
+    String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
+
 
 
 

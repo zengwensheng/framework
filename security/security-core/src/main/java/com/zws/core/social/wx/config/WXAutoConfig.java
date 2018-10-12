@@ -2,12 +2,17 @@ package com.zws.core.social.wx.config;
 
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.properties.WXProperties;
+import com.zws.core.social.ConnectProviderView;
 import com.zws.core.social.wx.connect.WXConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.social.SocialAutoConfigurerAdapter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionFactory;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.AbstractView;
 
 /**
  * @author zws
@@ -26,4 +31,11 @@ public class WXAutoConfig extends SocialAutoConfigurerAdapter {
         WXProperties wxProperties = securityProperties.getSocial().getWx();
         return new WXConnectionFactory(wxProperties.getProviderId(),wxProperties.getAppId(),wxProperties.getAppSecret());
     }
+
+    @Bean({"connect/weixinConnect", "connect/weixinConnected"})
+    @ConditionalOnMissingBean(name = "wXConnectProviderView")
+    public View wXConnectProviderView(){
+       return new ConnectProviderView();
+    }
+
 }

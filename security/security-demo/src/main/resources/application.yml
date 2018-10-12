@@ -1,5 +1,7 @@
 server:
   port: 8080
+  session:
+    timeout: 600
 spring:
   datasource:
     username: root
@@ -11,18 +13,24 @@ spring:
   #redis:
    # host: 192.168.1.154
     #port: 6379
-secur=ity:
-   core:
-      browser:
-        login-type: JSON
+
 authentication:
   core:
+    browser:
+       login-type: JSON
+       permitUrl:
+              - /user/binding
     social:
        filterProcessesUrl: /qqLogin
        wx:
          app-id: wxd99431bbff8305a0
          app-secret: 60f78681d063590a469f1b297feff3c4
          provider-id: weixin
+       qq:
+         app-id: 101512320
+         app-secret: 8d4b687241ffd8ce89593661be207177
+         provider-id: qq
+
 
 
 
