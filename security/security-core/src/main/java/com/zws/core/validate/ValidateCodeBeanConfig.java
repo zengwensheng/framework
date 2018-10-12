@@ -52,17 +52,19 @@ public class ValidateCodeBeanConfig {
 
     @Bean
     @ConditionalOnMissingBean(name = "imgValidateCodeHandler")
-    public ImgValidateCodeHandler  imgValidateCodeHandler(Map<String,ValidateCodeGenerator> validateGeneratorMap){
+    public ImgValidateCodeHandler  imgValidateCodeHandler(Map<String,ValidateCodeGenerator> validateGeneratorMap,ValidateCodeRepository validateCodeRepository){
          ImgValidateCodeHandler imgValidateCodeHandler = new ImgValidateCodeHandler();
          imgValidateCodeHandler.setValidateGeneratorMap(validateGeneratorMap);
+         imgValidateCodeHandler.setValidateCodeRepository(validateCodeRepository);
          return imgValidateCodeHandler;
     }
 
     @Bean
     @ConditionalOnMissingBean(name = "smsValidateCodeHandler")
-    public SmsValidateCodeHandler smsValidateCodeHandler(Map<String,ValidateCodeGenerator> validateGeneratorMap){
+    public SmsValidateCodeHandler smsValidateCodeHandler(Map<String,ValidateCodeGenerator> validateGeneratorMap,ValidateCodeRepository validateCodeRepository){
         SmsValidateCodeHandler smsValidateCodeHandler = new SmsValidateCodeHandler();
         smsValidateCodeHandler.setValidateGeneratorMap(validateGeneratorMap);
+        smsValidateCodeHandler.setValidateCodeRepository(validateCodeRepository);
         return smsValidateCodeHandler;
     }
 

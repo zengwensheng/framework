@@ -23,11 +23,11 @@ public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> imple
 
     public static final String SECURITY_FORM_USERNAME_KEY = "validate-code";
 
-
-
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
     private Map<String,ValidateCodeGenerator> validateGeneratorMap;
+
+    private ValidateCodeRepository validateCodeRepository;
 
 
     @Override
@@ -54,13 +54,16 @@ public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> imple
         return  ValidateCodeType.valueOf(type.toUpperCase());
     }
 
+    protected  abstract  String getKey(ServletWebRequest servletWebRequest) ;
 
     protected void save(ServletWebRequest servletWebRequest, C validateCode) {
-        ValidateCode sessionCode = new ValidateCode(validateCode.getCode(),validateCode.getExpireTime());
-        sessionStrategy.setAttribute(servletWebRequest,getKey(servletWebRequest), sessionCode);
+        ValidateCode code = new ValidateCode(validateCode.getCode(),validateCode.getExpireTime());
+        code.setKey(getKey(servletWebRequest));
+        validateCodeRepository.save(code);
     }
 
-    protected  abstract  String getKey(ServletWebRequest servletWebRequest) ;
+
+
 
     protected abstract void send(C validateCode,ServletWebRequest servletWebRequest) ;
 
@@ -89,11 +92,11 @@ public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> imple
     }
 
     protected void remove(ServletWebRequest servletWebRequest) {
-        sessionStrategy.setAttribute(servletWebRequest,getKey(servletWebRequest), null);
+        validateCodeRepository.remove(getKey(servletWebRequest));
     }
 
     protected  ValidateCode getValidateCode(ServletWebRequest servletWebRequest){
-       return (ValidateCode)  sessionStrategy.getAttribute(servletWebRequest,getKey(servletWebRequest));
+       return validateCodeRepository.get(getKey(servletWebRequest));
     };
 
 

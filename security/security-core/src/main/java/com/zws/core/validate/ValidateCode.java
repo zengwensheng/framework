@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 public class ValidateCode {
 
 
+    private String key;
+
     private String code;
 
     private LocalDateTime expireTime;

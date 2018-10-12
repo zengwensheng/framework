@@ -6,7 +6,9 @@ import com.zws.browser.authentication.AuthenticationSuccessHandlerImpl;
 import com.zws.browser.authentication.BrowserSecurityController;
 import com.zws.browser.session.ExpiredSessionStrategy;
 import com.zws.browser.session.InvalidSessionStrategy;
+import com.zws.browser.validate.SessionValidateCodeRepository;
 import com.zws.core.properties.SecurityProperties;
+import com.zws.core.validate.ValidateCodeRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author zws
@@ -53,6 +57,14 @@ public class BrowserSecurityBeanConfig {
     @ConditionalOnMissingBean(SessionInformationExpiredStrategy.class)
     public SessionInformationExpiredStrategy sessionInformationExpiredStrategy(SecurityProperties securityProperties){
         return new ExpiredSessionStrategy(securityProperties.getBrowser().getSession().getSessionInvalidUrl());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ValidateCodeRepository.class)
+    public SessionValidateCodeRepository sessionValidateCodeRepository(HttpServletRequest request){
+         SessionValidateCodeRepository sessionValidateCodeRepository =new SessionValidateCodeRepository();
+         sessionValidateCodeRepository.setRequest(request);
+         return sessionValidateCodeRepository;
     }
 
 
