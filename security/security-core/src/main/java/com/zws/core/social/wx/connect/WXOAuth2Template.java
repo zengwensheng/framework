@@ -1,11 +1,15 @@
 package com.zws.core.social.wx.connect;
 
 import com.zws.core.support.JsonUtils;
+import com.zws.core.support.SecurityEnum;
+import com.zws.core.support.SimpleResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.social.oauth2.OAuth2Template;
+import org.springframework.social.security.SocialAuthenticationException;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +22,7 @@ import java.util.Map;
  * @email 2848392861@qq.com
  * date 2018/10/9
  */
+@Slf4j
 public class WXOAuth2Template extends OAuth2Template {
 
 
@@ -72,12 +77,11 @@ public class WXOAuth2Template extends OAuth2Template {
     }
 
     public AccessGrant getAccessToken(String accessTokenUrl){
-        Map<String, Object> result = null;
-        try {
-           String resultStr = getRestTemplate().getForObject(accessTokenUrl, String.class);
-           result =  JsonUtils.readValue(resultStr,Map.class);
-        }catch (Exception e){
-            e.printStackTrace();
+        String resultStr = getRestTemplate().getForObject(accessTokenUrl, String.class);
+        Map<String, Object> result =  JsonUtils.readValue(resultStr,Map.class);
+        if(result==null||result.containsKey("errcode")){
+            log.error("##############获取微信token错误："+resultStr+"###############");
+            throw new SocialAuthenticationException(new SimpleResponse(SecurityEnum.SOCIAL_WX_ACCESS_TOKEN_ERROR).toString());
         }
         WXAccessGrant wxAccessGrant = new WXAccessGrant((String) result.get("access_token"),(String) result.get("scope"),(String) result.get("refresh_token"), getIntegerValue(result, "expires_in"), (String) result.get("openid"));
         return wxAccessGrant;

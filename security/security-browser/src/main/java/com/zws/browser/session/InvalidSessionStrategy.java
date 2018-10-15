@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zws.core.support.ErrorEnum;
+import com.zws.core.support.SecurityEnum;
 
 /**
  * @author zws
@@ -29,7 +29,7 @@ public class InvalidSessionStrategy extends AbstractSessionStrategy implements o
 	}
 
 	@Override
-	ErrorEnum getErrorEnum() {
-		return ErrorEnum.SESSION_CONCURRENT;
+    SecurityEnum getErrorEnum() {
+		return SecurityEnum.SESSION_CONCURRENT;
 	}
 }

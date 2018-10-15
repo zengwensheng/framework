@@ -11,16 +11,22 @@ import lombok.Data;
 public class SimpleResponse {
 
 
-    private int errorCode;
-    private String errorMsg;
+    private int code;
+    private String msg;
 
-    public SimpleResponse(int errorCode,String errorMsg) {
-        this.errorCode = errorCode;
-        this.errorMsg = errorMsg;
+    public SimpleResponse(int code,String msg) {
+        this.code = code;
+        this.msg = msg;
     }
 
-    public SimpleResponse(ErrorEnum errorEnum){
-        this.errorCode = errorEnum.getErrorCode();
-        this. errorMsg = errorEnum.getErrorMsg();
+    public SimpleResponse(SecurityEnum securityEnum){
+        this.code = securityEnum.getCode();
+        this. msg = securityEnum.getMsg();
+    }
+
+
+    @Override
+    public String toString() {
+       return JsonUtils.writeValueAsString(this);
     }
 }

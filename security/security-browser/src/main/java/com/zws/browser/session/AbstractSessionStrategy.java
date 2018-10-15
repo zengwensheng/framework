@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zws.core.support.ErrorEnum;
+import com.zws.core.support.SecurityEnum;
 import com.zws.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -73,7 +73,7 @@ public abstract class AbstractSessionStrategy {
 	}
 
 
-    abstract ErrorEnum getErrorEnum();
+    abstract SecurityEnum getErrorEnum();
 
 	public void setCreateNewSession(boolean createNewSession) {
 		this.createNewSession = createNewSession;

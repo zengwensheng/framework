@@ -24,6 +24,12 @@ public class BrowserProperties {
 
     private String signInUrl = "/sign_in.html";
 
+    private String logoutUrl = "/logout";
+
+    private String signOutUrl = "/sign_out.html";
+
+    private String logErrorUrl = "/login_error.html";
+
     private int rememberMeSeconds = 3600;
 
     private List<String> permitUrl=new ArrayList<>();

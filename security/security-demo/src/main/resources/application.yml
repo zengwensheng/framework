@@ -10,14 +10,13 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   session:
     store-type: none
-  #redis:
-   # host: 192.168.1.154
-    #port: 6379
-
+  redis:
+    host: 192.168.1.154
+    port: 6379
 authentication:
   core:
     browser:
-       login-type: JSON
+       login-type: REDIRECT
        permitUrl:
               - /user/binding
     social:
@@ -30,6 +29,14 @@ authentication:
          app-id: 101512320
          app-secret: 8d4b687241ffd8ce89593661be207177
          provider-id: qq
+#security:
+ # oauth2:
+  #  client:
+   #   id: 3838438
+    #  client-secret: zws
+
+
+
 
 
 

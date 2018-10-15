@@ -35,4 +35,8 @@ public class ValidateCode {
     public boolean isExpire(){
          return LocalDateTime.now().isAfter(expireTime);
     }
+
+    public int getExpireIn(){
+        return expireTime.getSecond()-LocalDateTime.now().getSecond();
+    }
 }

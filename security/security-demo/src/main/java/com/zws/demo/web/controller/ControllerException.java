@@ -1,10 +1,11 @@
 package com.zws.demo.web.controller;
 
-import com.zws.core.support.ErrorEnum;
+import com.zws.core.support.SecurityEnum;
 import com.zws.core.support.SimpleResponse;
 import com.zws.core.validate.ValidateCodeException;
-import com.zws.core.validate.ValidateCodeHandler;
 import com.zws.demo.web.validate.ValidateException;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +20,7 @@ import java.util.List;
  * date 2018/9/28
  */
 @RestControllerAdvice
+@Log
 public class ControllerException {
 
     @ExceptionHandler(ValidateException.class)
@@ -34,9 +36,11 @@ public class ControllerException {
     }
 
 
+
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public SimpleResponse handlerValidateCodeException(Exception exception) {
-        return new SimpleResponse(ErrorEnum.SYSTEM_ERROR);
+        return new SimpleResponse(SecurityEnum.SYSTEM_ERROR);
     }
 }

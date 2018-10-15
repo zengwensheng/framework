@@ -1,7 +1,6 @@
 package com.zws.core.validate;
 
-import com.zws.core.support.ErrorEnum;
-import com.zws.core.support.SimpleResponse;
+import com.zws.core.support.SecurityEnum;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
@@ -44,7 +43,7 @@ public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> imple
         String generatorName = type+ValidateCodeGenerator.class.getSimpleName();
         ValidateCodeGenerator validateCodeGenerator =    validateGeneratorMap.get(generatorName);
         if(validateCodeGenerator ==null){
-            throw new ValidateCodeException(ErrorEnum.VALIDATE__GENERATOR_NOT_EXIST);
+            throw new ValidateCodeException(SecurityEnum.VALIDATE__GENERATOR_NOT_EXIST);
         }
         return (C) validateCodeGenerator.generator();
     }
@@ -75,18 +74,18 @@ public abstract class AbstractValidateCodeHandler<C extends  ValidateCode> imple
 
         String code = obtainValidateCode(servletWebRequest.getRequest());
         if (StringUtils.isEmpty(code)) {
-            throw new ValidateCodeException(ErrorEnum.VALIDATE_CODE_EMPTY);
+            throw new ValidateCodeException(SecurityEnum.VALIDATE_CODE_EMPTY);
         }
 
         ValidateCode validateCode = getValidateCode(servletWebRequest);
         if (validateCode == null) {
-            throw new ValidateCodeException(ErrorEnum.VALIDATE_CODE_NOT_EXIST);
+            throw new ValidateCodeException(SecurityEnum.VALIDATE_CODE_NOT_EXIST);
         }
         if (!Objects.equals(code, validateCode.getCode())) {
-            throw new ValidateCodeException(ErrorEnum.VALIDATE_CODE_ERROR);
+            throw new ValidateCodeException(SecurityEnum.VALIDATE_CODE_ERROR);
         }
         if (validateCode.isExpire()) {
-            throw new ValidateCodeException(ErrorEnum.VALIDATE_CODE_EXPIRE);
+            throw new ValidateCodeException(SecurityEnum.VALIDATE_CODE_EXPIRE);
         }
         remove(servletWebRequest);
     }

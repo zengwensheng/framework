@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zws.browser.authentication.AuthenticationFailureHandlerImpl;
 import com.zws.browser.authentication.AuthenticationSuccessHandlerImpl;
 import com.zws.browser.authentication.BrowserSecurityController;
+import com.zws.browser.logout.BrowserLogoutSuccessHandler;
 import com.zws.browser.session.ExpiredSessionStrategy;
 import com.zws.browser.session.InvalidSessionStrategy;
 import com.zws.browser.validate.SessionValidateCodeRepository;
@@ -15,7 +16,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
+import sun.rmi.log.LogOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,7 +44,7 @@ public class BrowserSecurityBeanConfig {
     @Bean
     @ConditionalOnMissingBean(name = "authenticationFailureHandlerImpl")
     public AuthenticationFailureHandler authenticationFailureHandlerImpl(ObjectMapper objectMapper,SecurityProperties securityProperties) {
-        AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl = new AuthenticationFailureHandlerImpl();
+        AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl = new AuthenticationFailureHandlerImpl(securityProperties.getBrowser().getLogErrorUrl());
         authenticationFailureHandlerImpl.setObjectMapper(objectMapper);
         authenticationFailureHandlerImpl.setSecurityProperties(securityProperties);
         authenticationFailureHandlerImpl.setDefaultFailureUrl(securityProperties.getBrowser().getFailureUrl());
@@ -65,6 +69,14 @@ public class BrowserSecurityBeanConfig {
          SessionValidateCodeRepository sessionValidateCodeRepository =new SessionValidateCodeRepository();
          sessionValidateCodeRepository.setRequest(request);
          return sessionValidateCodeRepository;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(LogoutSuccessHandler.class)
+    public LogoutSuccessHandler logoutSuccessHandler(SecurityProperties securityProperties){
+        BrowserLogoutSuccessHandler browserLogoutSuccessionHandler =new BrowserLogoutSuccessHandler();
+        browserLogoutSuccessionHandler.setSecurityProperties(securityProperties);
+        return browserLogoutSuccessionHandler;
     }
 
 

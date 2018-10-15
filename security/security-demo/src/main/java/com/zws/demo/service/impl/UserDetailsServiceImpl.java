@@ -1,18 +1,15 @@
 package com.zws.demo.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zws.core.authentication.sms.SmsCodeUserDetailsService;
-import com.zws.core.support.ErrorEnum;
+import com.zws.core.support.SecurityEnum;
 import com.zws.core.support.JsonUtils;
 import com.zws.core.support.SimpleResponse;
 import com.zws.demo.entity.dto.UserDto;
 import com.zws.demo.entity.vo.UserVo;
 import com.zws.demo.mapper.UserMapper;
 import com.zws.demo.service.UserService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -41,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService,S
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         com.zws.demo.entity.po.User user = userMapper.getUserByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(ErrorEnum.LOGIN_USERNAME_NOT_EXIST)));
+            throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(SecurityEnum.LOGIN_USERNAME_NOT_EXIST)));
         }
         return builderUser(user);
     }
@@ -50,7 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService,S
     public UserDetails loadUserBySms(String sms) throws UsernameNotFoundException {
         com.zws.demo.entity.po.User user = userMapper.getUserByMobile(sms);
         if (user == null) {
-            throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(ErrorEnum.LOGIN_USERNAME_NOT_EXIST)));
+            throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(SecurityEnum.LOGIN_USERNAME_NOT_EXIST)));
         }
         return builderUser(user);
     }
@@ -59,7 +56,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService,S
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
         com.zws.demo.entity.po.User user = userMapper.getUserByUsername(userId);
         if (user == null) {
-            throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(ErrorEnum.LOGIN_USERNAME_NOT_EXIST)));
+            throw new UsernameNotFoundException(JsonUtils.writeValueAsString(new SimpleResponse(SecurityEnum.LOGIN_USERNAME_NOT_EXIST)));
         }
         return builderUser(user);
     }

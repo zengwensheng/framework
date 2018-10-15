@@ -1,9 +1,7 @@
 package com.zws.core.validate.sms;
 
-import com.zws.core.support.ErrorEnum;
-import com.zws.core.support.JsonUtils;
+import com.zws.core.support.SecurityEnum;
 import com.zws.core.support.SecurityConstants;
-import com.zws.core.support.SimpleResponse;
 import com.zws.core.validate.AbstractValidateCodeHandler;
 import com.zws.core.validate.ValidateCode;
 import com.zws.core.validate.ValidateCodeException;
@@ -24,7 +22,7 @@ public class SmsValidateCodeHandler extends AbstractValidateCodeHandler {
     protected void send(ValidateCode validateCode, ServletWebRequest servletWebRequest){
         String key = obtainSmS(servletWebRequest);
         if(StringUtils.isEmpty(key)){
-            throw new ValidateCodeException(ErrorEnum.VALIDATE_SMS_NOT_EMPTY);
+            throw new ValidateCodeException(SecurityEnum.VALIDATE_SMS_NOT_EMPTY);
         }
         System.out.println("####################验证码："+validateCode.getCode()+"############");
     }
@@ -34,7 +32,7 @@ public class SmsValidateCodeHandler extends AbstractValidateCodeHandler {
     protected String getKey(ServletWebRequest servletWebRequest){
         String key = obtainSmS(servletWebRequest);
         if(StringUtils.isEmpty(key)){
-            throw new ValidateCodeException(ErrorEnum.VALIDATE_SMS_NOT_EMPTY);
+            throw new ValidateCodeException(SecurityEnum.VALIDATE_SMS_NOT_EMPTY);
         }
         return key;
     }

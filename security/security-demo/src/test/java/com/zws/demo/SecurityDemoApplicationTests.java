@@ -1,5 +1,7 @@
 package com.zws.demo;
 
+import com.zws.core.support.SecurityEnum;
+import com.zws.core.support.SimpleResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,5 +56,10 @@ public class SecurityDemoApplicationTests {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         System.out.println(result);
+    }
+
+    @Test
+    public void test() throws Exception{
+        System.out.println(new SimpleResponse(SecurityEnum.SOCIAL_QQ_USER_INFO_ERROR).toString());
     }
 }

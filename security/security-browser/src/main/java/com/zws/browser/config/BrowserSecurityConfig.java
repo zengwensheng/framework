@@ -15,6 +15,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.InvalidSessionStrategy;
@@ -49,6 +51,8 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     private InvalidSessionStrategy invalidSessionStrategy;
     @Autowired
     private SessionInformationExpiredStrategy expiredStrategy;
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -78,14 +82,22 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                             ,securityProperties.getBrowser().getFailureUrl()
                             ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
                             ,SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*"
-                            ,securityProperties.getBrowser().getSignUpUrl())
+                            ,securityProperties.getBrowser().getSignUpUrl()
+                            ,securityProperties.getBrowser().getSignInUrl()
+                            ,securityProperties.getBrowser().getSignOutUrl()
+                            ,securityProperties.getBrowser().getLogErrorUrl())
                 .permitAll()
                 .antMatchers(securityProperties.getBrowser().getPermitUrl().toArray(new String [securityProperties.getBrowser().getPermitUrl().size()]))
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-              .csrf()
+             .logout()
+                .logoutUrl(securityProperties.getBrowser().getLogoutUrl())
+                .logoutSuccessHandler(logoutSuccessHandler)
+                .deleteCookies("JSESSIONID")
+                .and()
+             .csrf()
                 .disable();
     }
 
@@ -99,10 +111,6 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
 
 
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
 
 

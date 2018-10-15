@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.zws.app.config.AppSecurityBeanConfig,\
+com.zws.app.config.AppAuthorizationServerConfig

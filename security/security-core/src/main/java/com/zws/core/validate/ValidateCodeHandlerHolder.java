@@ -1,7 +1,6 @@
 package com.zws.core.validate;
 
-import com.zws.core.support.ErrorEnum;
-import com.zws.core.support.SimpleResponse;
+import com.zws.core.support.SecurityEnum;
 import lombok.Data;
 
 import java.util.Map;
@@ -25,7 +24,7 @@ public class ValidateCodeHandlerHolder {
         String name = type.toLowerCase() + ValidateCodeHandler.class.getSimpleName();
         ValidateCodeHandler validateCodeHandler = validateCodeHandlerMap.get(name);
         if (validateCodeHandler == null) {
-              throw new ValidateCodeException(ErrorEnum.VALIDATE__HANDLER_NOT_EXIST);
+              throw new ValidateCodeException(SecurityEnum.VALIDATE__HANDLER_NOT_EXIST);
         }
         return validateCodeHandler;
     }

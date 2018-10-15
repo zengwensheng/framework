@@ -1,6 +1,6 @@
 package com.zws.browser.authentication;
 
-import com.zws.core.support.ErrorEnum;
+import com.zws.core.support.SecurityEnum;
 import com.zws.core.support.SecurityConstants;
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.support.SimpleResponse;
@@ -49,7 +49,7 @@ public class BrowserSecurityController {
                 redirectStrategy.sendRedirect(request,response,securityProperties.getBrowser().getLoginPage());
             }
         }
-        return new SimpleResponse(ErrorEnum.NOT_LOGIN);
+        return new SimpleResponse(SecurityEnum.NOT_LOGIN);
 
     }
 

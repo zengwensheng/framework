@@ -1,15 +1,23 @@
 package com.zws.core.social.wx.api;
 
 import com.zws.core.support.JsonUtils;
+import com.zws.core.support.SecurityEnum;
+import com.zws.core.support.SimpleResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.TokenStrategy;
+import org.springframework.social.security.SocialAuthenticationException;
+import sun.jvm.hotspot.oops.NarrowOopField;
+
+import java.util.Map;
 
 /**
  * @author zws
  * @email 2848392861@qq.com
  * date 2018/10/9
  */
+@Slf4j
 public class WXImpl extends AbstractOAuth2ApiBinding implements WX {
 
 
@@ -25,15 +33,17 @@ public class WXImpl extends AbstractOAuth2ApiBinding implements WX {
     public WXUserInfo getUserInfo(String openId) {
         String url = URL_GET_USER_INFO+openId;
         String result = getRestTemplate().getForObject(url,String.class);
-        if(StringUtils.contains(result,"errcode")){
-            return null;
+
+        Map<String,String> resultMap = JsonUtils.readValue(result,Map.class);
+        if(resultMap==null||resultMap.containsKey("errorcode")){
+            log.error("########## 获取用户信息错误："+result +"##########");
+            throw new SocialAuthenticationException(new SimpleResponse(SecurityEnum.SOCIAL_WX_USER_INFO_ERROR).toString());
         }
-        WXUserInfo WXUserInfo = null;
-        try{
-            WXUserInfo = JsonUtils.readValue(result,WXUserInfo.class);
-        }catch (Exception e){
-            e.printStackTrace();
+        WXUserInfo wXUserInfo = JsonUtils.readValue(result,WXUserInfo.class);
+        if(wXUserInfo==null){
+            log.error("########## 获取json解析异常："+result +"##########");
+            throw new SocialAuthenticationException(new SimpleResponse(SecurityEnum.SOCIAL_WX_USER_INFO_ERROR).toString());
         }
-        return WXUserInfo;
+        return wXUserInfo;
     }
 }

@@ -1,9 +1,9 @@
-package com.zws.browser.authentication;
+package com.zws.app.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zws.core.properties.LoginResponseType;
-import com.zws.core.support.SecurityConstants;
 import com.zws.core.properties.SecurityProperties;
+import com.zws.core.support.SecurityConstants;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;

@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
-import com.zws.core.support.ErrorEnum;
+import com.zws.core.support.SecurityEnum;
 import org.springframework.security.web.session.SessionInformationExpiredEvent;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
@@ -29,7 +29,7 @@ public class ExpiredSessionStrategy extends AbstractSessionStrategy implements S
 	}
 
 	@Override
-	ErrorEnum getErrorEnum() {
-		return ErrorEnum.SESSION_INVAILD;
+    SecurityEnum getErrorEnum() {
+		return SecurityEnum.SESSION_INVALID;
 	}
 }
