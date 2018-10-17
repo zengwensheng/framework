@@ -1,6 +1,10 @@
 package com.zws.core.social;
 
 import com.zws.core.properties.SecurityProperties;
+import com.zws.core.social.support.SocialAuthenticationFilterPostProcessor;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
 
@@ -14,8 +18,13 @@ public class CustomerSocialConfigurer extends SpringSocialConfigurer {
 
     private SecurityProperties securityProperties;
 
-    public CustomerSocialConfigurer(SecurityProperties securityProperties) {
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
+
+
+    public CustomerSocialConfigurer(SecurityProperties securityProperties,SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor) {
         this.securityProperties = securityProperties;
+        this.socialAuthenticationFilterPostProcessor = socialAuthenticationFilterPostProcessor;
     }
 
     @Override
@@ -23,6 +32,10 @@ public class CustomerSocialConfigurer extends SpringSocialConfigurer {
         SocialAuthenticationFilter filter = (SocialAuthenticationFilter) super.postProcess(object);
         filter.setFilterProcessesUrl(securityProperties.getSocial().getFilterProcessesUrl());
         filter.setSignupUrl(securityProperties.getBrowser().getSignUpUrl());
+        filter.setDefaultFailureUrl(securityProperties.getBrowser().getSignInUrl());
+        if(socialAuthenticationFilterPostProcessor!=null){
+            socialAuthenticationFilterPostProcessor.process(filter);
+        }
         return (T) filter;
     }
 }

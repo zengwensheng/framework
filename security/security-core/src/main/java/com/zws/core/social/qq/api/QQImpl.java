@@ -4,7 +4,6 @@ import com.zws.core.support.SecurityEnum;
 import com.zws.core.support.JsonUtils;
 import com.zws.core.support.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.TokenStrategy;
 import org.springframework.social.security.SocialAuthenticationException;
@@ -35,6 +34,7 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
         this.appId = appId;
         String url = String.format(URL_GET_OPENID, accessToken);
         String result = getRestTemplate().getForObject(url, String.class);
+        result= result.replace("callback( ","").replace(" )","");
         Map<String,String> resultMap = JsonUtils.readValue(result,Map.class);
         if(resultMap==null||resultMap.size()==0||resultMap.containsKey("code")){
             log.error("############获取open_id错误:"+result+"############");

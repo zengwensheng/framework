@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 public class SessionProperties {
 
+    private String sessionKey=SecurityConstants.DEFAULT_SESSION_KEY;
+
     private int maximumSessions=1;
 
     private Boolean maxSessionsPreventsLogin=false;

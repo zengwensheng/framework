@@ -31,7 +31,7 @@ public class QQOAuth2Template extends OAuth2Template {
         String result =  getRestTemplate().postForObject(accessTokenUrl,parameters,String.class);
 
         String[] items = StringUtils.splitByWholeSeparatorPreserveAllTokens(result, "&");
-        if(items==null||items.length==0||items.length==2){
+        if(items==null||items.length==0||items.length!=3){
             log.error("############ 获取qq Token错误："+result+"###############");
             throw  new SocialAuthenticationException(new SimpleResponse(SecurityEnum.SOCIAL_QQ_ACCESS_TOKEN_ERROR).toString());
         }

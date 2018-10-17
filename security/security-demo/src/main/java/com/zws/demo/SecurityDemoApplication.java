@@ -3,6 +3,8 @@ package com.zws.demo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
@@ -13,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @MapperScan("com.zws.demo.mapper")
 @EnableSwagger2
+@EnableAuthorizationServer
 public class SecurityDemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(SecurityDemoApplication.class,args);

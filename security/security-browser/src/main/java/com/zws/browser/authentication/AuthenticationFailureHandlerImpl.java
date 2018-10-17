@@ -22,7 +22,6 @@ import java.io.IOException;
 @Data
 public class AuthenticationFailureHandlerImpl extends SimpleUrlAuthenticationFailureHandler {
 
-    private ObjectMapper objectMapper;
     private SecurityProperties securityProperties;
 
 

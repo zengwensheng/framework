@@ -1,10 +1,9 @@
-package com.zws.core.authentication.sms;
+package com.zws.app.authentication.openid;
 
-import com.zws.core.properties.SecurityProperties;
+import com.zws.core.authentication.sms.SmsCodeAuthenticationToken;
 import com.zws.core.support.SecurityConstants;
 import lombok.Data;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -13,22 +12,25 @@ import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Security;
 
 /**
  * @author zws
  * @email 2848392861@qq.com
- * date 2018/10/8
+ * date 2018/10/17
  */
-
-public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+@Data
+public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     // ~ Static fields/initializers
     // =====================================================================================
 
+    private final static String DEFAULT_PARAMETER_NAME_OPEN_ID="open-id";
 
+    private final static String DEFAULT_PARAMETER_NAME_PROVIDER_ID="provider-id";
 
-    private String smsParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_SMS;
+    private String  openIdParameter = DEFAULT_PARAMETER_NAME_OPEN_ID;
+
+    private String  providerIdParameter = DEFAULT_PARAMETER_NAME_PROVIDER_ID;
 
     private boolean postOnly = true;
 
@@ -36,14 +38,14 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
     // ~ Constructors
     // ===================================================================================================
 
-    public SmsCodeAuthenticationFilter() {
-        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_SMS, "POST"));
+    public OpenIdAuthenticationFilter() {
+        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_OPEN_ID, "POST"));
     }
-
 
     // ~ Methods
     // ========================================================================================================
 
+    @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
         if (postOnly && !request.getMethod().equals("POST")) {
@@ -51,17 +53,24 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
                     "Authentication method not supported: " + request.getMethod());
         }
 
-        String sms = obtainSmS(request);
+        String openId = obtainOpenId(request);
 
+        String providerId = obtainProviderId(request);
 
-        if (sms == null) {
-            sms = "";
+        if (openId == null) {
+            openId = "";
         }
 
+        if(providerId == null){
+            providerId = "";
+        }
 
-        sms = sms.trim();
+        openId = openId.trim();
 
-        SmsCodeAuthenticationToken authRequest =new SmsCodeAuthenticationToken(sms);
+        providerId = providerId.trim();
+
+
+        OpenIdAuthenticationToken authRequest =new OpenIdAuthenticationToken(openId,providerId);
 
         // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
@@ -70,18 +79,32 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
     }
 
     /**
-     * Enables subclasses to override the composition of the username, such as by
+     * Enables subclasses to override the composition of the openId, such as by
      * including additional values and a separator.
      *
      * @param request so that request attributes can be retrieved
      *
-     * @return the username that will be presented in the <code>Authentication</code>
+     * @return the openId that will be presented in the <code>Authentication</code>
      * request token to the <code>AuthenticationManager</code>
      */
-    protected  String obtainSmS(HttpServletRequest request){
-        return request.getParameter(smsParameter);
+    protected String obtainOpenId(HttpServletRequest request){
+        return request.getParameter(openIdParameter);
     }
 
+
+    /**
+     * Enables subclasses to override the composition of the providerId, such as by
+     * including additional values and a separator.
+     *
+     * @param request so that request attributes can be retrieved
+     *
+     * @return the providerId that will be presented in the <code>Authentication</code>
+     * request token to the <code>AuthenticationManager</code>
+     */
+
+    protected String obtainProviderId(HttpServletRequest request){
+        return request.getParameter(providerIdParameter);
+    }
 
     /**
      * Provided so that subclasses may configure what is put into the authentication
@@ -92,19 +115,19 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
      * set
      */
     protected void setDetails(HttpServletRequest request,
-                              SmsCodeAuthenticationToken authRequest) {
+                              OpenIdAuthenticationToken authRequest) {
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
 
     /**
-     * Sets the parameter name which will be used to obtain the username from the login
+     * Sets the parameter name which will be used to obtain the openId from the login
      * request.
      *
-     * @param smsParameter the parameter name. Defaults to "username".
+     * @param openIdParameter the parameter name. Defaults to "open-id".
      */
-    public void setSmsParameter(String smsParameter) {
-        Assert.hasText(smsParameter, "Username parameter must not be empty or null");
-        this.smsParameter = smsParameter;
+    public void setOpenIdParameter(String openIdParameter) {
+        Assert.hasText(openIdParameter, "OpenId parameter must not be empty or null");
+        this.openIdParameter = openIdParameter;
     }
 
 
@@ -121,10 +144,15 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         this.postOnly = postOnly;
     }
 
-    public final String getSmsParameter() {
-        return smsParameter;
+    public final String getOpenIdParameter() {
+        return openIdParameter;
     }
 
+    public String getProviderIdParameter() {
+        return providerIdParameter;
+    }
 
-
+    public void setProviderIdParameter(String providerIdParameter) {
+        this.providerIdParameter = providerIdParameter;
+    }
 }

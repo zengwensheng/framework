@@ -18,8 +18,8 @@ import org.springframework.security.web.session.SessionInformationExpiredStrateg
  */
 public class ExpiredSessionStrategy extends AbstractSessionStrategy implements SessionInformationExpiredStrategy {
 
-	public ExpiredSessionStrategy(String invalidSessionUrl) {
-		super(invalidSessionUrl);
+	public ExpiredSessionStrategy(String invalidSessionUrl,String sessionKey) {
+		super(invalidSessionUrl,sessionKey);
 	}
 
 

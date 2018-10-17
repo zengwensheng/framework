@@ -12,7 +12,9 @@ public interface SecurityConstants {
 
     String DEFAULT_LOGIN_PROCESSING_URL = "/login";
 
-    String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/login/sms";
+    String DEFAULT_LOGIN_PROCESSING_URL_SMS = "/login/sms";
+
+    String DEFAULT_LOGIN_PROCESSING_URL_OPEN_ID = "/login/openId";
 
     String DEFAULT_VALIDATE_CODE_URL_PREFIX = "/code";
 
@@ -29,7 +31,12 @@ public interface SecurityConstants {
 
     String DEFAULT_PARAMETER_NAME_CODE_IMAGE ="img";
 
+
     String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
+
+    String DEFAULT_SOCIAL_USER_INFO_URL = "/social/user";
+
+    String DEFAULT_SESSION_KEY = "JSESSIONID";
 
 
 

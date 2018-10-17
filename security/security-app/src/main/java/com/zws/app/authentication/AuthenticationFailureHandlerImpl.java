@@ -5,6 +5,7 @@ import com.zws.core.properties.LoginResponseType;
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.support.SecurityConstants;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -20,25 +21,20 @@ import java.io.IOException;
  * date 2018/9/28
  */
 @Data
+@Slf4j
 public class AuthenticationFailureHandlerImpl extends SimpleUrlAuthenticationFailureHandler {
 
-    private ObjectMapper objectMapper;
-    private SecurityProperties securityProperties;
 
 
-    public AuthenticationFailureHandlerImpl(String defaultFailureUrl){
-        super(defaultFailureUrl);
+    public AuthenticationFailureHandlerImpl(){
     }
 
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        if(securityProperties.getBrowser().getLoginType() ==LoginResponseType.JSON) {
+            log.error("###########登录失败############",exception);
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType(SecurityConstants.DEFAULT_CONTENT_TYPE);
             response.getWriter().write(exception.getMessage());
-        }else{
-            super.onAuthenticationFailure(request,response,exception);
-        }
     }
 }

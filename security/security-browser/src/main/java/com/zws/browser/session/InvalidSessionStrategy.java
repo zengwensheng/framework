@@ -18,8 +18,8 @@ import com.zws.core.support.SecurityEnum;
  */
 public class InvalidSessionStrategy extends AbstractSessionStrategy implements org.springframework.security.web.session.InvalidSessionStrategy {
 
-	public InvalidSessionStrategy(String invalidSessionUrl) {
-		super(invalidSessionUrl);
+	public InvalidSessionStrategy(String invalidSessionUrl,String sessionKey) {
+		super(invalidSessionUrl,sessionKey);
 	}
 
 	@Override

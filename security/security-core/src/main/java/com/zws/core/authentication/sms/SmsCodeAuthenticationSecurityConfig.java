@@ -30,6 +30,8 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
     private AuthenticationFailureHandler authenticationFailureHandlerImpl;
     @Autowired
     private SmsCodeUserDetailsService smsCodeUserDetailsService;
+    @Autowired
+    private UserDetailsChecker userDetailsChecker;
 
 
     @Override
@@ -41,16 +43,11 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
 
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
         smsCodeAuthenticationProvider.setSmsCodeUserDetailsService(smsCodeUserDetailsService);
-        smsCodeAuthenticationProvider.setUserDetailsChecker(accountStatusUserDetailsChecker());
-
+        smsCodeAuthenticationProvider.setUserDetailsChecker(userDetailsChecker);
         http.authenticationProvider(smsCodeAuthenticationProvider)
                 .addFilterAfter(smsCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 
-    @Bean
-    public UserDetailsChecker accountStatusUserDetailsChecker(){
-        UserDetailsChecker accountStatusUserDetailsChecker = new AccountStatusUserDetailsChecker();
-        return accountStatusUserDetailsChecker;
-    }
+
 }

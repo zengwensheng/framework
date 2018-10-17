@@ -1,4 +1,4 @@
-package com.zws.core.authentication.sms;
+package com.zws.app.authentication.openid;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,9 +9,9 @@ import java.util.Collection;
 /**
  * @author zws
  * @email 2848392861@qq.com
- * date 2018/10/8
+ * date 2018/10/17
  */
-public class  SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
+public class OpenIdAuthenticationToken extends AbstractAuthenticationToken {
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
@@ -20,20 +20,23 @@ public class  SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 
     private final Object principal;
 
+    private String providerId;
+
     // ~ Constructors
     // ===================================================================================================
-
     /**
      * This constructor can be safely used by any code that wishes to create a
      * <code>SmsCodeAuthenticationToken</code>, as the {@link #isAuthenticated()}
      * will return <code>false</code>.
      *
      */
-    public SmsCodeAuthenticationToken(Object principal) {
+    public OpenIdAuthenticationToken(Object principal,String providerId) {
         super(null);
         this.principal = principal;
+        this.providerId = providerId;
         setAuthenticated(false);
     }
+
 
     /**
      * This constructor should only be used by <code>AuthenticationManager</code> or
@@ -42,12 +45,14 @@ public class  SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
      * authentication token.
      *
      * @param principal
+     * @param providerId
      * @param authorities
      */
-    public SmsCodeAuthenticationToken(Object principal,
-                                               Collection<? extends GrantedAuthority> authorities) {
+    public OpenIdAuthenticationToken(Object principal,String providerId,
+                                      Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
+        this.providerId = providerId;
         super.setAuthenticated(true); // must use super, as we override
     }
 
@@ -71,8 +76,18 @@ public class  SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
         super.setAuthenticated(false);
     }
 
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
     @Override
     public void eraseCredentials() {
         super.eraseCredentials();
     }
+
 }

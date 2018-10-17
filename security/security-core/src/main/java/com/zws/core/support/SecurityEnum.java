@@ -28,11 +28,16 @@ public enum SecurityEnum {
     SOCIAL_QQ_ACCESS_TOKEN_ERROR(3003,"获取qq token 错误"),
 
     SOCIAL_WX_USER_INFO_ERROR(3011,"获取微信用户信息错误"),
-    SOCIAL_WX_OPEN_ID_ERROR(3012,"获取微信openid错误"),
-    SOCIAL_WX_ACCESS_TOKEN_ERROR(3013,"获取微信token错误"),
+    SOCIAL_WX_ACCESS_TOKEN_ERROR(3012,"获取微信token错误"),
 
     SESSION_INVALID(4001,"session已过期，请重新登录"),
     SESSION_CONCURRENT(4002,"您的账号已在其他地方登录，如不是本人请修改秘密"),
+
+    APP_CLIENT_IS_NULL(5001,"第三方信息不能为空"),
+    APP_CLIENT_DECODE_ERROR(5002,"无法解码基本身份验证令牌"),
+    APP_CLIENT_NOT_EXIST(5003,"第三方信息不存在"),
+    APP_CLIENT_SECRET_ERROR(5004,"第三方secret错误"),
+
     ;
     private int code;
     private String msg;

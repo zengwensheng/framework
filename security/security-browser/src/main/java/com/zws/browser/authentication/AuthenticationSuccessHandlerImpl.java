@@ -2,6 +2,7 @@ package com.zws.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zws.core.properties.LoginResponseType;
+import com.zws.core.support.JsonUtils;
 import com.zws.core.support.SecurityConstants;
 import com.zws.core.properties.SecurityProperties;
 import lombok.Data;
@@ -22,7 +23,6 @@ import java.io.IOException;
 @Data
 public class AuthenticationSuccessHandlerImpl extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private ObjectMapper objectMapper;
     private SecurityProperties  securityProperties;
 
     @Override
@@ -30,7 +30,7 @@ public class AuthenticationSuccessHandlerImpl extends SavedRequestAwareAuthentic
         if(securityProperties.getBrowser().getLoginType()==LoginResponseType.JSON) {
             response.setStatus(HttpStatus.OK.value());
             response.setContentType(SecurityConstants.DEFAULT_CONTENT_TYPE);
-            response.getWriter().write(objectMapper.writeValueAsString(authentication));
+            response.getWriter().write(JsonUtils.writeValueAsString(authentication));
         }else{
             super.onAuthenticationSuccess(request,response,authentication);
         }

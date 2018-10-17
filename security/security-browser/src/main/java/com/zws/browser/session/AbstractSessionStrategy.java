@@ -5,11 +5,16 @@ package com.zws.browser.session;
 
 import java.io.IOException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.zws.core.properties.SecurityProperties;
+import com.zws.core.support.JsonUtils;
+import com.zws.core.support.SecurityConstants;
 import com.zws.core.support.SecurityEnum;
 import com.zws.core.support.SimpleResponse;
+import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @email 2848392861@qq.com
  * date 2018/9/29
  */
+@Data
 public abstract class AbstractSessionStrategy {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -36,13 +42,15 @@ public abstract class AbstractSessionStrategy {
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	private boolean createNewSession = true;
-	
-	private ObjectMapper objectMapper = new ObjectMapper();
 
 
-	public AbstractSessionStrategy(String invalidSessionUrl) {
+	private String sessionKey;
+
+
+	public AbstractSessionStrategy(String invalidSessionUrl,String sessionKey) {
 		Assert.isTrue(UrlUtils.isValidRedirectUrl(invalidSessionUrl), "url must start with '/' or with 'http(s)'");
 		this.destinationUrl = invalidSessionUrl;
+		this.sessionKey= sessionKey;
 	}
 
 	/*
@@ -60,14 +68,20 @@ public abstract class AbstractSessionStrategy {
 
 		String sourceUrl = request.getRequestURI();
 		String targetUrl;
+		Cookie[] cookies =  request.getCookies();
+		for(Cookie cookie:cookies){
+			if(sessionKey.equals(cookie.getName())){
+				cookie.clone();
+			}
+		}
 
 		if (StringUtils.endsWithIgnoreCase(sourceUrl, ".html")) {
 			targetUrl = destinationUrl+".html";
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		}else{
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.setContentType("application/json;charset=UTF-8");
-			response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(getErrorEnum())));
+			response.setContentType(SecurityConstants.DEFAULT_CONTENT_TYPE);
+			response.getWriter().write(JsonUtils.writeValueAsString(new SimpleResponse(getErrorEnum())));
 		}
 		
 	}

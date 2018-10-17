@@ -4,12 +4,9 @@ import com.zws.core.support.JsonUtils;
 import com.zws.core.support.SecurityEnum;
 import com.zws.core.support.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.TokenStrategy;
 import org.springframework.social.security.SocialAuthenticationException;
-import sun.jvm.hotspot.oops.NarrowOopField;
-
 import java.util.Map;
 
 /**

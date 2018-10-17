@@ -1,21 +1,17 @@
 package com.zws.browser.config;
 
 
-import com.zws.core.authentication.AbstractSecurityConfig;
+import com.zws.core.authentication.LoginSecurityConfig;
 import com.zws.core.authentication.sms.SmsCodeAuthenticationSecurityConfig;
 import com.zws.core.validate.ValidateSecurityConfig;
 import com.zws.core.support.SecurityConstants;
 import com.zws.core.properties.SecurityProperties;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.shiro.session.ExpiredSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -31,7 +27,7 @@ import javax.sql.DataSource;
  * date 2018/9/28
  */
 @Configuration
-public class BrowserSecurityConfig extends AbstractSecurityConfig {
+public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
@@ -53,11 +49,13 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     private SessionInformationExpiredStrategy expiredStrategy;
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
+    @Autowired
+    private LoginSecurityConfig loginSecurityConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        applyPasswordAuthenticationConfig(http);
-        http.apply(validateSecurityConfig)
+        loginSecurityConfig.configure(http);
+         http.apply(validateSecurityConfig)
                 .and()
              .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
@@ -80,12 +78,13 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                             ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL
                             ,SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL
                             ,securityProperties.getBrowser().getFailureUrl()
-                            ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
+                            ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_SMS
                             ,SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*"
                             ,securityProperties.getBrowser().getSignUpUrl()
                             ,securityProperties.getBrowser().getSignInUrl()
                             ,securityProperties.getBrowser().getSignOutUrl()
-                            ,securityProperties.getBrowser().getLogErrorUrl())
+                            ,securityProperties.getBrowser().getLogErrorUrl()
+                            ,SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
                 .permitAll()
                 .antMatchers(securityProperties.getBrowser().getPermitUrl().toArray(new String [securityProperties.getBrowser().getPermitUrl().size()]))
                 .permitAll()
@@ -95,7 +94,7 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
              .logout()
                 .logoutUrl(securityProperties.getBrowser().getLogoutUrl())
                 .logoutSuccessHandler(logoutSuccessHandler)
-                .deleteCookies("JSESSIONID")
+                .deleteCookies(securityProperties.getBrowser().getSession().getSessionKey())
                 .and()
              .csrf()
                 .disable();

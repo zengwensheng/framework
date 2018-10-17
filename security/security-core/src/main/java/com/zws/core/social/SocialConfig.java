@@ -1,12 +1,15 @@
 package com.zws.core.social;
 
 import com.zws.core.properties.SecurityProperties;
+import com.zws.core.social.support.SocialAuthenticationFilterPostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
@@ -37,6 +40,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required =  false)
     private ConnectionSignUp connectionSignUp;
 
+    @Autowired(required = false)
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
 
 
     @Override
@@ -48,7 +54,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
     @Bean
     public SpringSocialConfigurer customerSocialConfigurer(SecurityProperties securityProperties){
-        CustomerSocialConfigurer customerSocialConfigurer = new CustomerSocialConfigurer(securityProperties);
+        CustomerSocialConfigurer customerSocialConfigurer = new CustomerSocialConfigurer(securityProperties,socialAuthenticationFilterPostProcessor);
         return customerSocialConfigurer;
     }
 

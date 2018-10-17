@@ -2,6 +2,8 @@ package com.zws.core.validate;
 
 import lombok.Data;
 
+import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 /**
@@ -10,9 +12,10 @@ import java.time.LocalDateTime;
  * date 2018/9/29
  */
 @Data
-public class ValidateCode {
+public class ValidateCode implements Serializable {
 
 
+    private static final long serialVersionUID = 4235997212223595910L;
     private String key;
 
     private String code;
@@ -36,7 +39,8 @@ public class ValidateCode {
          return LocalDateTime.now().isAfter(expireTime);
     }
 
-    public int getExpireIn(){
-        return expireTime.getSecond()-LocalDateTime.now().getSecond();
+    public Long getExpireIn(){
+        Duration duration = Duration.between(LocalDateTime.now(),expireTime);
+        return duration.toMillis()/1000;
     }
 }

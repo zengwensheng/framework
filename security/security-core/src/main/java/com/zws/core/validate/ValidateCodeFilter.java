@@ -50,7 +50,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter  implements Initial
         urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL, ValidateCodeType.IMG);
         addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMG);
 
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
+        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_SMS, ValidateCodeType.SMS);
         addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
     }
 

@@ -34,18 +34,16 @@ public class BrowserSecurityBeanConfig {
 
     @Bean
     @ConditionalOnMissingBean(name = "authenticationSuccessHandlerImpl")
-    public AuthenticationSuccessHandler authenticationSuccessHandlerImpl(ObjectMapper objectMapper, SecurityProperties securityProperties) {
+    public AuthenticationSuccessHandler authenticationSuccessHandlerImpl(SecurityProperties securityProperties) {
         AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl = new AuthenticationSuccessHandlerImpl();
-        authenticationSuccessHandlerImpl.setObjectMapper(objectMapper);
         authenticationSuccessHandlerImpl.setSecurityProperties(securityProperties);
         return authenticationSuccessHandlerImpl;
     }
 
     @Bean
     @ConditionalOnMissingBean(name = "authenticationFailureHandlerImpl")
-    public AuthenticationFailureHandler authenticationFailureHandlerImpl(ObjectMapper objectMapper,SecurityProperties securityProperties) {
+    public AuthenticationFailureHandler authenticationFailureHandlerImpl(SecurityProperties securityProperties) {
         AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl = new AuthenticationFailureHandlerImpl(securityProperties.getBrowser().getLogErrorUrl());
-        authenticationFailureHandlerImpl.setObjectMapper(objectMapper);
         authenticationFailureHandlerImpl.setSecurityProperties(securityProperties);
         authenticationFailureHandlerImpl.setDefaultFailureUrl(securityProperties.getBrowser().getFailureUrl());
         return authenticationFailureHandlerImpl;
@@ -54,13 +52,13 @@ public class BrowserSecurityBeanConfig {
     @Bean
     @ConditionalOnMissingBean(InvalidSessionStrategy.class)
     public InvalidSessionStrategy invalidSessionStrategy(SecurityProperties securityProperties){
-        return new InvalidSessionStrategy(securityProperties.getBrowser().getSession().getSessionInvalidUrl());
+        return new InvalidSessionStrategy(securityProperties.getBrowser().getSession().getSessionInvalidUrl(),securityProperties.getBrowser().getSession().getSessionKey());
     }
 
     @Bean
     @ConditionalOnMissingBean(SessionInformationExpiredStrategy.class)
     public SessionInformationExpiredStrategy sessionInformationExpiredStrategy(SecurityProperties securityProperties){
-        return new ExpiredSessionStrategy(securityProperties.getBrowser().getSession().getSessionInvalidUrl());
+        return new ExpiredSessionStrategy(securityProperties.getBrowser().getSession().getSessionInvalidUrl(),securityProperties.getBrowser().getSession().getSessionKey());
     }
 
     @Bean
