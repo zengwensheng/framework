@@ -86,7 +86,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                             ,securityProperties.getBrowser().getLogErrorUrl()
                             ,SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
                 .permitAll()
-                .antMatchers(securityProperties.getBrowser().getPermitUrl().toArray(new String [securityProperties.getBrowser().getPermitUrl().size()]))
+                .antMatchers(securityProperties.getPermitUrl().toArray(new String [securityProperties.getPermitUrl().size()]))
                 .permitAll()
                 .anyRequest()
                 .authenticated()

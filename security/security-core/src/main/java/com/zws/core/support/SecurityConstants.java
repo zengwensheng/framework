@@ -38,7 +38,11 @@ public interface SecurityConstants {
 
     String DEFAULT_SESSION_KEY = "JSESSIONID";
 
+    String DEFAULT_PROJECT_PREFIX="authentication.core";
 
+    String DEFAULT_APP_SING_IN_URL = "/signIn";
+
+    String DEFAULT_APP_SING_UP_URL = "/signUp";
 
 
 

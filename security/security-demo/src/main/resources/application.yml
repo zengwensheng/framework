@@ -16,9 +16,10 @@ spring:
 authentication:
   core:
     browser:
-       login-type: REDIRECT
-       permitUrl:
-              - /user/binding
+       login-type: JSON
+    permitUrl:
+           - /user/binding
+           - /user/appBinding
     social:
        filterProcessesUrl: /qqLogin
        wx:
@@ -29,11 +30,8 @@ authentication:
          app-id: 101512320
          app-secret: 8d4b687241ffd8ce89593661be207177
          provider-id: qq
-security:
-  oauth2:
-    client:
-      client-id: zws
-      client-secret: zws
+   # app:
+    #   tokenStore: redis
 
 
 

@@ -1,6 +1,7 @@
 package com.zws.demo.web.controller;
 
 import com.zws.core.support.SecurityEnum;
+import com.zws.core.support.SecurityException;
 import com.zws.core.support.SimpleResponse;
 import com.zws.core.validate.ValidateCodeException;
 import com.zws.demo.web.validate.ValidateException;
@@ -29,10 +30,10 @@ public class ControllerException {
         return validateException.getErrors();
     }
 
-    @ExceptionHandler(ValidateCodeException.class)
+    @ExceptionHandler(SecurityException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handlerValidateCodeException(ValidateCodeException validateCodeException) {
-        return validateCodeException.getMessage();
+    public String handlerValidateCodeException(SecurityException securityException) {
+        return securityException.getMessage();
     }
 
 

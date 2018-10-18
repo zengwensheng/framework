@@ -10,9 +10,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 
 import javax.annotation.security.DenyAll;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,6 +32,8 @@ public class OpenIdAuthenticationProvider implements AuthenticationProvider {
 
     private UsersConnectionRepository usersConnectionRepository;
 
+    private ConnectionSignUp connectionSignUp;
+
 
 
     @Override
@@ -42,6 +46,7 @@ public class OpenIdAuthenticationProvider implements AuthenticationProvider {
 
         Set<String> userIds =   usersConnectionRepository.findUserIdsConnectedTo(openIdAuthenticationToken.getProviderId(),providerUserIds);
 
+
         if(userIds==null||userIds.size()!=1){
             throw  new InternalAuthenticationServiceException("无法获取用户信息");
         }
@@ -50,8 +55,7 @@ public class OpenIdAuthenticationProvider implements AuthenticationProvider {
         UserDetails user = userDetailsService.loadUserByUsername(userIds.iterator().next());
 
         if(user==null){
-            throw new InternalAuthenticationServiceException(
-                    "无法获取用户信息");
+            throw new InternalAuthenticationServiceException("无法获取用户信息");
         }
 
         userDetailsChecker.check(user);

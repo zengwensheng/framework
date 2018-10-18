@@ -24,9 +24,9 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
     // ~ Static fields/initializers
     // =====================================================================================
 
-    private final static String DEFAULT_PARAMETER_NAME_OPEN_ID="open-id";
+    private final static String DEFAULT_PARAMETER_NAME_OPEN_ID="openId";
 
-    private final static String DEFAULT_PARAMETER_NAME_PROVIDER_ID="provider-id";
+    private final static String DEFAULT_PARAMETER_NAME_PROVIDER_ID="providerId";
 
     private String  openIdParameter = DEFAULT_PARAMETER_NAME_OPEN_ID;
 
@@ -123,7 +123,7 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
      * Sets the parameter name which will be used to obtain the openId from the login
      * request.
      *
-     * @param openIdParameter the parameter name. Defaults to "open-id".
+     * @param openIdParameter the parameter name. Defaults to "openId".
      */
     public void setOpenIdParameter(String openIdParameter) {
         Assert.hasText(openIdParameter, "OpenId parameter must not be empty or null");

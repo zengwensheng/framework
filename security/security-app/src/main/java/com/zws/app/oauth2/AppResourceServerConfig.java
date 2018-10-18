@@ -5,14 +5,18 @@ import com.zws.app.authentication.openid.OpenIdAuthenticationSecurityConfig;
 import com.zws.core.authentication.LoginSecurityConfig;
 import com.zws.core.authentication.sms.SmsCodeAuthenticationSecurityConfig;
 import com.zws.core.properties.SecurityProperties;
+import com.zws.core.social.wx.connect.WXAccessGrant;
 import com.zws.core.support.SecurityConstants;
 import com.zws.core.validate.ValidateSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -37,6 +41,10 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
     private LoginSecurityConfig loginSecurityConfig;
     @Autowired
     private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
+    @Autowired
+    private SecurityProperties securityProperties;
+
+
 
 
     @Override
@@ -55,10 +63,17 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
                         ,SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL
                         ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_SMS
                         ,SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*"
-                        ,SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
+                        ,SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL
+                        ,securityProperties.getApp().getSignInUrl()
+                        ,securityProperties.getApp().getSignUpUrl())
+                .permitAll()
+                .antMatchers(securityProperties.getPermitUrl().toArray(new String [securityProperties.getPermitUrl().size()]))
                 .permitAll()
                 .anyRequest()
                 .authenticated();
 
+
     }
+
+
 }

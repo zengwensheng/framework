@@ -32,7 +32,7 @@ public class CustomerSocialConfigurer extends SpringSocialConfigurer {
         SocialAuthenticationFilter filter = (SocialAuthenticationFilter) super.postProcess(object);
         filter.setFilterProcessesUrl(securityProperties.getSocial().getFilterProcessesUrl());
         filter.setSignupUrl(securityProperties.getBrowser().getSignUpUrl());
-        filter.setDefaultFailureUrl(securityProperties.getBrowser().getSignInUrl());
+        filter.setDefaultFailureUrl(securityProperties.getBrowser() .getSignInUrl());
         if(socialAuthenticationFilterPostProcessor!=null){
             socialAuthenticationFilterPostProcessor.process(filter);
         }

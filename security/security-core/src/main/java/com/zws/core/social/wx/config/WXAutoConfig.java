@@ -4,6 +4,7 @@ import com.zws.core.properties.SecurityProperties;
 import com.zws.core.properties.WXProperties;
 import com.zws.core.social.ConnectProviderView;
 import com.zws.core.social.wx.connect.WXConnectionFactory;
+import com.zws.core.support.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -20,7 +21,7 @@ import org.springframework.web.servlet.view.AbstractView;
  * date 2018/10/8
  */
 @Configuration
-@ConditionalOnProperty(prefix = "authentication.core.social.wx",name = "app-id")
+@ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX +".social.wx",name = "app-id")
 public class WXAutoConfig extends SocialAutoConfigurerAdapter {
 
     @Autowired

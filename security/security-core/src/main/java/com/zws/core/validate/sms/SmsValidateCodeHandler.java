@@ -16,13 +16,14 @@ import org.springframework.web.context.request.ServletWebRequest;
 public class SmsValidateCodeHandler extends AbstractValidateCodeHandler {
 
 
-    private String smsParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_SMS;
+    private final static String SMS_PARAMETER = SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_SMS;
+    private final static String KEY_PREFIX= SecurityConstants.DEFAULT_PROJECT_PREFIX+":validate:sms:";
 
     @Override
     protected void send(ValidateCode validateCode, ServletWebRequest servletWebRequest){
         String key = obtainSmS(servletWebRequest);
         if(StringUtils.isEmpty(key)){
-            throw new ValidateCodeException(SecurityEnum.VALIDATE_SMS_NOT_EMPTY);
+            throw new ValidateCodeException(SecurityEnum.VALIDATE_SMS_EMPTY);
         }
         System.out.println("####################验证码："+validateCode.getCode()+"############");
     }
@@ -32,12 +33,12 @@ public class SmsValidateCodeHandler extends AbstractValidateCodeHandler {
     protected String getKey(ServletWebRequest servletWebRequest){
         String key = obtainSmS(servletWebRequest);
         if(StringUtils.isEmpty(key)){
-            throw new ValidateCodeException(SecurityEnum.VALIDATE_SMS_NOT_EMPTY);
+            throw new ValidateCodeException(SecurityEnum.VALIDATE_SMS_EMPTY);
         }
-        return key;
+        return KEY_PREFIX+key;
     }
 
     private String obtainSmS(ServletWebRequest servletWebRequest){
-        return servletWebRequest.getRequest().getParameter(smsParameter);
+        return servletWebRequest.getParameter(SMS_PARAMETER) ;
     }
 }

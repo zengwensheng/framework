@@ -16,6 +16,7 @@
         <swagger.version>2.7.0</swagger.version>
         <boot.maven.plugin.version>1.3.3.RELEASE</boot.maven.plugin.version>
         <mybatis.version>1.3.1</mybatis.version>
+        <jjwt.version>0.7.0</jjwt.version>
     </properties>
 
     <dependencies>
@@ -55,6 +56,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
         </dependency>
 
     </dependencies>

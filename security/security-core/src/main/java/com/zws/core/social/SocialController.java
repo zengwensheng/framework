@@ -2,6 +2,7 @@ package com.zws.core.social;
 
 import com.zws.core.social.support.SocialUserInfo;
 import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionData;
 
 /**
  * @author zws
@@ -14,6 +15,15 @@ public abstract class SocialController {
         SocialUserInfo userInfo = new SocialUserInfo();
         userInfo.setProviderId(connection.getKey().getProviderId());
         userInfo.setProviderUserId(connection.getKey().getProviderUserId());
+        userInfo.setNickname(connection.getDisplayName());
+        userInfo.setHeadimg(connection.getImageUrl());
+        return userInfo;
+    }
+
+    protected SocialUserInfo buildSocialUserInfo(ConnectionData connection) {
+        SocialUserInfo userInfo = new SocialUserInfo();
+        userInfo.setProviderId(connection.getProviderId());
+        userInfo.setProviderUserId(connection.getProviderUserId());
         userInfo.setNickname(connection.getDisplayName());
         userInfo.setHeadimg(connection.getImageUrl());
         return userInfo;

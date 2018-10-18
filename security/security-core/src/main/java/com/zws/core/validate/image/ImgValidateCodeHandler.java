@@ -1,8 +1,10 @@
 package com.zws.core.validate.image;
 
+import com.zws.core.support.SecurityConstants;
 import com.zws.core.support.SecurityEnum;
 import com.zws.core.validate.AbstractValidateCodeHandler;
 import com.zws.core.validate.ValidateCodeException;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.imageio.ImageIO;
@@ -14,6 +16,8 @@ import javax.imageio.ImageIO;
  */
 public class ImgValidateCodeHandler extends AbstractValidateCodeHandler<ImageCode> {
 
+    private final static String DEVICE_ID_PARAMETER = "deviceId";
+    private final static String KEY_PREFIX= SecurityConstants.DEFAULT_PROJECT_PREFIX+":validate:img:";
 
     @Override
     protected void send(ImageCode imageCode, ServletWebRequest servletWebRequest)  {
@@ -25,7 +29,12 @@ public class ImgValidateCodeHandler extends AbstractValidateCodeHandler<ImageCod
     }
 
     @Override
-    protected String getKey(ServletWebRequest servletWebRequest) {
-        return "img-code";
+    protected String getKey(ServletWebRequest servletWebRequest){
+        String key = servletWebRequest.getParameter(DEVICE_ID_PARAMETER);
+        if(StringUtils.isEmpty(key)){
+            throw new ValidateCodeException(SecurityEnum.VALIDATE_IMG_PARAM_EMPTY);
+        }
+        return KEY_PREFIX+key;
     }
+
 }

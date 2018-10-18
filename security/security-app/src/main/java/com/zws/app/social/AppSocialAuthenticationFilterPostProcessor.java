@@ -1,6 +1,8 @@
 package com.zws.app.social;
 
+import com.zws.core.properties.SecurityProperties;
 import com.zws.core.social.support.SocialAuthenticationFilterPostProcessor;
+import com.zws.core.support.SecurityConstants;
 import lombok.Data;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -17,8 +19,12 @@ public class AppSocialAuthenticationFilterPostProcessor  implements SocialAuthen
 
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
+    private SecurityProperties securityProperties;
+
     @Override
     public void process(SocialAuthenticationFilter socialAuthenticationFilter) {
         socialAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
+        socialAuthenticationFilter.setSignupUrl(securityProperties.getApp().getSignUpUrl());
+        socialAuthenticationFilter.setDefaultFailureUrl(securityProperties.getApp().getSignInUrl());
     }
 }

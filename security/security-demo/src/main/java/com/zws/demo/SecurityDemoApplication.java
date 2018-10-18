@@ -15,7 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @MapperScan("com.zws.demo.mapper")
 @EnableSwagger2
-@EnableAuthorizationServer
 public class SecurityDemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(SecurityDemoApplication.class,args);
