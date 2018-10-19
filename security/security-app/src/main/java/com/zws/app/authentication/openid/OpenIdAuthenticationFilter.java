@@ -24,9 +24,9 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
     // ~ Static fields/initializers
     // =====================================================================================
 
-    private final static String DEFAULT_PARAMETER_NAME_OPEN_ID="openId";
+    private final static String DEFAULT_PARAMETER_NAME_OPEN_ID="open-id";
 
-    private final static String DEFAULT_PARAMETER_NAME_PROVIDER_ID="providerId";
+    private final static String DEFAULT_PARAMETER_NAME_PROVIDER_ID="provider-id";
 
     private String  openIdParameter = DEFAULT_PARAMETER_NAME_OPEN_ID;
 

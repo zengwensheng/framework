@@ -32,7 +32,7 @@ public interface SecurityConstants {
     String DEFAULT_PARAMETER_NAME_CODE_IMAGE ="img";
 
 
-    String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
+    String DEFAULT_SESSION_INVALID_URL = "/session/invalid.html";
 
     String DEFAULT_SOCIAL_USER_INFO_URL = "/social/user";
 
@@ -43,6 +43,8 @@ public interface SecurityConstants {
     String DEFAULT_APP_SING_IN_URL = "/signIn";
 
     String DEFAULT_APP_SING_UP_URL = "/signUp";
+
+    String URL_SUFFIX =".html";
 
 
 

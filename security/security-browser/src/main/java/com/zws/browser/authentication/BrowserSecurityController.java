@@ -35,7 +35,7 @@ import java.io.IOException;
 public class BrowserSecurityController extends SocialController {
 
 
-    private final  static  String URL_PREFIX =".html";
+
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
@@ -54,7 +54,7 @@ public class BrowserSecurityController extends SocialController {
         SavedRequest savedRequest =  requestCache.getRequest(request,response);
         if(savedRequest!=null){
             String targetUrl = savedRequest.getRedirectUrl();
-            if(StringUtils.endsWithIgnoreCase(targetUrl,URL_PREFIX)){
+            if(StringUtils.endsWithIgnoreCase(targetUrl,SecurityConstants.URL_SUFFIX)){
                 redirectStrategy.sendRedirect(request,response,securityProperties.getBrowser().getLoginPage());
             }
         }

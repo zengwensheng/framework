@@ -31,9 +31,9 @@ public class SsoSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+       http.formLogin().and().authorizeRequests().anyRequest().authenticated().and()
+           .sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false);
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 /**
  * @author zws
  * @email 2848392861@qq.com
@@ -26,4 +25,6 @@ public class SsoClient1Application {
     public static void main(String[] args) {
         SpringApplication.run(SsoClient1Application.class,args);
     }
+
+
 }

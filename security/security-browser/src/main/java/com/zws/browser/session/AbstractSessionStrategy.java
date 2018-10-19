@@ -75,8 +75,8 @@ public abstract class AbstractSessionStrategy {
 			}
 		}
 
-		if (StringUtils.endsWithIgnoreCase(sourceUrl, ".html")) {
-			targetUrl = destinationUrl+".html";
+		if (StringUtils.endsWithIgnoreCase(sourceUrl, SecurityConstants.URL_SUFFIX)) {
+			targetUrl = destinationUrl;
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		}else{
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -92,5 +92,5 @@ public abstract class AbstractSessionStrategy {
 	public void setCreateNewSession(boolean createNewSession) {
 		this.createNewSession = createNewSession;
 	}
-	
+
 }

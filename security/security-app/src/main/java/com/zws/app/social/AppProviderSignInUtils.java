@@ -27,7 +27,7 @@ public class AppProviderSignInUtils {
 
     private static final String KEY_PREFIX= SecurityConstants.DEFAULT_PROJECT_PREFIX+":security:social.connect. ";
 
-    private static final String KEY_PARAMETER="deviceId";
+    private static final String KEY_PARAMETER="device-id";
 
     private static final Long REDIS_EXPIRED = 10L;
 

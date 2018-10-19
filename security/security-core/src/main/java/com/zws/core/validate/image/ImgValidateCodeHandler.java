@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
  */
 public class ImgValidateCodeHandler extends AbstractValidateCodeHandler<ImageCode> {
 
-    private final static String DEVICE_ID_PARAMETER = "deviceId";
+    private final static String DEVICE_ID_PARAMETER = "device-id";
     private final static String KEY_PREFIX= SecurityConstants.DEFAULT_PROJECT_PREFIX+":validate:img:";
 
     @Override

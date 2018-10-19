@@ -30,6 +30,6 @@ public class InvalidSessionStrategy extends AbstractSessionStrategy implements o
 
 	@Override
     SecurityEnum getErrorEnum() {
-		return SecurityEnum.SESSION_CONCURRENT;
+		return SecurityEnum.SESSION_INVALID;
 	}
 }

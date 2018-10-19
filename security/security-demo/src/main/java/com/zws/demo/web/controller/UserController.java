@@ -1,7 +1,6 @@
 package com.zws.demo.web.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.zws.app.social.AppProviderSignInUtils;
 import com.zws.core.properties.SecurityProperties;
 import com.zws.demo.entity.dto.UserDto;
 import com.zws.demo.entity.vo.UserVo;
@@ -14,12 +13,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -40,8 +37,7 @@ public class UserController {
     private UserService userDetailServiceImpl;
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
-    @Autowired(required = false)
-    private AppProviderSignInUtils appProviderSignInUtils;
+
     @Autowired
     private SecurityProperties securityProperties;
 
@@ -100,13 +96,16 @@ public class UserController {
         providerSignInUtils.doPostSignUp(userVo.getUsername(),new ServletWebRequest(request));
     }
 
+/*
+    @Autowired(required = false)
+    private AppProviderSignInUtils appProviderSignInUtils;
 
     @PostMapping("/appBinding")
     @ApiOperation(value = "绑定")
     public  void appBinding(UserDto userDto, HttpServletRequest request){
         UserVo userVo = userDetailServiceImpl.insert(userDto);
         appProviderSignInUtils.doPostSignUp(userVo.getUsername(),new ServletWebRequest(request));
-    }
+    }*/
 
 
 }

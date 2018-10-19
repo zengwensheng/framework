@@ -37,7 +37,7 @@ public enum SecurityEnum {
     SOCIAL_LOGIN_ERROR(3030,"第三方登录错误"),
 
     SESSION_INVALID(4001,"session已过期，请重新登录"),
-    SESSION_CONCURRENT(4002,"您的账号已在其他地方登录，如不是本人请修改秘密"),
+    SESSION_CONCURRENT(4002,"您的账号已在其他地方登录，如不是本人请修改密码"),
 
     APP_CLIENT_IS_NULL(5001,"第三方信息不能为空"),
     APP_CLIENT_DECODE_ERROR(5002,"无法解码基本身份验证令牌"),
