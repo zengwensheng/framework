@@ -1,0 +1,6 @@
+server:
+  port: 8020
+  context-path: /server
+security:
+  user:
+    password: 123456

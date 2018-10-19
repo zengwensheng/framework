@@ -12,6 +12,7 @@
         <module>netty_history</module>
         <module>design-patterns</module>
         <module>security</module>
+        <module>sso-demo</module>
     </modules>
 
     <properties>

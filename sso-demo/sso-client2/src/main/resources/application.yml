@@ -1,0 +1,13 @@
+server:
+  port: 8022
+  context-path: /client2
+security:
+  oauth2:
+    client:
+      client-id: zws-client2
+      client-secret: secret
+      access-token-uri: http://127.0.0.1:8020/server/oauth/token
+      user-authorization-uri: http://127.0.0.1:8020/server/oauth/authorize
+    resource:
+      jwt:
+        key-uri: http://127.0.0.1:8020/server/oauth/token_key
