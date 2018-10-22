@@ -50,7 +50,7 @@ public class AppAuthorizationServerConfig  extends AuthorizationServerConfigurer
     private JwtAccessTokenConverter jwtAccessTokenConverter;
     @Autowired
     private TokenStore tokenStore;
-    @Autowired
+    @Autowired(required =  false)
     private TokenEnhancer jwtTokenEnhancer;
 
 

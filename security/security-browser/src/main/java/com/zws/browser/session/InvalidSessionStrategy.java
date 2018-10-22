@@ -23,7 +23,7 @@ public class InvalidSessionStrategy extends AbstractSessionStrategy implements o
 	}
 
 	@Override
-	public void onInvalidSessionDetected(HttpServletRequest request, HttpServletResponse response)
+	public void  onInvalidSessionDetected(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		onSessionInvalid(request, response);
 	}

@@ -60,7 +60,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
              .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
              .apply(customerSocialConfigurer)
-                .and()
+                 .and()
              .rememberMe()
                 .tokenRepository(persistentTokenRepository(dataSource))
                 .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
