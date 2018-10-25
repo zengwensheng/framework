@@ -1,10 +1,7 @@
 package com.zws.core.authentication.sms;
 
-import com.zws.core.properties.SecurityProperties;
 import com.zws.core.support.SecurityConstants;
-import lombok.Data;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -13,7 +10,6 @@ import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Security;
 
 /**
  * @author zws
@@ -67,7 +63,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         setDetails(request, authRequest);
 
         return this.getAuthenticationManager().authenticate(authRequest);
-    }
+}
 
     /**
      * Enables subclasses to override the composition of the username, such as by
