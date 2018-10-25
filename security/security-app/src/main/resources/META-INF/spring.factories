@@ -2,5 +2,4 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.zws.app.oauth2.AppAuthorizationServerConfig,\
 com.zws.app.oauth2.AppSecurityBeanConfig,\
 com.zws.app.oauth2.AppResourceServerConfig,\
-com.zws.app.authentication.openid.OpenIdAuthenticationSecurityConfig,\
-com.zws.app.oauth2.TokenStoreConfig
+com.zws.app.authentication.openid.OpenIdAuthenticationSecurityConfig
