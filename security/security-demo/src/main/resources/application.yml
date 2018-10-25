@@ -9,7 +9,7 @@ spring:
     url: jdbc:mysql://192.168.1.151/crowd_sourcing?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
   session:
-    store-type: redis
+    store-type: none
   redis:
     host: localhost
     port: 6379

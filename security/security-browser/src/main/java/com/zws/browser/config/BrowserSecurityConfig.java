@@ -9,17 +9,24 @@ import com.zws.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.InvalidSessionStrategy;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
+import org.springframework.session.ExpiringSession;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.data.redis.RedisOperationsSessionRepository;
+import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author zws
@@ -52,6 +59,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private LoginSecurityConfig loginSecurityConfig;
 
+    @Autowired(required = false)
+    private SessionRegistry sessionRegistry;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         loginSecurityConfig.configure(http);
@@ -71,6 +81,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
                 .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().getMaxSessionsPreventsLogin())
                 .expiredSessionStrategy(expiredStrategy)
+                 .sessionRegistry(sessionRegistry)
                 .and()
                 .and()
              .authorizeRequests()
@@ -108,6 +119,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         jdbcTokenRepository.setDataSource(dataSource);
         return jdbcTokenRepository;
     }
+
+
+
 
 
 
