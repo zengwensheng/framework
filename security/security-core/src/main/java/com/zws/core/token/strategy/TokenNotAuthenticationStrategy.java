@@ -1,6 +1,7 @@
 package com.zws.core.token.strategy;
 
 import com.zws.core.token.exception.TokenAuthenticationException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 /**
@@ -10,7 +11,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
  */
 public class TokenNotAuthenticationStrategy implements  TokenAuthenticationStrategy {
     @Override
-    public void onAuthentication(OAuth2Authentication oAuth2Authentication) throws TokenAuthenticationException {
+    public void onAuthentication(Authentication authentication) throws TokenAuthenticationException {
 
     }
 }

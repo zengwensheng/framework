@@ -2,13 +2,13 @@ package com.zws.core.token;
 
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.JdkSerializationStrategy;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStoreSerializationStrategy;
 
@@ -19,7 +19,9 @@ import java.util.*;
  * @email 2848392861@qq.com
  * date 2018/10/25
  */
-public class CustomRedisTokenStore implements TokenStore {
+public class CustomRedisTokenStore implements IndexNameOauth2Store {
+
+    static final String DEFAULT_SPRING_TOKEN_REDIS_PREFIX = "spring:token:";
 
     private static final String ACCESS = "access:";
     private static final String AUTH_TO_ACCESS = "auth_to_access:";
@@ -32,13 +34,15 @@ public class CustomRedisTokenStore implements TokenStore {
     private static final String UNAME_TO_ACCESS = "uname_to_access:";
 
     private final RedisConnectionFactory connectionFactory;
+    private final RedisOperations<Object, Object> sessionRedisOperations;
     private AuthenticationKeyGenerator authenticationKeyGenerator = new DefaultAuthenticationKeyGenerator();
     private RedisTokenStoreSerializationStrategy serializationStrategy = new JdkSerializationStrategy();
 
-    private String prefix = "";
+    private String prefix = DEFAULT_SPRING_TOKEN_REDIS_PREFIX;
 
-    public CustomRedisTokenStore(RedisConnectionFactory connectionFactory) {
+    public CustomRedisTokenStore(RedisConnectionFactory connectionFactory,RedisOperations<Object, Object> sessionRedisOperations) {
         this.connectionFactory = connectionFactory;
+        this.sessionRedisOperations = sessionRedisOperations;
     }
 
     public void setAuthenticationKeyGenerator(AuthenticationKeyGenerator authenticationKeyGenerator) {
@@ -390,4 +394,23 @@ public class CustomRedisTokenStore implements TokenStore {
         return Collections.<OAuth2AccessToken> unmodifiableCollection(accessTokens);
     }
 
+
+    @Override
+    public Map<String, String> findByIndexNameAndIndexValue(String indexName, String indexValue) {
+
+        return null;
+    }
+
+
+
+    String getPrincipalKey(OAuth2Authentication authentication) {
+        String userName = authentication.getUserAuthentication() == null ? ""
+                : authentication.getUserAuthentication().getName();
+        return getPrincipalKey(userName);
+    }
+    String getPrincipalKey(String principalName) {
+        return this.prefix + "index:"
+                + IndexNameOauth2Store.PRINCIPAL_NAME_INDEX_NAME + ":"
+                + principalName;
+    }
 }

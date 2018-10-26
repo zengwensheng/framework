@@ -1,6 +1,7 @@
 package com.zws.core.token;
 
 import com.zws.core.token.strategy.TokenAuthenticationStrategy;
+import com.zws.core.token.strategy.TokenNotAuthenticationStrategy;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -42,7 +43,7 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
 
     private AuthenticationManager authenticationManager;
 
-    private TokenAuthenticationStrategy tokenAuthenticationStrategy;
+    private TokenAuthenticationStrategy tokenAuthenticationStrategy =  new TokenNotAuthenticationStrategy();
 
     /**
      * Initialize these token services. If no random generator is set, one will be created.
@@ -57,7 +58,7 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
 
         tokenAuthenticationStrategy.onAuthentication(authentication);
 
-        OAuth2RefreshToken refreshToken = createRefreshToken(authentication);;
+        OAuth2RefreshToken refreshToken = createRefreshToken(authentication);
 
         // But the refresh token itself might need to be re-issued if it has
         // expired.
@@ -377,4 +378,11 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
         this.clientDetailsService = clientDetailsService;
     }
 
+    public TokenAuthenticationStrategy getTokenAuthenticationStrategy() {
+        return tokenAuthenticationStrategy;
+    }
+
+    public void setTokenAuthenticationStrategy(TokenAuthenticationStrategy tokenAuthenticationStrategy) {
+        this.tokenAuthenticationStrategy = tokenAuthenticationStrategy;
+    }
 }

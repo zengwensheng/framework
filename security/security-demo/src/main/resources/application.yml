@@ -31,7 +31,7 @@ authentication:
          app-secret: 8d4b687241ffd8ce89593661be207177
          provider-id: qq
     app:
-       tokenStore: redis
+       tokenStore: concurrentRedis
 
 
 

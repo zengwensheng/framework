@@ -7,6 +7,7 @@ import com.zws.core.authentication.sms.SmsCodeAuthenticationSecurityConfig;
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.social.wx.connect.WXAccessGrant;
 import com.zws.core.support.SecurityConstants;
+import com.zws.core.token.CustomTokenService;
 import com.zws.core.validate.ValidateSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -46,12 +47,14 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
     private SecurityProperties securityProperties;
 
     @Autowired(required = false)
-    private ResourceServerTokenServices resourceServerTokenServices;
+    private CustomTokenService customTokenService;
 
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.tokenServices(resourceServerTokenServices);
+        if(customTokenService!=null) {
+            resources.tokenServices(customTokenService);
+        }
     }
 
     @Override

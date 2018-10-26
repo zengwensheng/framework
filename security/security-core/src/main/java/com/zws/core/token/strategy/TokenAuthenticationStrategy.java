@@ -17,5 +17,5 @@ public interface TokenAuthenticationStrategy {
 
 
 
-    void onAuthentication(OAuth2Authentication oAuth2Authentication) throws TokenAuthenticationException;
+    void onAuthentication(Authentication authentication) throws TokenAuthenticationException;
 }

@@ -1,6 +1,7 @@
 package com.zws.app.oauth2;
 
 
+import com.zws.core.token.CustomTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,7 +51,7 @@ public class AppAuthorizationServerConfig  extends AuthorizationServerConfigurer
 
 
     @Autowired(required = false)
-    private AuthorizationServerTokenServices authorizationServerTokenServices;
+    private CustomTokenService customTokenService;
 
     @Autowired(required =  false)
     private TokenEnhancer jwtTokenEnhancer;
@@ -71,7 +72,7 @@ public class AppAuthorizationServerConfig  extends AuthorizationServerConfigurer
         endpoints
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
-                .tokenStore(tokenStore).tokenServices(authorizationServerTokenServices);
+                .tokenStore(tokenStore).tokenServices(customTokenService);
 
         if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null) {
             TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
