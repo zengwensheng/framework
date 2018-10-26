@@ -19,8 +19,6 @@ public class ConcurrentTokenControlAuthentciationStrategy implements TokenAuthen
 
     @Override
     public void onAuthentication(Authentication authentication, OAuth2AccessToken oAuth2AccessToken) throws TokenAuthenticationException {
-        String userName = authentication.getName() == null ? ""
-                : authentication.getName();
-        Map<String, String> map = findByIndexNameOauth2Repository.findByIndexNameAndIndexValue(IndexNameOauth2Store.PRINCIPAL_NAME_INDEX_NAME,userName);
+
     }
 }
