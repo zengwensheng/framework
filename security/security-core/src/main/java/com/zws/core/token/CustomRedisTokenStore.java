@@ -35,8 +35,10 @@ public class CustomRedisTokenStore implements IndexNameOauth2Store {
 
     private final RedisConnectionFactory connectionFactory;
     private final RedisOperations<Object, Object> sessionRedisOperations;
+
     private AuthenticationKeyGenerator authenticationKeyGenerator = new DefaultAuthenticationKeyGenerator();
     private RedisTokenStoreSerializationStrategy serializationStrategy = new JdkSerializationStrategy();
+
 
     private String prefix = DEFAULT_SPRING_TOKEN_REDIS_PREFIX;
 
@@ -402,12 +404,14 @@ public class CustomRedisTokenStore implements IndexNameOauth2Store {
     }
 
 
-
-    String getPrincipalKey(OAuth2Authentication authentication) {
-        String userName = authentication.getUserAuthentication() == null ? ""
-                : authentication.getUserAuthentication().getName();
-        return getPrincipalKey(userName);
+    @Override
+    public void saveIndexName(String indexName,String indexValue) {
+        String principalRedisKey = getPrincipalKey(indexName);
+         sessionRedisOperations
+                .boundSetOps(principalRedisKey).add(indexValue);
     }
+
+
     String getPrincipalKey(String principalName) {
         return this.prefix + "index:"
                 + IndexNameOauth2Store.PRINCIPAL_NAME_INDEX_NAME + ":"

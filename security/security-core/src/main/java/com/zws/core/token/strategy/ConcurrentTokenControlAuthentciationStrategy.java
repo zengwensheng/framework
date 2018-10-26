@@ -3,6 +3,7 @@ package com.zws.core.token.strategy;
 import com.zws.core.token.IndexNameOauth2Store;
 import com.zws.core.token.exception.TokenAuthenticationException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class ConcurrentTokenControlAuthentciationStrategy implements TokenAuthen
 
 
     @Override
-    public void onAuthentication(Authentication authentication) throws TokenAuthenticationException {
+    public void onAuthentication(Authentication authentication, OAuth2AccessToken oAuth2AccessToken) throws TokenAuthenticationException {
         String userName = authentication.getName() == null ? ""
                 : authentication.getName();
         Map<String, String> map = findByIndexNameOauth2Repository.findByIndexNameAndIndexValue(IndexNameOauth2Store.PRINCIPAL_NAME_INDEX_NAME,userName);

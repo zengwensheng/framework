@@ -2,8 +2,8 @@ package com.zws.core.token;
 
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.support.SecurityConstants;
+import com.zws.core.token.strategy.CompositeTokenAuthenticationStrategy;
 import com.zws.core.token.strategy.TokenAuthenticationStrategy;
-import com.zws.core.token.strategy.TokenNotAuthenticationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -17,7 +17,6 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -35,6 +34,7 @@ import java.util.Arrays;
  */
 @Configuration
 public class TokenStoreConfig {
+
 
 
     @Configuration
@@ -97,7 +97,7 @@ public class TokenStoreConfig {
         private boolean reuseRefreshToken = true;
 
         @Bean
-        public TokenStore tokenStore() {
+        public CustomRedisTokenStore tokenStore() {
             CustomRedisTokenStore customRedisTokenStore = new CustomRedisTokenStore(redisConnectionFactory,sessionRedisOperations);
             return customRedisTokenStore;
         }
@@ -106,7 +106,7 @@ public class TokenStoreConfig {
         @Bean
         @Primary
         public CustomTokenService tokenService() {
-            CustomTokenService customTokenService = new CustomTokenService();
+            CustomTokenService customTokenService = new CustomTokenService(false);
             customTokenService.setTokenStore(tokenStore());
             customTokenService.setSupportRefreshToken(true);
             customTokenService.setReuseRefreshToken(reuseRefreshToken);
@@ -119,8 +119,8 @@ public class TokenStoreConfig {
 
 
         public TokenAuthenticationStrategy tokenAuthenticationStrategy() {
-            TokenNotAuthenticationStrategy tokenNotAuthenticationStrategy = new TokenNotAuthenticationStrategy();
-            return tokenNotAuthenticationStrategy;
+            CompositeTokenAuthenticationStrategy compositeTokenAuthenticationStrategy = new CompositeTokenAuthenticationStrategy();
+            return compositeTokenAuthenticationStrategy;
         }
 
         public void addUserDetailsService(CustomTokenService tokenServices, UserDetailsService userDetailsService) {

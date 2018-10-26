@@ -1,7 +1,6 @@
 package com.zws.core.token;
 
 import com.zws.core.token.strategy.TokenAuthenticationStrategy;
-import com.zws.core.token.strategy.TokenNotAuthenticationStrategy;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -35,7 +34,7 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
 
     private boolean reuseRefreshToken = true;
 
-    private TokenStore tokenStore;
+    private IndexNameOauth2Store tokenStore;
 
     private ClientDetailsService clientDetailsService;
 
@@ -43,7 +42,14 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
 
     private AuthenticationManager authenticationManager;
 
-    private TokenAuthenticationStrategy tokenAuthenticationStrategy =  new TokenNotAuthenticationStrategy();
+    private TokenAuthenticationStrategy tokenAuthenticationStrategy;
+
+    private final Boolean whenCreateGetCache;
+
+
+    public CustomTokenService(Boolean whenCreateGetCache) {
+        this.whenCreateGetCache = whenCreateGetCache;
+    }
 
     /**
      * Initialize these token services. If no random generator is set, one will be created.
@@ -55,14 +61,41 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
     @Transactional
     public OAuth2AccessToken createAccessToken(OAuth2Authentication authentication) throws AuthenticationException {
 
+        OAuth2RefreshToken refreshToken = null;
+        OAuth2AccessToken existingAccessToken;
+        if (whenCreateGetCache) {
 
-        tokenAuthenticationStrategy.onAuthentication(authentication);
+            existingAccessToken = tokenStore.getAccessToken(authentication);
 
-        OAuth2RefreshToken refreshToken = createRefreshToken(authentication);
+            if (existingAccessToken != null) {
+                if (existingAccessToken.isExpired()) {
+                    if (existingAccessToken.getRefreshToken() != null) {
+                        refreshToken = existingAccessToken.getRefreshToken();
+                        // The token store could remove the refresh token when the
+                        // access token is removed, but we want to
+                        // be sure...
+                        tokenStore.removeRefreshToken(refreshToken);
+                    }
+                    tokenStore.removeAccessToken(existingAccessToken);
+                } else {
+                    // Re-store the access token in case the authentication has changed
+                    tokenStore.storeAccessToken(existingAccessToken, authentication);
+                    return existingAccessToken;
+                }
+            }
+        }
 
+        // Only create a new refresh token if there wasn't an existing one
+        // associated with an expired access token.
+        // Clients might be holding existing refresh tokens, so we re-use it in
+        // the case that the old access token
+        // expired.
+        if (refreshToken == null) {
+            refreshToken = createRefreshToken(authentication);
+        }
         // But the refresh token itself might need to be re-issued if it has
         // expired.
-        if (refreshToken instanceof ExpiringOAuth2RefreshToken) {
+        else if (refreshToken instanceof ExpiringOAuth2RefreshToken) {
             ExpiringOAuth2RefreshToken expiring = (ExpiringOAuth2RefreshToken) refreshToken;
             if (System.currentTimeMillis() > expiring.getExpiration().getTime()) {
                 refreshToken = createRefreshToken(authentication);
@@ -70,6 +103,9 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
         }
 
         OAuth2AccessToken accessToken = createAccessToken(authentication, refreshToken);
+
+        tokenAuthenticationStrategy.onAuthentication(authentication,accessToken);
+
         tokenStore.storeAccessToken(accessToken, authentication);
         // In case it was modified
         refreshToken = accessToken.getRefreshToken();
@@ -80,7 +116,7 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
 
     }
 
-    @Transactional(noRollbackFor={InvalidTokenException.class, InvalidGrantException.class})
+    @Transactional(noRollbackFor = {InvalidTokenException.class, InvalidGrantException.class})
     public OAuth2AccessToken refreshAccessToken(String refreshTokenValue, TokenRequest tokenRequest)
             throws AuthenticationException {
 
@@ -140,7 +176,7 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
      * Create a refreshed authentication.
      *
      * @param authentication The authentication.
-     * @param request The scope for the refreshed token.
+     * @param request        The scope for the refreshed token.
      * @return The refreshed authentication.
      * @throws InvalidScopeException If the scope requested is invalid or wider than the original scope.
      */
@@ -153,8 +189,7 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
             if (originalScope == null || !originalScope.containsAll(scope)) {
                 throw new InvalidScopeException("Unable to narrow the scope of the client authentication to " + scope
                         + ".", originalScope);
-            }
-            else {
+            } else {
                 clientAuth = clientAuth.narrowScope(scope);
             }
         }
@@ -180,8 +215,7 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
         OAuth2AccessToken accessToken = tokenStore.readAccessToken(accessTokenValue);
         if (accessToken == null) {
             throw new InvalidTokenException("Invalid access token: " + accessTokenValue);
-        }
-        else if (accessToken.isExpired()) {
+        } else if (accessToken.isExpired()) {
             tokenStore.removeAccessToken(accessToken);
             throw new InvalidTokenException("Access token expired: " + accessTokenValue);
         }
@@ -195,8 +229,7 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
             String clientId = result.getOAuth2Request().getClientId();
             try {
                 clientDetailsService.loadClientByClientId(clientId);
-            }
-            catch (ClientRegistrationException e) {
+            } catch (ClientRegistrationException e) {
                 throw new InvalidTokenException("Client not valid: " + clientId, e);
             }
         }
@@ -354,7 +387,7 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
      *
      * @param tokenStore the store for access and refresh tokens.
      */
-    public void setTokenStore(TokenStore tokenStore) {
+    public void setTokenStore(IndexNameOauth2Store tokenStore) {
         this.tokenStore = tokenStore;
     }
 
