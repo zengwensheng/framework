@@ -1,5 +1,6 @@
 package com.zws.core.token;
 
+import com.zws.core.token.store.IndexNameOauth2Store;
 import com.zws.core.token.strategy.TokenAuthenticationStrategy;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -61,6 +62,8 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
     @Transactional
     public OAuth2AccessToken createAccessToken(OAuth2Authentication authentication) throws AuthenticationException {
 
+       tokenAuthenticationStrategy.onAuthentication(authentication);
+
         OAuth2RefreshToken refreshToken = null;
         OAuth2AccessToken existingAccessToken;
         if (whenCreateGetCache) {
@@ -103,15 +106,13 @@ public class CustomTokenService implements AuthorizationServerTokenServices, Res
         }
 
         OAuth2AccessToken accessToken = createAccessToken(authentication, refreshToken);
-
-        tokenAuthenticationStrategy.onAuthentication(authentication,accessToken);
-
         tokenStore.storeAccessToken(accessToken, authentication);
         // In case it was modified
         refreshToken = accessToken.getRefreshToken();
         if (refreshToken != null) {
             tokenStore.storeRefreshToken(refreshToken, authentication);
         }
+        tokenStore.saveIndexName(authentication.getName(),accessToken.getValue());
         return accessToken;
 
     }

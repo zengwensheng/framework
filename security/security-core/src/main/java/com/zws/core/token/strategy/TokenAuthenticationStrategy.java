@@ -1,13 +1,7 @@
 package com.zws.core.token.strategy;
 
 import com.zws.core.token.exception.TokenAuthenticationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.web.authentication.session.SessionAuthenticationException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author zws
@@ -18,5 +12,5 @@ public interface TokenAuthenticationStrategy {
 
 
 
-    void onAuthentication(Authentication authentication, OAuth2AccessToken oAuth2AccessToken) throws TokenAuthenticationException;
+    void onAuthentication(OAuth2Authentication authentication) throws TokenAuthenticationException;
 }

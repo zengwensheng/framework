@@ -1,4 +1,4 @@
-package com.zws.core.token;
+package com.zws.core.token.store;
 
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -398,11 +398,20 @@ public class CustomRedisTokenStore implements IndexNameOauth2Store {
 
 
     @Override
-    public Map<String, String> findByIndexNameAndIndexValue(String indexName, String indexValue) {
-
-        return null;
+    public List<OAuth2AccessToken> getAllAccessToken(String indexName) {
+        String principalRedisKey = getPrincipalKey(indexName);
+        Set<Object> tokens = this.sessionRedisOperations.boundSetOps(principalRedisKey)
+                .members();
+        List<OAuth2AccessToken> oAuth2AccessTokens = new ArrayList<OAuth2AccessToken>(
+                tokens.size());
+        for (Object token : tokens) {
+            OAuth2AccessToken oAuth2AccessToken = readAccessToken((String)token);
+            if (oAuth2AccessToken != null) {
+                oAuth2AccessTokens.add(oAuth2AccessToken);
+            }
+        }
+        return oAuth2AccessTokens;
     }
-
 
     @Override
     public void saveIndexName(String indexName,String indexValue) {

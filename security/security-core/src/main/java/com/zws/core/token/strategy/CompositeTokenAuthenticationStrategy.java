@@ -1,9 +1,10 @@
 package com.zws.core.token.strategy;
 
 import com.zws.core.token.exception.TokenAuthenticationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import lombok.Data;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,15 +12,20 @@ import java.util.List;
  * @email 2848392861@qq.com
  * date 2018/10/26
  */
+@Data
 public class CompositeTokenAuthenticationStrategy implements TokenAuthenticationStrategy {
 
 
-    private List<TokenAuthenticationStrategy> tokenAuthenticationStrategyList;
+    private List<TokenAuthenticationStrategy> tokenAuthenticationStrategyList = new ArrayList<>();
 
     @Override
-    public void onAuthentication(Authentication authentication, OAuth2AccessToken oAuth2AccessToken) throws TokenAuthenticationException {
+    public void onAuthentication(OAuth2Authentication authentication) throws TokenAuthenticationException {
           tokenAuthenticationStrategyList.forEach(tokenAuthenticationStrategy -> {
-              tokenAuthenticationStrategy.onAuthentication(authentication,oAuth2AccessToken);
+              tokenAuthenticationStrategy.onAuthentication(authentication);
           });
+    }
+
+    public void addTokenAuthenticationStrategy(TokenAuthenticationStrategy tokenAuthenticationStrategy){
+        tokenAuthenticationStrategyList.add(tokenAuthenticationStrategy);
     }
 }

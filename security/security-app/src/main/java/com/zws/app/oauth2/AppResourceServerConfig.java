@@ -1,27 +1,19 @@
 package com.zws.app.oauth2;
 
-import com.zws.app.authentication.openid.OpenIdAuthenticationProvider;
 import com.zws.app.authentication.openid.OpenIdAuthenticationSecurityConfig;
 import com.zws.core.authentication.LoginSecurityConfig;
 import com.zws.core.authentication.sms.SmsCodeAuthenticationSecurityConfig;
 import com.zws.core.properties.SecurityProperties;
-import com.zws.core.social.wx.connect.WXAccessGrant;
 import com.zws.core.support.SecurityConstants;
 import com.zws.core.token.CustomTokenService;
 import com.zws.core.validate.ValidateSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.social.security.SpringSocialConfigurer;
-
-import javax.sql.DataSource;
 
 /**
  * @author zws
@@ -45,8 +37,7 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
     private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
     @Autowired
     private SecurityProperties securityProperties;
-
-    @Autowired(required = false)
+    @Autowired
     private CustomTokenService customTokenService;
 
 

@@ -1,8 +1,5 @@
 package com.zws.app.authentication;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zws.core.properties.LoginResponseType;
-import com.zws.core.properties.SecurityProperties;
 import com.zws.core.support.SecurityConstants;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

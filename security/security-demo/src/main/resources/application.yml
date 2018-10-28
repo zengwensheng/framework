@@ -5,8 +5,8 @@ server:
 spring:
   datasource:
     username: root
-    password: passW0rd
-    url: jdbc:mysql://192.168.1.151/crowd_sourcing?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    password: root
+    url: jdbc:mysql://118.24.109.67/zwsdb?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
   #session:
    # store-type: none
@@ -31,7 +31,9 @@ authentication:
          app-secret: 8d4b687241ffd8ce89593661be207177
          provider-id: qq
     app:
-       tokenStore: concurrentRedis
+       token:
+          store: redis
+          maximum-tokens: 1
 
 
 

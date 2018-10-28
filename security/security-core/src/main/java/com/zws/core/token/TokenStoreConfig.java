@@ -2,7 +2,10 @@ package com.zws.core.token;
 
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.support.SecurityConstants;
+import com.zws.core.token.store.CustomRedisTokenStore;
+import com.zws.core.token.store.IndexNameOauth2Store;
 import com.zws.core.token.strategy.CompositeTokenAuthenticationStrategy;
+import com.zws.core.token.strategy.ConcurrentTokenControlAuthenticationStrategy;
 import com.zws.core.token.strategy.TokenAuthenticationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -21,7 +24,6 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
@@ -35,23 +37,85 @@ import java.util.Arrays;
 @Configuration
 public class TokenStoreConfig {
 
+    @Autowired
+    private IndexNameOauth2Store tokenStore;
+    @Autowired
+    private SecurityProperties securityProperties;
+    @Autowired
+    private  ClientDetailsService clientDetailsService;
+    @Autowired(required = false)
+    private TokenAuthenticationStrategy tokenAuthenticationStrategy;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired(required = false)
+    private TokenEnhancer tokenEnhancer;
 
 
-    @Configuration
-    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "tokenStore", havingValue = "redis")
-    public static class RedisTokenStoreConfig {
-        @Autowired
-        private RedisConnectionFactory redisConnectionFactory;
+    @Bean
+    @Primary
+    public CustomTokenService tokenService() {
+        CustomTokenService customTokenService = new CustomTokenService(!isConcurrentTokenControlEnabled());
+        customTokenService.setTokenStore(tokenStore);
+        customTokenService.setSupportRefreshToken(securityProperties.getApp().getToken().getSupportRefreshToken());
+        customTokenService.setReuseRefreshToken(securityProperties.getApp().getToken().getReuseRefreshToken());
+        customTokenService.setClientDetailsService(clientDetailsService);
+        customTokenService.setTokenEnhancer(tokenEnhancer);
+        if(tokenAuthenticationStrategy==null){
+            tokenAuthenticationStrategy =getDefaultTokenAuthenticationStrategy();
+        }
+        customTokenService.setTokenAuthenticationStrategy(tokenAuthenticationStrategy);
+        addUserDetailsService(customTokenService, userDetailsService);
+        return customTokenService;
+    }
 
-        @Bean
-        public TokenStore tokenStore() {
-            RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-            return redisTokenStore;
+    private boolean isConcurrentTokenControlEnabled() {
+        return  securityProperties.getApp().getToken().getMaximumTokens()>0;
+    }
+
+    private TokenAuthenticationStrategy getDefaultTokenAuthenticationStrategy(){
+        CompositeTokenAuthenticationStrategy compositeTokenAuthenticationStrategy = new CompositeTokenAuthenticationStrategy();
+        if(isConcurrentTokenControlEnabled()){
+            ConcurrentTokenControlAuthenticationStrategy concurrentTokenControlAuthenticationStrategy = new ConcurrentTokenControlAuthenticationStrategy(
+                    tokenStore,
+                    securityProperties.getApp().getToken().getMaximumTokens(),
+                    securityProperties.getApp().getToken().getExceptionIfMaximumExceeded());
+            compositeTokenAuthenticationStrategy.addTokenAuthenticationStrategy(concurrentTokenControlAuthenticationStrategy);
+        }
+        return compositeTokenAuthenticationStrategy;
+    }
+
+
+    public void addUserDetailsService(CustomTokenService tokenServices, UserDetailsService userDetailsService) {
+        if (userDetailsService != null) {
+            PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+            provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken>(
+                    userDetailsService));
+            tokenServices
+                    .setAuthenticationManager(new ProviderManager(Arrays.<AuthenticationProvider>asList(provider)));
         }
     }
 
+
+
     @Configuration
-    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "tokenStore", havingValue = "jwt", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "token.store", havingValue = "redis")
+    public static class RedisTokenStoreConfig {
+        @Autowired
+        private RedisConnectionFactory redisConnectionFactory;
+        @Autowired
+        private RedisOperations<Object, Object> sessionRedisOperations;
+
+        @Bean
+        public TokenStore tokenStore() {
+            CustomRedisTokenStore redisTokenStore = new CustomRedisTokenStore(redisConnectionFactory,sessionRedisOperations);
+            return redisTokenStore;
+        }
+
+
+    }
+
+    @Configuration
+    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "token.store", havingValue = "jwt", matchIfMissing = true)
     public static class JwtTokenStoreConfig {
 
 
@@ -78,63 +142,7 @@ public class TokenStoreConfig {
 
     }
 
-    @Configuration
-    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "tokenStore", havingValue = "concurrentRedis", matchIfMissing = true)
-    public static class ConcurrentRedisTokenConfig {
 
-
-        @Autowired(required = false)
-        private ClientDetailsService clientDetailsService;
-        @Autowired(required = false)
-        private TokenEnhancer tokenEnhancer;
-        @Autowired
-        private RedisOperations<Object, Object> sessionRedisOperations;
-        @Autowired
-        private RedisConnectionFactory redisConnectionFactory;
-        @Autowired
-        private UserDetailsService userDetailsService;
-
-        private boolean reuseRefreshToken = true;
-
-        @Bean
-        public CustomRedisTokenStore tokenStore() {
-            CustomRedisTokenStore customRedisTokenStore = new CustomRedisTokenStore(redisConnectionFactory,sessionRedisOperations);
-            return customRedisTokenStore;
-        }
-
-
-        @Bean
-        @Primary
-        public CustomTokenService tokenService() {
-            CustomTokenService customTokenService = new CustomTokenService(false);
-            customTokenService.setTokenStore(tokenStore());
-            customTokenService.setSupportRefreshToken(true);
-            customTokenService.setReuseRefreshToken(reuseRefreshToken);
-            customTokenService.setClientDetailsService(clientDetailsService);
-            customTokenService.setTokenEnhancer(tokenEnhancer);
-            customTokenService.setTokenAuthenticationStrategy(tokenAuthenticationStrategy());
-            addUserDetailsService(customTokenService, userDetailsService);
-            return customTokenService;
-        }
-
-
-        public TokenAuthenticationStrategy tokenAuthenticationStrategy() {
-            CompositeTokenAuthenticationStrategy compositeTokenAuthenticationStrategy = new CompositeTokenAuthenticationStrategy();
-            return compositeTokenAuthenticationStrategy;
-        }
-
-        public void addUserDetailsService(CustomTokenService tokenServices, UserDetailsService userDetailsService) {
-            if (userDetailsService != null) {
-                PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
-                provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken>(
-                        userDetailsService));
-                tokenServices
-                        .setAuthenticationManager(new ProviderManager(Arrays.<AuthenticationProvider>asList(provider)));
-            }
-        }
-
-
-    }
 
 
 }

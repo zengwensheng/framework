@@ -2,9 +2,7 @@ package com.zws.app.social;
 
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.social.support.SocialAuthenticationFilterPostProcessor;
-import com.zws.core.support.SecurityConstants;
 import lombok.Data;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.security.SocialAuthenticationFilter;
 

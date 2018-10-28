@@ -15,6 +15,7 @@ public class AppProperties {
 
     private String signInUrl = SecurityConstants.DEFAULT_APP_SING_IN_URL;
 
-
     private String jwtSigningKey = "12345678";
+
+    private TokenProperties token = new TokenProperties();
 }

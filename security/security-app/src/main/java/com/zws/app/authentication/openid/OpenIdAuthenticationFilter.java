@@ -1,6 +1,5 @@
 package com.zws.app.authentication.openid;
 
-import com.zws.core.authentication.sms.SmsCodeAuthenticationToken;
 import com.zws.core.support.SecurityConstants;
 import lombok.Data;
 import org.springframework.security.authentication.AuthenticationServiceException;
