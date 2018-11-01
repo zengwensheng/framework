@@ -13,6 +13,7 @@
         <module>design-patterns</module>
         <module>security</module>
         <module>sso-demo</module>
+        <module>concurrent</module>
     </modules>
 
     <properties>
