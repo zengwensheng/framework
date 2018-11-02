@@ -15,6 +15,7 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 /**
  * @author zws
@@ -41,9 +42,17 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
         smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandlerImpl);
         smsCodeAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandlerImpl);
 
+        SessionAuthenticationStrategy sessionAuthenticationStrategy = http
+                .getSharedObject(SessionAuthenticationStrategy.class);
+        if (sessionAuthenticationStrategy != null) {
+            smsCodeAuthenticationFilter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy);
+        }
+
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
         smsCodeAuthenticationProvider.setSmsCodeUserDetailsService(smsCodeUserDetailsService);
         smsCodeAuthenticationProvider.setUserDetailsChecker(userDetailsChecker);
+
+
         http.authenticationProvider(smsCodeAuthenticationProvider)
                 .addFilterAfter(smsCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
