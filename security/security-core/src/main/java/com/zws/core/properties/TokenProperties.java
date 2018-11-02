@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class TokenProperties {
 
-    private TokenStoreEnum store;
+    private TokenStoreEnum storeType;
 
     private int maximumTokens=0;
 

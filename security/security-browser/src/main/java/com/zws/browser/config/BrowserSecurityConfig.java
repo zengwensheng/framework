@@ -1,6 +1,7 @@
 package com.zws.browser.config;
 
 
+import com.zws.core.annotation.EnableAuthenticationCore;
 import com.zws.core.authentication.LoginSecurityConfig;
 import com.zws.core.authentication.sms.SmsCodeAuthenticationSecurityConfig;
 import com.zws.core.validate.ValidateSecurityConfig;
@@ -34,6 +35,7 @@ import java.util.concurrent.ExecutionException;
  * date 2018/9/28
  */
 @Configuration
+@EnableAuthenticationCore
 public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
 

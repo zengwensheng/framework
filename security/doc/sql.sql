@@ -3,7 +3,8 @@ create table user(
   username VARCHAR(100),
   password VARCHAR(100),
   age VARCHAR(100),
-  birthday VARCHAR(100)
+  birthday VARCHAR(100),
+  mobile varchar(100)
 );
 
 

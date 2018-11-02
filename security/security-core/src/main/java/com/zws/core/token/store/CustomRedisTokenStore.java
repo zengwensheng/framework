@@ -34,7 +34,7 @@ public class CustomRedisTokenStore implements IndexNameOauth2Store {
     private static final String UNAME_TO_ACCESS = "uname_to_access:";
 
     private final RedisConnectionFactory connectionFactory;
-    private final RedisOperations<Object, Object> sessionRedisOperations;
+    private final RedisOperations<Object, Object> redisOperations;
 
     private AuthenticationKeyGenerator authenticationKeyGenerator = new DefaultAuthenticationKeyGenerator();
     private RedisTokenStoreSerializationStrategy serializationStrategy = new JdkSerializationStrategy();
@@ -42,9 +42,9 @@ public class CustomRedisTokenStore implements IndexNameOauth2Store {
 
     private String prefix = DEFAULT_SPRING_TOKEN_REDIS_PREFIX;
 
-    public CustomRedisTokenStore(RedisConnectionFactory connectionFactory,RedisOperations<Object, Object> sessionRedisOperations) {
+    public CustomRedisTokenStore(RedisConnectionFactory connectionFactory,RedisOperations<Object, Object> redisOperations) {
         this.connectionFactory = connectionFactory;
-        this.sessionRedisOperations = sessionRedisOperations;
+        this.redisOperations = redisOperations;
     }
 
     public void setAuthenticationKeyGenerator(AuthenticationKeyGenerator authenticationKeyGenerator) {
@@ -400,7 +400,7 @@ public class CustomRedisTokenStore implements IndexNameOauth2Store {
     @Override
     public List<OAuth2AccessToken> getAllAccessToken(String indexName) {
         String principalRedisKey = getPrincipalKey(indexName);
-        Set<Object> tokens = this.sessionRedisOperations.boundSetOps(principalRedisKey)
+        Set<Object> tokens = this.redisOperations.boundSetOps(principalRedisKey)
                 .members();
         List<OAuth2AccessToken> oAuth2AccessTokens = new ArrayList<OAuth2AccessToken>(
                 tokens.size());
@@ -416,7 +416,7 @@ public class CustomRedisTokenStore implements IndexNameOauth2Store {
     @Override
     public void saveIndexName(String indexName,String indexValue) {
         String principalRedisKey = getPrincipalKey(indexName);
-         sessionRedisOperations
+        redisOperations
                 .boundSetOps(principalRedisKey).add(indexValue);
     }
 

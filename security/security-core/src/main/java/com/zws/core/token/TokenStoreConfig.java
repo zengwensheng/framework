@@ -41,7 +41,7 @@ public class TokenStoreConfig {
     private IndexNameOauth2Store tokenStore;
     @Autowired
     private SecurityProperties securityProperties;
-    @Autowired
+    @Autowired(required = false)
     private  ClientDetailsService clientDetailsService;
     @Autowired(required = false)
     private TokenAuthenticationStrategy tokenAuthenticationStrategy;
@@ -98,16 +98,16 @@ public class TokenStoreConfig {
 
 
     @Configuration
-    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "token.store", havingValue = "redis")
+    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "token.store-type", havingValue = "redis")
     public static class RedisTokenStoreConfig {
         @Autowired
         private RedisConnectionFactory redisConnectionFactory;
         @Autowired
-        private RedisOperations<Object, Object> sessionRedisOperations;
+        private RedisOperations<Object, Object> redisTemplate;
 
         @Bean
-        public TokenStore tokenStore() {
-            CustomRedisTokenStore redisTokenStore = new CustomRedisTokenStore(redisConnectionFactory,sessionRedisOperations);
+        public IndexNameOauth2Store tokenStore() {
+            CustomRedisTokenStore redisTokenStore = new CustomRedisTokenStore(redisConnectionFactory,redisTemplate);
             return redisTokenStore;
         }
 
@@ -115,7 +115,7 @@ public class TokenStoreConfig {
     }
 
     @Configuration
-    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "token.store", havingValue = "jwt", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "token.store-type", havingValue = "jwt", matchIfMissing = true)
     public static class JwtTokenStoreConfig {
 
 

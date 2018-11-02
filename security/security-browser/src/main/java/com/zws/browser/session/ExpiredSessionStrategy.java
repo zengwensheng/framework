@@ -24,7 +24,7 @@ public class ExpiredSessionStrategy extends AbstractSessionStrategy implements S
 
 
 	@Override
-	public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
+	public void  onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
 		onSessionInvalid(event.getRequest(), event.getResponse());
 	}
 

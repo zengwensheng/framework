@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * date 2018/9/29
  */
 @Configuration
-@EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityCoreConfig {
 
     @Bean
