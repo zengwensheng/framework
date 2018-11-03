@@ -10,7 +10,6 @@ import com.zws.core.token.TokenStoreConfig;
 import com.zws.core.validate.ValidateCodeBeanConfig;
 import com.zws.core.validate.ValidateSecurityConfig;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -28,8 +27,8 @@ import java.lang.annotation.*;
         ,ValidateCodeBeanConfig.class
         ,ValidateSecurityConfig.class
         ,SmsCodeAuthenticationSecurityConfig.class
-        ,QQAutoConfig.class
         ,SocialConfig.class
+        ,QQAutoConfig.class
         ,WXAutoConfig.class
         ,TokenStoreConfig.class
 })
