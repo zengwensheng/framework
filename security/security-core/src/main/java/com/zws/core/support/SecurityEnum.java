@@ -44,8 +44,10 @@ public enum SecurityEnum {
     APP_CLIENT_NOT_EXIST(5003,"第三方信息不存在"),
     APP_CLIENT_SECRET_ERROR(5004,"第三方secret错误"),
 
-    TOKEN_CURRENT_ERROR(6001,"您的账号已在其他地方登录，如不是本人请修改密码")
+    TOKEN_CURRENT_ERROR(6001,"您的账号已在其他地方登录，如不是本人请修改密码"),
 
+    CLIENT_REQUEST_PARAMETER_GRANT_TYPE_ISNULL(7001,"grant_type参数不能为空"),
+    CLIENT_REQUEST_PARAMETER_GRANT_TYPE_ERROR(7001,"grant_type参数错误"),
     ;
     private int code;
     private String msg;

@@ -1,6 +1,6 @@
 package com.zws.app.authentication;
 
-import com.zws.app.support.GrantType;
+import com.zws.core.support.GrantType;
 import com.zws.core.support.*;
 import lombok.Data;
 import org.apache.commons.collections.MapUtils;
@@ -56,7 +56,7 @@ public class AuthenticationSuccessHandlerImpl extends SavedRequestAwareAuthentic
             throw  new BadCredentialsException(new SimpleResponse(SecurityEnum.APP_CLIENT_SECRET_ERROR).toString());
         }
 
-        TokenRequest tokenRequest = new TokenRequest(MapUtils.EMPTY_MAP,clientId, clientDetails.getScope(), GrantType.CUSTOM.getValue());
+        TokenRequest tokenRequest = new TokenRequest(MapUtils.EMPTY_MAP,clientId, clientDetails.getScope(), GrantType.CUSTOM.name());
         OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);;
         OAuth2AccessToken oAuth2AccessToken =  authorizationServerTokenServices.createAccessToken(oAuth2Authentication);

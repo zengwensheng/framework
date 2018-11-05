@@ -24,8 +24,8 @@ import java.lang.annotation.*;
 @Documented
 @EnableConfigurationProperties(SecurityProperties.class)
 @Import({SecurityCoreConfig.class
-        ,ValidateCodeBeanConfig.class
         ,ValidateSecurityConfig.class
+        ,ValidateCodeBeanConfig.class
         ,SmsCodeAuthenticationSecurityConfig.class
         ,SocialConfig.class
         ,QQAutoConfig.class

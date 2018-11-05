@@ -26,4 +26,6 @@ public class SecurityProperties {
 
     private AppProperties app = new AppProperties();
 
+    private ClientProperties client = new ClientProperties();
+
 }

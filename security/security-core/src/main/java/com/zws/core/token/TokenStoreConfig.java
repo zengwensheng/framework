@@ -45,7 +45,7 @@ public class TokenStoreConfig {
     private  ClientDetailsService clientDetailsService;
     @Autowired(required = false)
     private TokenAuthenticationStrategy tokenAuthenticationStrategy;
-    @Autowired
+    @Autowired(required = false)
     private UserDetailsService userDetailsService;
     @Autowired(required = false)
     private TokenEnhancer tokenEnhancer;
@@ -98,6 +98,16 @@ public class TokenStoreConfig {
 
 
     @Configuration
+    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "token.store-type", havingValue = "none", matchIfMissing = true)
+    public static class InMemoryStoreConfig {
+
+
+
+    }
+
+
+
+    @Configuration
     @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "token.store-type", havingValue = "redis")
     public static class RedisTokenStoreConfig {
         @Autowired
@@ -115,7 +125,7 @@ public class TokenStoreConfig {
     }
 
     @Configuration
-    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "token.store-type", havingValue = "jwt", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX + ".app.", name = "token.store-type", havingValue = "jwt")
     public static class JwtTokenStoreConfig {
 
 

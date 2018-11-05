@@ -6,6 +6,7 @@ import com.zws.core.validate.image.ImgValidateCodeGenerator;
 import com.zws.core.validate.image.ImgValidateCodeHandler;
 import com.zws.core.validate.sms.SmsValidateCodeGenerator;
 import com.zws.core.validate.sms.SmsValidateCodeHandler;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import java.util.Map;
  * date 2018/9/29
  */
 @Configuration
+@ConditionalOnBean(ValidateSecurityConfig.class)
 @Import(ValidateCodeController.class)
 public class ValidateCodeBeanConfig {
 
