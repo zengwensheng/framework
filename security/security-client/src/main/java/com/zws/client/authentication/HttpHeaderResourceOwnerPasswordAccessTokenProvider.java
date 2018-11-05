@@ -5,9 +5,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.oauth2.client.resource.OAuth2AccessDeniedException;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.resource.UserRedirectRequiredException;
-import org.springframework.security.oauth2.client.token.AccessTokenProvider;
 import org.springframework.security.oauth2.client.token.AccessTokenRequest;
-import org.springframework.security.oauth2.client.token.OAuth2AccessTokenSupport;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -26,7 +24,6 @@ import java.util.Map;
  * date 2018/11/5
  */
 public class HttpHeaderResourceOwnerPasswordAccessTokenProvider extends ResourceOwnerPasswordAccessTokenProvider {
-
 
     public OAuth2AccessToken refreshAccessToken(OAuth2ProtectedResourceDetails resource,
                                                 OAuth2RefreshToken refreshToken, AccessTokenRequest request) throws UserRedirectRequiredException,

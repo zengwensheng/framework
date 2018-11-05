@@ -40,10 +40,10 @@ public class ResourceSecurityConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .anyRequest()
-                .authenticated()
                 .antMatchers(securityProperties.getClient().getLoginProcessingUrl())
                 .permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
             .addFilterAfter(oAuth2ClientAuthenticationProcessingFilter
                     ,AbstractPreAuthenticatedProcessingFilter.class);

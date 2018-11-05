@@ -1,8 +1,6 @@
 package com.zws.client.authentication;
 
-import com.zws.client.config.ResourceSecurityConfig;
 import com.zws.core.properties.SecurityProperties;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +25,11 @@ import java.util.List;
 public class Oauth2ClientConfig {
 
 
+    /*@Bean
+    @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
+    public OAuth2ClientContext oauth2ClientContext(AccessTokenRequest accessTokenRequest) {
+        return new DefaultOAuth2ClientContext(accessTokenRequest);
+    }*/
 
     @Bean
     @ConfigurationProperties(prefix = "security.oauth2.client")
