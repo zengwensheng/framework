@@ -1,4 +1,4 @@
-package com.zws.client.authentication;
+package com.zws.client.authentication.password;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.AccessDeniedException;

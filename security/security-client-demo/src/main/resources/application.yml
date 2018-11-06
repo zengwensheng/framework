@@ -17,12 +17,9 @@ authentication:
        token:
           store-type: redis
     client:
+         client-id: zws
+         client-secret: zws
          password-token-url: http://localhost:8080/oauth/token
-security:
-  oauth2:
-    client:
-      client-id: zws
-      client-secret: zws
 
 
 

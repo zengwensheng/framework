@@ -1,6 +1,7 @@
 package com.zws.client.authentication;
 
 import com.zws.core.properties.SecurityProperties;
+import com.zws.core.support.SecurityConstants;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,8 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.util.List;
 
@@ -25,14 +28,10 @@ import java.util.List;
 public class Oauth2ClientConfig {
 
 
-    /*@Bean
-    @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
-    public OAuth2ClientContext oauth2ClientContext(AccessTokenRequest accessTokenRequest) {
-        return new DefaultOAuth2ClientContext(accessTokenRequest);
-    }*/
+
 
     @Bean
-    @ConfigurationProperties(prefix = "security.oauth2.client")
+    @ConfigurationProperties(prefix =SecurityConstants.DEFAULT_PROJECT_PREFIX+".client")
     public OAuth2ProtectedResourceDetails resourceOwnerPasswordResourceDetails(SecurityProperties securityProperties){
         OAuth2ProtectedResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
         ((ResourceOwnerPasswordResourceDetails) resourceDetails).setAccessTokenUri(securityProperties.getClient().getPasswordTokenUrl());
@@ -46,6 +45,8 @@ public class Oauth2ClientConfig {
          OAuth2ClientAuthenticationProcessingFilter oAuth2ClientAuthenticationProcessingFilter  = new OAuth2ClientAuthenticationProcessingFilter(securityProperties.getClient().getLoginProcessingUrl());
          oAuth2ClientAuthenticationProcessingFilter.setTokenServices(resourceServerTokenServices);
          oAuth2ClientAuthenticationProcessingFilter.setRestTemplate(oAuth2RestOperations);
+         oAuth2ClientAuthenticationProcessingFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
+         oAuth2ClientAuthenticationProcessingFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
          return oAuth2ClientAuthenticationProcessingFilter;
     }
 
@@ -56,7 +57,19 @@ public class Oauth2ClientConfig {
         return oauth2GrantTypeRestTemplate;
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+        AuthenticationSuccessHandlerImpl authenticationSuccessHandler = new AuthenticationSuccessHandlerImpl();
+        return authenticationSuccessHandler;
+    }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public AuthenticationFailureHandler authenticationFailureHandler(){
+        AuthenticationFailureHandlerImpl authenticationFailureHandler = new AuthenticationFailureHandlerImpl();
+        return authenticationFailureHandler;
+    }
 
 
 }
