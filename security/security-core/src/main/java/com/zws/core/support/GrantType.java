@@ -17,7 +17,11 @@ public enum GrantType {
 
     REFRESH_TOKEN,
 
-    CUSTOM;
+    SMS,
+
+    VALIDATE_CODE_PASSWORD,
+
+    OPENID;
 
 
 

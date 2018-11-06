@@ -46,7 +46,7 @@ public interface SecurityConstants {
 
     String URL_SUFFIX =".html";
 
-
+    String DEFAULT_GRANT_TYPE_PARAMETER = "grant_type";
 
 
 }

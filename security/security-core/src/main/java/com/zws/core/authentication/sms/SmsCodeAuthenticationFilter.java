@@ -1,5 +1,6 @@
 package com.zws.core.authentication.sms;
 
+import com.zws.core.support.GrantType;
 import com.zws.core.support.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -61,7 +62,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 
         // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
-
+        request.setAttribute(SecurityConstants.DEFAULT_GRANT_TYPE_PARAMETER, GrantType.SMS.name());
         return this.getAuthenticationManager().authenticate(authRequest);
 }
 

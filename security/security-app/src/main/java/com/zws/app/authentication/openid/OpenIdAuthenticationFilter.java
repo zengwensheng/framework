@@ -1,5 +1,6 @@
 package com.zws.app.authentication.openid;
 
+import com.zws.core.support.GrantType;
 import com.zws.core.support.SecurityConstants;
 import lombok.Data;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -73,7 +74,7 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
 
         // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
-
+        request.setAttribute(SecurityConstants.DEFAULT_GRANT_TYPE_PARAMETER, GrantType.OPENID.name());
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
