@@ -18,7 +18,6 @@ import org.springframework.security.oauth2.client.token.AccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitAccessTokenProvider;
-import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
@@ -38,7 +37,7 @@ import java.util.Objects;
  * @email 2848392861@qq.com
  * date 2018/11/5
  */
-public class Oauth2GrantTypeRestTemplate extends RestTemplate implements OAuth2RestOperations {
+public class OAuth2GrantTypeRestTemplate extends RestTemplate implements OAuth2RestOperations {
 
     private static final String REQUEST_PARAMETER="grant_type";
 
@@ -54,11 +53,11 @@ public class Oauth2GrantTypeRestTemplate extends RestTemplate implements OAuth2R
 
     private OAuth2RequestAuthenticator authenticator = new DefaultOAuth2RequestAuthenticator();
 
-    public Oauth2GrantTypeRestTemplate(List<OAuth2ProtectedResourceDetails> resourceDetailsList) {
+    public OAuth2GrantTypeRestTemplate(List<OAuth2ProtectedResourceDetails> resourceDetailsList) {
         this(resourceDetailsList, new DefaultOAuth2ClientContext());
     }
 
-    public Oauth2GrantTypeRestTemplate(List<OAuth2ProtectedResourceDetails> resourceDetailsList, OAuth2ClientContext context) {
+    public OAuth2GrantTypeRestTemplate(List<OAuth2ProtectedResourceDetails> resourceDetailsList, OAuth2ClientContext context) {
         super();
         if (resourceDetailsList == null||resourceDetailsList.size()==0) {
             throw new IllegalArgumentException("An OAuth2 resource must be supplied.");

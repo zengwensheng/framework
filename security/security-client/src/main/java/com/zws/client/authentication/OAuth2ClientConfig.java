@@ -2,20 +2,23 @@ package com.zws.client.authentication;
 
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.support.SecurityConstants;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.AccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -25,9 +28,7 @@ import java.util.List;
  */
 @Configuration
 @EnableOAuth2Client
-public class Oauth2ClientConfig {
-
-
+public class OAuth2ClientConfig {
 
 
     @Bean
@@ -51,9 +52,16 @@ public class Oauth2ClientConfig {
     }
 
     @Bean
+    @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
+    @Primary
+    public OAuth2ClientContext oauth2ClientContext(AccessTokenRequest accessTokenRequest) {
+        return new DefaultOAuth2ClientContext(accessTokenRequest);
+    }
+
+    @Bean
     @ConditionalOnMissingBean
-    public OAuth2RestOperations oAuth2RestOperations(List<OAuth2ProtectedResourceDetails> resourceDetailsList, OAuth2ClientContext oAuth2ClientContext){
-        Oauth2GrantTypeRestTemplate oauth2GrantTypeRestTemplate = new Oauth2GrantTypeRestTemplate(resourceDetailsList,oAuth2ClientContext);
+    public OAuth2RestOperations oAuth2RestOperations(List<OAuth2ProtectedResourceDetails> resourceDetailsList, AccessTokenRequest accessTokenRequest){
+        OAuth2GrantTypeRestTemplate oauth2GrantTypeRestTemplate = new OAuth2GrantTypeRestTemplate(resourceDetailsList,oauth2ClientContext(accessTokenRequest));
         return oauth2GrantTypeRestTemplate;
     }
 
@@ -70,6 +78,11 @@ public class Oauth2ClientConfig {
         AuthenticationFailureHandlerImpl authenticationFailureHandler = new AuthenticationFailureHandlerImpl();
         return authenticationFailureHandler;
     }
+
+
+
+
+
 
 
 }
