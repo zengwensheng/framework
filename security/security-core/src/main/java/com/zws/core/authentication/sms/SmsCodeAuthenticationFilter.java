@@ -62,7 +62,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 
         // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
-        request.setAttribute(SecurityConstants.DEFAULT_GRANT_TYPE_PARAMETER, GrantType.SMS.name());
+        request.setAttribute(SecurityConstants.DEFAULT_GRANT_TYPE_PARAMETER, GrantType.SMS.getValue());
         return this.getAuthenticationManager().authenticate(authRequest);
 }
 

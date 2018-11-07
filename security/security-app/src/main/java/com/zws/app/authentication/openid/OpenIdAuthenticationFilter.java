@@ -74,7 +74,7 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
 
         // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
-        request.setAttribute(SecurityConstants.DEFAULT_GRANT_TYPE_PARAMETER, GrantType.OPENID.name());
+        request.setAttribute(SecurityConstants.DEFAULT_GRANT_TYPE_PARAMETER, GrantType.OPENID.getValue());
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 

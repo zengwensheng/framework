@@ -1,6 +1,7 @@
 package com.zws.client.authentication;
 
-import com.zws.client.authentication.password.HttpHeaderResourceOwnerPasswordAccessTokenProvider;
+import com.zws.client.authentication.passwordcoce.PasswordCodeAccessTokenProvider;
+import com.zws.client.authentication.sms.SmsAccessTokenProvider;
 import com.zws.client.support.ClientSecurityException;
 import com.zws.core.support.SecurityEnum;
 import org.apache.commons.lang.StringUtils;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.client.token.AccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitAccessTokenProvider;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
@@ -45,7 +47,8 @@ public class OAuth2GrantTypeRestTemplate extends RestTemplate implements OAuth2R
 
     private AccessTokenProvider accessTokenProvider = new AccessTokenProviderChain(Arrays.<AccessTokenProvider> asList(
             new AuthorizationCodeAccessTokenProvider(), new ImplicitAccessTokenProvider(),
-            new HttpHeaderResourceOwnerPasswordAccessTokenProvider(), new ClientCredentialsAccessTokenProvider()));
+            new ResourceOwnerPasswordAccessTokenProvider(), new ClientCredentialsAccessTokenProvider(),
+            new PasswordCodeAccessTokenProvider(),new SmsAccessTokenProvider()));
 
     private OAuth2ClientContext context;
 

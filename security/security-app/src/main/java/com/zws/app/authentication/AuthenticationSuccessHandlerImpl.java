@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author zws
@@ -54,9 +55,9 @@ public class AuthenticationSuccessHandlerImpl extends SavedRequestAwareAuthentic
         if(!clientDetails.getClientSecret().equals(tokens[1])){
             throw  new BadCredentialsException(new SimpleResponse(SecurityEnum.APP_CLIENT_SECRET_ERROR).toString());
         }
-        String grantType = request.getParameter(SecurityConstants.DEFAULT_GRANT_TYPE_PARAMETER);
-        if(StringUtils.isEmpty(grantType)){
-            grantType = GrantType.VALIDATE_CODE_PASSWORD.name();
+        String grantType = Objects.toString(request.getAttribute(SecurityConstants.DEFAULT_GRANT_TYPE_PARAMETER));
+        if(StringUtils.isEmpty(grantType)||"null".equals(grantType)){
+            grantType = GrantType.PASSWORD_CODE.getValue();
         }
 
         TokenRequest tokenRequest = new TokenRequest(MapUtils.EMPTY_MAP,clientId, clientDetails.getScope(), grantType);
@@ -90,5 +91,6 @@ public class AuthenticationSuccessHandlerImpl extends SavedRequestAwareAuthentic
         }
         return new String[] { token.substring(0, delim), token.substring(delim + 1) };
     }
+
 
 }

@@ -1,9 +1,12 @@
 package com.zws.client.authentication;
 
+import com.zws.client.authentication.passwordcoce.PasswordCodeResourceDetails;
+import com.zws.client.authentication.sms.SmsResourceDetails;
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.support.SecurityConstants;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.*;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
@@ -32,11 +35,37 @@ public class OAuth2ClientConfig {
 
 
     @Bean
-    @ConfigurationProperties(prefix =SecurityConstants.DEFAULT_PROJECT_PREFIX+".client")
+    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX+".client",name = "password-token-url")
     public OAuth2ProtectedResourceDetails resourceOwnerPasswordResourceDetails(SecurityProperties securityProperties){
-        OAuth2ProtectedResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
-        ((ResourceOwnerPasswordResourceDetails) resourceDetails).setAccessTokenUri(securityProperties.getClient().getPasswordTokenUrl());
+        ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
+        resourceDetails.setClientId(securityProperties.getClient().getClientId());
+        resourceDetails.setClientSecret(securityProperties.getClient().getClientSecret());
+        resourceDetails.setScope(securityProperties.getClient().getScope());
+        resourceDetails.setAccessTokenUri(securityProperties.getClient().getPasswordTokenUrl());
         return resourceDetails;
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX+".client",name = "password-code-token-url")
+    public OAuth2ProtectedResourceDetails passwordCodeResourceDetails(SecurityProperties securityProperties){
+        PasswordCodeResourceDetails passwordCodeResourceDetails = new PasswordCodeResourceDetails();
+        passwordCodeResourceDetails.setClientId(securityProperties.getClient().getClientId());
+        passwordCodeResourceDetails.setClientSecret(securityProperties.getClient().getClientSecret());
+        passwordCodeResourceDetails.setScope(securityProperties.getClient().getScope());
+        passwordCodeResourceDetails.setAccessTokenUri(securityProperties.getClient().getPasswordCodeTokenUrl());
+        return passwordCodeResourceDetails;
+    }
+
+
+    @Bean
+    @ConditionalOnProperty(prefix = SecurityConstants.DEFAULT_PROJECT_PREFIX+".client",name = "sms-token-url")
+    public OAuth2ProtectedResourceDetails smsResourceDetails(SecurityProperties securityProperties){
+        SmsResourceDetails smsResourceDetails = new SmsResourceDetails();
+        smsResourceDetails.setClientId(securityProperties.getClient().getClientId());
+        smsResourceDetails.setClientSecret(securityProperties.getClient().getClientSecret());
+        smsResourceDetails.setScope(securityProperties.getClient().getScope());
+        smsResourceDetails.setAccessTokenUri(securityProperties.getClient().getSmsTokenUrl());
+        return smsResourceDetails;
     }
 
 

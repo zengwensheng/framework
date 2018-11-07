@@ -19,9 +19,9 @@ authentication:
     client:
          client-id: zws
          client-secret: zws
-         password-token-url: http://localhost:8080/oauth/token
-
-
+         password-token-url: http://localhost:8010/oauth/token
+         password-code-token-url: http://localhost:8010/login
+         sms-token-url: http://localhost:8010/login/sms
 
 
 

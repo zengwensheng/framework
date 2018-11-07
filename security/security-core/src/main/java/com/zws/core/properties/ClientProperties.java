@@ -17,6 +17,10 @@ public class ClientProperties {
 
     private String passwordTokenUrl;
 
+    private String passwordCodeTokenUrl;
+
+    private String smsTokenUrl;
+
     private String clientId;
 
     private String clientSecret;

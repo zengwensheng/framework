@@ -7,22 +7,37 @@ package com.zws.core.support;
  */
 public enum GrantType {
 
-    AUTHORIZATION_CODE,
+    AUTHORIZATION_CODE("authorization_code"),
 
-    PASSWORD,
+    PASSWORD("password"),
 
-    CLIENT_CREDENTIALS,
+    CLIENT_CREDENTIALS("client_credentials"),
 
-    IMPLICIT,
+    IMPLICIT("implicit"),
 
-    REFRESH_TOKEN,
+    REFRESH_TOKEN("refresh_token"),
 
-    SMS,
+    SMS("sms"),
 
-    VALIDATE_CODE_PASSWORD,
+    PASSWORD_CODE("password_code"),
 
-    OPENID;
+    OPENID("openid");
 
+
+    private String value;
+
+    GrantType(String value){
+        this.value = value;
+    }
+
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 
 
 }
