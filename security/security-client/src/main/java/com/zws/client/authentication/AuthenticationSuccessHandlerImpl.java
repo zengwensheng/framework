@@ -30,7 +30,7 @@ public class AuthenticationSuccessHandlerImpl extends SavedRequestAwareAuthentic
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         response.setContentType(SecurityConstants.DEFAULT_CONTENT_TYPE);
-        response.getWriter().write(JsonUtils.writeValueAsString(authentication));
+        response.getWriter().write(JsonUtils.writeValueAsString(authentication.getDetails()));
 
     }
 

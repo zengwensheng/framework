@@ -4,10 +4,8 @@ import com.zws.client.authentication.passwordcoce.PasswordCodeResourceDetails;
 import com.zws.client.authentication.sms.SmsResourceDetails;
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.support.SecurityConstants;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.*;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
@@ -21,7 +19,6 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -107,6 +104,8 @@ public class OAuth2ClientConfig {
         AuthenticationFailureHandlerImpl authenticationFailureHandler = new AuthenticationFailureHandlerImpl();
         return authenticationFailureHandler;
     }
+
+
 
 
 

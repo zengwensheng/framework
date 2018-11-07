@@ -23,6 +23,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableConfigurationProperties(SecurityProperties.class)
-@Import({TokenStoreConfig.class})
+@Import({TokenStoreConfig.class,SecurityCoreConfig.class})
 public @interface EnableClientCore {
 }
