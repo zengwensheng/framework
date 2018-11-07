@@ -1,6 +1,9 @@
 package com.zws.core.config;
 
 import com.zws.core.authentication.LoginSecurityConfig;
+import com.zws.core.authorize.AuthorizeConfigManager;
+import com.zws.core.authorize.AuthorizeConfigManagerImpl;
+import com.zws.core.authorize.AuthorizeConfigProvider;
 import com.zws.core.properties.SecurityProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import java.util.List;
 
 /**
  * @author zws
@@ -39,6 +44,13 @@ public class SecurityCoreConfig {
     public UserDetailsChecker accountStatusUserDetailsChecker(){
         UserDetailsChecker accountStatusUserDetailsChecker = new AccountStatusUserDetailsChecker();
         return accountStatusUserDetailsChecker;
+    }
+
+    @Bean
+    public AuthorizeConfigManager authorizeConfigManager(List<AuthorizeConfigProvider> providerList){
+        AuthorizeConfigManagerImpl authorizeConfigManager = new AuthorizeConfigManagerImpl();
+        authorizeConfigManager.setProviderList(providerList);
+        return authorizeConfigManager;
     }
 
 }

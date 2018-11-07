@@ -7,6 +7,7 @@ package com.zws.core.support;
  */
 public enum SecurityEnum {
     SYSTEM_ERROR(0001,"系统异常"),
+    SYSTEM_REPEAT_CONFIG_ANYREQUEST(0002,"重复配置anyRequest"),
 
 
     LOGIN_USERNAME_NOT_EXIST(1001,"用户名不存在"),

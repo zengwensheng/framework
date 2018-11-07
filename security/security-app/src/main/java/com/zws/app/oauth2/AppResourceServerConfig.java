@@ -3,6 +3,7 @@ package com.zws.app.oauth2;
 import com.zws.app.authentication.openid.OpenIdAuthenticationSecurityConfig;
 import com.zws.core.authentication.LoginSecurityConfig;
 import com.zws.core.authentication.sms.SmsCodeAuthenticationSecurityConfig;
+import com.zws.core.authorize.AuthorizeConfigManager;
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.support.SecurityConstants;
 import com.zws.core.token.CustomTokenService;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
@@ -38,7 +40,10 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
     @Autowired
-    private CustomTokenService customTokenService;
+    private ResourceServerTokenServices customTokenService;
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
+
 
 
     @Override
@@ -57,21 +62,9 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
             .apply(customerSocialConfigurer)
                 .and()
-            .apply(openIdAuthenticationSecurityConfig)
-                .and()
-            .authorizeRequests()
-                .antMatchers(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL
-                        ,SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL
-                        ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_SMS
-                        ,SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*"
-                        ,SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL
-                        ,securityProperties.getApp().getSignInUrl()
-                        ,securityProperties.getApp().getSignUpUrl())
-                .permitAll()
-                .antMatchers(securityProperties.getPermitUrl().toArray(new String [securityProperties.getPermitUrl().size()]))
-                .permitAll()
-                .anyRequest()
-                .authenticated();
+            .apply(openIdAuthenticationSecurityConfig);
+        authorizeConfigManager.config(http.authorizeRequests());
+
 
 
     }

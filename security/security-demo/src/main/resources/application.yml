@@ -17,10 +17,6 @@ authentication:
   core:
     browser:
        login-type: JSON
-    permitUrl:
-           - /user/binding
-           - /user/appBinding
-           - /login.html
     social:
        filterProcessesUrl: /qqLogin
        wx:

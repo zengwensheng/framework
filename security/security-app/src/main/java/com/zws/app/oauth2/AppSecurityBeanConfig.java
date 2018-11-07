@@ -4,9 +4,11 @@ package com.zws.app.oauth2;
 import com.zws.app.authentication.AppSecurityController;
 import com.zws.app.authentication.AuthenticationFailureHandlerImpl;
 import com.zws.app.authentication.AuthenticationSuccessHandlerImpl;
+import com.zws.app.authorize.AppAuthorizeConfigProvider;
 import com.zws.app.social.AppProviderSignInUtils;
 import com.zws.app.social.AppSocialAuthenticationFilterPostProcessor;
 import com.zws.core.annotation.EnableAuthenticationCore;
+import com.zws.core.authorize.AuthorizeConfigProvider;
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.social.support.SocialAuthenticationFilterPostProcessor;
 import com.zws.core.validate.ValidateCodeRepository;
@@ -22,6 +24,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import com.zws.app.validate.RedisValidateCodeRepository;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
+
+import java.security.Security;
 
 /**
  * @author zws
@@ -75,6 +79,13 @@ public class AppSecurityBeanConfig  {
         appProviderSignInUtils.setRedisTemplate(redisTemplate);
         appProviderSignInUtils.setUsersConnectionRepository(usersConnectionRepository);
         return appProviderSignInUtils;
+    }
+
+    @Bean
+    public AuthorizeConfigProvider authorizeConfigProvider(SecurityProperties securityProperties){
+        AppAuthorizeConfigProvider appAuthorizeConfigProvider = new AppAuthorizeConfigProvider();
+        appAuthorizeConfigProvider.setSecurityProperties(securityProperties);
+        return appAuthorizeConfigProvider;
     }
 
 

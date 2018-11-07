@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zws.browser.authentication.AuthenticationFailureHandlerImpl;
 import com.zws.browser.authentication.AuthenticationSuccessHandlerImpl;
 import com.zws.browser.authentication.BrowserSecurityController;
+import com.zws.browser.authorize.BrowserAuthorizeConfigProvider;
 import com.zws.browser.logout.BrowserLogoutSuccessHandler;
 import com.zws.browser.session.ExpiredSessionStrategy;
 import com.zws.browser.session.InvalidSessionStrategy;
 import com.zws.browser.validate.SessionValidateCodeRepository;
+import com.zws.core.authorize.AuthorizeConfigProvider;
 import com.zws.core.properties.SecurityProperties;
 import com.zws.core.validate.ValidateCodeRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -75,6 +77,14 @@ public class BrowserSecurityBeanConfig {
         BrowserLogoutSuccessHandler browserLogoutSuccessionHandler =new BrowserLogoutSuccessHandler();
         browserLogoutSuccessionHandler.setSecurityProperties(securityProperties);
         return browserLogoutSuccessionHandler;
+    }
+
+
+    @Bean
+    public AuthorizeConfigProvider authorizeConfigProvider(SecurityProperties securityProperties){
+        BrowserAuthorizeConfigProvider browserAuthorizeConfigProvider =new BrowserAuthorizeConfigProvider();
+        browserAuthorizeConfigProvider.setSecurityProperties(securityProperties);
+        return browserAuthorizeConfigProvider;
     }
 
 

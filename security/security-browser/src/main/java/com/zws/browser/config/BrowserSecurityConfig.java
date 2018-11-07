@@ -4,6 +4,8 @@ package com.zws.browser.config;
 import com.zws.core.annotation.EnableAuthenticationCore;
 import com.zws.core.authentication.LoginSecurityConfig;
 import com.zws.core.authentication.sms.SmsCodeAuthenticationSecurityConfig;
+import com.zws.core.authorize.AuthorizeConfigManager;
+import com.zws.core.authorize.AuthorizeConfigProvider;
 import com.zws.core.validate.ValidateSecurityConfig;
 import com.zws.core.support.SecurityConstants;
 import com.zws.core.properties.SecurityProperties;
@@ -64,6 +66,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired(required = false)
     private SessionRegistry sessionRegistry;
 
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         loginSecurityConfig.configure(http);
@@ -86,25 +91,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                  .sessionRegistry(sessionRegistry)
                 .and()
                 .and()
-             .authorizeRequests()
-                .antMatchers(securityProperties.getBrowser().getLoginPage()
-                            ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL
-                            ,SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL
-                            ,securityProperties.getBrowser().getFailureUrl()
-                            ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_SMS
-                            ,SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*"
-                            ,securityProperties.getBrowser().getSignUpUrl()
-                            ,securityProperties.getBrowser().getSignInUrl()
-                            ,securityProperties.getBrowser().getSignOutUrl()
-                            ,securityProperties.getBrowser().getLogErrorUrl()
-                            ,SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL
-                            ,securityProperties.getBrowser().getSession().getSessionInvalidUrl())
-                .permitAll()
-                .antMatchers(securityProperties.getPermitUrl().toArray(new String [securityProperties.getPermitUrl().size()]))
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
              .logout()
                 .logoutUrl(securityProperties.getBrowser().getLogoutUrl())
                 .logoutSuccessHandler(logoutSuccessHandler)
@@ -112,6 +98,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
              .csrf()
                 .disable();
+         authorizeConfigManager.config(http.authorizeRequests());
     }
 
 
