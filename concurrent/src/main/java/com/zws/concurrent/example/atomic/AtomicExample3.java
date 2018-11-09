@@ -9,18 +9,20 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author zws
  * @email 2848392861@qq.com
  * date 2018/11/6
+ * 原理同atomicInteger
  */
 @Slf4j
 @ThreadSafe
 @Recommend
 public class AtomicExample3 {
 
-    private static AtomicInteger count = new AtomicInteger(0);
+    private static AtomicLong count = new AtomicLong(0);
     private static int threadCount = 2000;
     private static int clientTotal = 50;
 

@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * date 2018/11/6
  */
 @Slf4j
-@NotThreadSafe
+@ThreadSafe
 public class CountExample4 {
 
     private static AtomicInteger count = new AtomicInteger(0);
@@ -48,7 +48,6 @@ public class CountExample4 {
           executorService.shutdown();
           log.info("{}",count);
     }
-
 
     private static void add(){
         count.incrementAndGet();

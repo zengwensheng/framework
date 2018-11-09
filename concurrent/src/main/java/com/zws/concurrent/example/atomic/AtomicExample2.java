@@ -16,6 +16,9 @@ import java.util.concurrent.atomic.LongAdder;
  * @author zws
  * @email 2848392861@qq.com
  * date 2018/11/6
+ *
+ * @// TODO: 2018/11/9   longAdder 源码还未解析，后续解析
+ * 原理
  */
 @Slf4j
 @ThreadSafe

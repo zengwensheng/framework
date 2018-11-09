@@ -20,6 +20,9 @@ import java.util.concurrent.atomic.AtomicReference;
 @Slf4j
 @ThreadSafe
 @Recommend
+/**
+ * 同atomicInter 原理
+ */
 public class AtomicExample4 {
 
 

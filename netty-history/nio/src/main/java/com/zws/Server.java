@@ -21,7 +21,6 @@ public class Server implements Runnable {
 
 
     public void run() {
-        // TODO Auto-generated method stub
         init();
     }
 
@@ -41,7 +40,7 @@ public class Server implements Runnable {
             listener(selector);
 
         } catch (Exception e) {
-            // TODO: handle exception
+
         }
     }
 
@@ -111,7 +110,6 @@ public class Server implements Runnable {
                 }
             }
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println("Error - " + e.getMessage());
             e.printStackTrace();
         }

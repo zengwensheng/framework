@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author zws
  * @email 2848392861@qq.com
  * date 2018/11/6
+ * 原理同atomicInteger
  */
 @Slf4j
 @ThreadSafe
