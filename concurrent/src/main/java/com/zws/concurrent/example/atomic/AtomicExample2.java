@@ -18,7 +18,10 @@ import java.util.concurrent.atomic.LongAdder;
  * date 2018/11/6
  *
  * @// TODO: 2018/11/9   longAdder 源码还未解析，后续解析
- * 原理
+ * 原理:
+ *   在大量并发时，通过多个cell (AtomicLong)同时进行cas操作，比单个AtomicLong高效
+ * 缺点：
+ *   如果在统计多个cell的值的时候，发生并发更新，会导致统计的值发生误差
  */
 @Slf4j
 @ThreadSafe

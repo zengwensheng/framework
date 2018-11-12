@@ -22,12 +22,14 @@ public class SynchronizedExample2 {
         }
     }
 
-    // 修饰一个静态方法
+    // 修饰一个静态方法  用的是 SynchronizedExample2.class 的锁
     public static synchronized void test2(int j) {
         for (int i = 0; i < 10; i++) {
             log.info("test2 {} - {}", j, i);
         }
     }
+
+
 
     public static void main(String[] args) {
         SynchronizedExample2 example1 = new SynchronizedExample2();

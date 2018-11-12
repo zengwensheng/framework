@@ -50,6 +50,10 @@ public class FalseSharingExample3 implements Runnable{
             longs[arrayIndex].value = i;
         }
     }
+
+    // jdk8新特性，Contended注解避免false sharing
+    // Restricted on user classpath
+    // Unlock: -XX:-RestrictContended
     @sun.misc.Contended
     public final static class VolatileLong{
         public volatile long value = 0L;

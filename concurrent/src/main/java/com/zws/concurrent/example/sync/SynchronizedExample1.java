@@ -22,7 +22,7 @@ public class SynchronizedExample1 {
         }
     }
 
-    // 修饰一个方法
+    // 修饰一个方法  用的是this锁
     public synchronized void test2(int j) {
         for (int i = 0; i < 10; i++) {
             log.info("test2 {} - {}", j, i);
