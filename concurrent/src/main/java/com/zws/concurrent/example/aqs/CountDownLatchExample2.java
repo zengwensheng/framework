@@ -8,6 +8,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+/**
+ * @author zws
+ * @email 2848392861@qq.com
+ * date 2018/11/9
+ */
 public class CountDownLatchExample2 {
 
     private final static int threadCount = 200;

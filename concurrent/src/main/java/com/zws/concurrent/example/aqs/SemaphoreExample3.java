@@ -8,6 +8,11 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+/**
+ * @author zws
+ * @email 2848392861@qq.com
+ * date 2018/11/9
+ */
 public class SemaphoreExample3 {
 
     private final static int threadCount = 20;

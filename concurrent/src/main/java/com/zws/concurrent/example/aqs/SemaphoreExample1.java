@@ -9,9 +9,14 @@ import java.util.concurrent.Semaphore;
 /**
  * @author zws
  * @email 2848392861@qq.com
- * date 2018/11/12
+ * date 2018/11/9
+ *  Semaphore
+ *  具有aqs的共享性
+ *  aqs 原理详细见：笔记1.1-java-java基础-并发编程-aqs原理
+ *
+ *  用法：
+ *    限制获取某种资源的线程数量
  */
-
 @Slf4j
 public class SemaphoreExample1 {
     private final static int threadCount = 20;

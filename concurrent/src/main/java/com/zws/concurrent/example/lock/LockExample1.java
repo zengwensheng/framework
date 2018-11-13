@@ -11,6 +11,12 @@ import java.util.concurrent.Semaphore;
 
 @Slf4j
 @ThreadSafe
+/**
+ * @author zws
+ * @email 2848392861@qq.com
+ * date 2018/11/9
+ * synchronized 是不可中断锁
+ */
 public class LockExample1 {
 
     // 请求总数

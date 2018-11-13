@@ -2,6 +2,15 @@ package com.zws.concurrent.example.lock;
 
 import java.util.concurrent.locks.StampedLock;
 
+
+/**
+ * @author zws
+ * @email 2848392861@qq.com
+ * date 2018/11/9
+ * StampedLock
+ * 原理详细见：笔记1.1-java-java基础-并发编程-StampedLock
+ *
+ */
 public class LockExample4 {
 
     class Point {

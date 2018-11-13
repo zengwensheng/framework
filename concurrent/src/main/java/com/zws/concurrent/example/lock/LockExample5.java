@@ -11,6 +11,11 @@ import java.util.concurrent.locks.StampedLock;
 
 @Slf4j
 @ThreadSafe
+/**
+ * @author zws
+ * @email 2848392861@qq.com
+ * date 2018/11/9
+ */
 public class LockExample5 {
 
     // 请求总数
