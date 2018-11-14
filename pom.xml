@@ -14,6 +14,7 @@
         <module>security</module>
         <module>sso-demo</module>
         <module>concurrent</module>
+        <module>jvm</module>
     </modules>
 
     <properties>

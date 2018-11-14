@@ -44,7 +44,6 @@ public class ServerMain {
                 System.out.println("方式一： 读取数据" + new String(buf) + " count = " + count);
                 Thread.sleep(1*1000);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             //break;
@@ -61,7 +60,6 @@ public class ServerMain {
             try {
                 Thread.sleep(3*1000);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

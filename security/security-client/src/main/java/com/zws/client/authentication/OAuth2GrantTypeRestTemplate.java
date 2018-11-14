@@ -239,7 +239,6 @@ public class OAuth2GrantTypeRestTemplate extends RestTemplate implements OAuth2R
 
         try {
 
-            // TODO: there is some duplication with UriUtils here. Probably unavoidable as long as this
             // method signature uses URI not String.
             String query = uri.getRawQuery(); // Don't decode anything here
             String queryFragment = findResourceDetailsByGrantType().getTokenName() + "=" + URLEncoder.encode(accessToken.getValue(), "UTF-8");
