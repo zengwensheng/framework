@@ -10,6 +10,7 @@ public class SubExpresstion extends SymbolExpresstion {
 
 	@Override
 	public Float interpreter(HashMap<String, Float> var) {
+
 		return super.left.interpreter(var) - super.right.interpreter(var);
 	}
 
