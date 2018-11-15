@@ -9,6 +9,9 @@ import java.util.LinkedList;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
+/**
+ * 逆波兰算法
+ */
 public class RPN {
 
 	private ArrayList<String> expression = new ArrayList<String>();// 存储中序表达式
@@ -25,35 +28,61 @@ public class RPN {
 		}
 	}
 
-	// 将中序表达式转换为右序表达式
+
+
+	/**
+	 * 将中序表达式转换为右序表达式
+	 * 例子
+	 *      中序表达式          右序表达式（后序表达式）       步骤
+	 * 1，    a+b                ab+                    ⑧  ①②  ⑧
+	 * 2，   (a+b)*c            ab+c*                 ①②  ⑧  ①⑨⑤⑥ ⑧ ①⑨③④ ①② ⑧
+	 * 3， (a+b)*c-(a+b)/e     ab+c*ab+e/-
+	 * @Todo   (a+b*c)*d 这个公式不能运算 有待改进 现在只支持+-* / （） 的运算 后续在改
+	 */
 	private void toRight() {
-		Stacks aStack = new Stacks();
+		Stacks aStack = new Stacks();  //存储的是运算符
 		String operator;
 		int position = 0;
 		while (true) {
-			if (Calculate.isOperator((String) expression.get(position))) {
+			/**
+			 * expression.get(position) 为运算符是进入
+			 * 否则 将expression.get(position) 添加到right中
+			 */
+			if (Calculate.isOperator((String) expression.get(position))) { //步骤①
+				/**
+				 * aStack的元素数量等于0 或者 expression.get(position) 等于（  进入
+				 */
 				if (aStack.top == -1
-						|| ((String) expression.get(position)).equals("(")) {
+						|| ((String) expression.get(position)).equals("(")) {//步骤②
 					aStack.push(expression.get(position));
-				} else {
-					if (((String) expression.get(position)).equals(")")) {
-						if (!((String) aStack.top()).equals("(")) {
+				} else {//步骤⑨
+					/**
+					 * expression.get(position) 为 ） 进入
+					 */
+					if (((String) expression.get(position)).equals(")")) {//步骤③
+						/**
+						 *  aStack 中第一个值不等于（ 进入
+						 */
+						if (!((String) aStack.top()).equals("(")) {//步骤④
 							operator = (String) aStack.pop();
 							right.add(operator);
 						}
-					} else {
+					} else {//步骤⑤
+						/**
+						 * expression.get(position) 的优先级小于等于aStack的第一个元素的优先级 并且aStack的元素数量大于0 进入
+						 */
 						if (Calculate.priority((String) expression
 								.get(position)) <= Calculate
 								.priority((String) aStack.top())
-								&& aStack.top != -1) {
+								&& aStack.top != -1) {//步骤⑥
 							operator = (String) aStack.pop();
-							if (!operator.equals("("))
+							if (!operator.equals("("))//步骤⑦
 								right.add(operator);
 						}
 						aStack.push(expression.get(position));
 					}
 				}
-			} else
+			} else//步骤⑧
 				right.add(expression.get(position));
 			position++;
 			if (position >= expression.size())
@@ -136,7 +165,7 @@ public class RPN {
 		}
 	}
 
-	// 栈类
+	// 栈类  FIFO 数据结构
 	public class Stacks {
 		private LinkedList list = new LinkedList();
 		int top = -1;

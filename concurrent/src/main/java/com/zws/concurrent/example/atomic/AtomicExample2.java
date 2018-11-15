@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.LongAdder;
  * @email 2848392861@qq.com
  * date 2018/11/6
  *
- * @// TODO: 2018/11/9   Striped64 的子类源码解析，后续解析
+ * @// TODO: 2018/11/9   Striped64 的子类源码解析（只解析了LongAdder），后续解析
  * 原理:
  *   在大量并发时，通过多个cell (AtomicLong)同时进行cas操作，比单个AtomicLong高效
  *   详细见：笔记1.1-java-java基础-并发编程-LongAdder

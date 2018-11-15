@@ -12,7 +12,10 @@ import java.util.concurrent.Future;
  * @author zws
  * @email 2848392861@qq.com
  * date 2018/11/13
- * @TODO 源码还未解析
+ *
+ * Callable
+ * Callable和Runnbale一样代表着异步执行任务，区别在于Callable有返回值并且可以抛出异
+ *
  */
 @Slf4j
 public class FutureExample {

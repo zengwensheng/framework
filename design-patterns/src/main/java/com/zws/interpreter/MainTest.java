@@ -2,7 +2,7 @@ package com.zws.interpreter;
 
 
 /**
- * @Todo （）不能运算 原理还未解析
+ *  解释器模式
  */
 public class MainTest {
 
