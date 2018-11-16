@@ -16,6 +16,7 @@
         <module>concurrent</module>
         <module>jvm</module>
         <module>cloud</module>
+        <module>springboot</module>
     </modules>
 
     <properties>

@@ -20,7 +20,7 @@ public class Calculator {
             String input = new String();
             input = is.readLine().trim();
 
-            RPN boya = new RPN(input);
+
             HashMap<String, Float> var;
             var = new HashMap<String, Float>();
             var.put("a", 10F);
@@ -30,6 +30,8 @@ public class Calculator {
             var.put("e", 50F);
             var.put("f", 60F);
 
+
+            RPN boya = new RPN(input);
             boya.getResult(var);
 
 
