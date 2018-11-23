@@ -12,6 +12,11 @@
     <groupId>com.zws.framework</groupId>
     <artifactId>concurrent</artifactId>
 
+    <properties>
+        <common-version>1.0.0-SNAPSHOT</common-version>
+        <guava-version>23.0</guava-version>
+    </properties>
+
     <dependencyManagement>
 
         <!-- Mainly used to resolve maven conflicts
@@ -69,12 +74,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.zws.framework</groupId>
+            <artifactId>common</artifactId>
+            <version>${common-version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>23.0</version>
+            <version>${guava-version}</version>
         </dependency>
     </dependencies>
 

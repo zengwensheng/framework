@@ -9,8 +9,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zws.framework</groupId>
+    <groupId>com.zws.cloud</groupId>
     <artifactId>cloud</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>eureka-server</module>
+        <module>eureka-server</module>
+        <module>order</module>
+        <module>product</module>
+        <module>config-server</module>
+    </modules>
 
 
     <dependencyManagement>

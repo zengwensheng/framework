@@ -17,6 +17,7 @@
         <module>jvm</module>
         <module>cloud</module>
         <module>springboot</module>
+        <module>common</module>
     </modules>
 
     <properties>
