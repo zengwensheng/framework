@@ -100,15 +100,15 @@ public class WeightRoundRobin {
         while(true){
             currentIndex = (currentIndex+1) % serverCount;
             if(currentIndex==0){
-                 currentWeight = currentWeight-gcdWeight;
-                 if(currentWeight<=0){
-                     currentWeight = maxWeight;
-                     if(currentWeight==0){
-                         return null;
-                     }
-                 }
-             }
-             if(serverList.get(currentIndex).getWeight()>=currentWeight){
+                currentWeight = currentWeight-gcdWeight;
+                if(currentWeight<=0){
+                    currentWeight = maxWeight;
+                    if(currentWeight==0){
+                        return null;
+                    }
+                }
+            }
+            if(serverList.get(currentIndex).getWeight()>=currentWeight){
                 return  serverList.get(currentIndex);
              }
 
