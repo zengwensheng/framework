@@ -18,5 +18,19 @@
         <module>order-client</module>
     </modules>
 
+    <properties>
+        <order-common-version>1.0.0-SNAPSHOT</order-common-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.zws.cloud</groupId>
+                <artifactId>order-common</artifactId>
+                <version>${order-common-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
 </project>

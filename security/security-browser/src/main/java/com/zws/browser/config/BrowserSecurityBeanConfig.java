@@ -1,6 +1,5 @@
 package com.zws.browser.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zws.browser.authentication.AuthenticationFailureHandlerImpl;
 import com.zws.browser.authentication.AuthenticationSuccessHandlerImpl;
 import com.zws.browser.authentication.BrowserSecurityController;
@@ -18,11 +17,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
-import sun.rmi.log.LogOutputStream;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**

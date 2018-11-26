@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zws.client</groupId>
+    <groupId>com.zws.cloud</groupId>
     <artifactId>order-client</artifactId>
 
 
