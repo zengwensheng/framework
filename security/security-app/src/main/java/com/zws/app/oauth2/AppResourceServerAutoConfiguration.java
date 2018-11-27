@@ -1,12 +1,10 @@
 package com.zws.app.oauth2;
 
-import com.zws.app.authentication.openid.OpenIdAuthenticationSecurityConfig;
+import com.zws.app.authentication.openid.OpenIdAuthenticationSecurityAutoConfiguration;
 import com.zws.core.authentication.LoginSecurityConfig;
 import com.zws.core.authentication.sms.SmsCodeAuthenticationSecurityConfig;
 import com.zws.core.authorize.AuthorizeConfigManager;
 import com.zws.core.properties.SecurityProperties;
-import com.zws.core.support.SecurityConstants;
-import com.zws.core.token.CustomTokenService;
 import com.zws.core.validate.ValidateSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +22,7 @@ import org.springframework.social.security.SpringSocialConfigurer;
  */
 @Configuration
 @EnableResourceServer
-public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class AppResourceServerAutoConfiguration extends ResourceServerConfigurerAdapter {
 
 
     @Autowired
@@ -36,7 +34,7 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private LoginSecurityConfig loginSecurityConfig;
     @Autowired
-    private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
+    private OpenIdAuthenticationSecurityAutoConfiguration openIdAuthenticationSecurityAutoConfiguration;
     @Autowired
     private SecurityProperties securityProperties;
     @Autowired
@@ -62,7 +60,7 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
             .apply(customerSocialConfigurer)
                 .and()
-            .apply(openIdAuthenticationSecurityConfig);
+            .apply(openIdAuthenticationSecurityAutoConfiguration);
         authorizeConfigManager.config(http.authorizeRequests());
 
 

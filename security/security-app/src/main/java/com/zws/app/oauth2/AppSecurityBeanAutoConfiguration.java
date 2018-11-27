@@ -35,7 +35,7 @@ import java.security.Security;
 @Configuration
 @EnableAuthenticationCore
 @Import(AppSecurityController.class)
-public class AppSecurityBeanConfig  {
+public class AppSecurityBeanAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "authenticationSuccessHandlerImpl")

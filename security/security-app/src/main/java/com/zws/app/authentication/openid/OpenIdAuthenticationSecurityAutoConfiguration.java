@@ -19,7 +19,7 @@ import org.springframework.social.connect.UsersConnectionRepository;
  * date 2018/10/17
  */
 @Configuration
-public class OpenIdAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain,HttpSecurity> {
+public class OpenIdAuthenticationSecurityAutoConfiguration extends SecurityConfigurerAdapter<DefaultSecurityFilterChain,HttpSecurity> {
 
     @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandlerImpl;

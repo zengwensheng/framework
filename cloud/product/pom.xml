@@ -18,5 +18,20 @@
         <module>product-common</module>
     </modules>
 
+    <properties>
+        <product-common-version>1.0.0-SNAPSHOT</product-common-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.zws.cloud</groupId>
+                <artifactId>product-common</artifactId>
+                <version>${product-common-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
 
 </project>

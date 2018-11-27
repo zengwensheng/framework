@@ -23,6 +23,8 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  *            仍接收新服务注册和查询请求，但不会被同步到其他节点，
  *            网络稳定时，当前实例新的注册信息会被同步到其他节点
  * 总结 eureka比zookeeper更适合做服务发现，zookeeper更适合做数据存储服务的集群，保持一致性
+ *
+ * @TODO 源码未解析 心跳机制，自我保护机制
  */
 @SpringBootApplication
 @EnableEurekaServer

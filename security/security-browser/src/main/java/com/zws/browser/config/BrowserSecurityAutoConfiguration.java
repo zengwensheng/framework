@@ -38,7 +38,7 @@ import java.util.concurrent.ExecutionException;
  */
 @Configuration
 @EnableAuthenticationCore
-public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+public class BrowserSecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
 
 

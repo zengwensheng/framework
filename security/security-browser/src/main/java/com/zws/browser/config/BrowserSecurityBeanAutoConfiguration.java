@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Configuration
 @Import(BrowserSecurityController.class)
-public class BrowserSecurityBeanConfig {
+public class BrowserSecurityBeanAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "authenticationSuccessHandlerImpl")

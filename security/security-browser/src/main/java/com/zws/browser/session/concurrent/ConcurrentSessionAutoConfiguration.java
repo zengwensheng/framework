@@ -15,7 +15,7 @@ import org.springframework.session.security.SpringSessionBackedSessionRegistry;
  * date 2018/10/25
  */
 @Configuration
-public class ConcurrentSessionConfig {
+public class ConcurrentSessionAutoConfiguration {
 
 
     @Configuration

@@ -9,18 +9,25 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zws.framework</groupId>
+    <groupId>com.zws.springboot</groupId>
     <artifactId>springboot</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>features</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>Cairo-SR5</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
-    <dependencies>
-        <dependency>
-            <groupId>io.spring.platform</groupId>
-            <artifactId>platform-bom</artifactId>
-            <version>Brussels-SR13</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-    </dependencies>
 
 </project>
