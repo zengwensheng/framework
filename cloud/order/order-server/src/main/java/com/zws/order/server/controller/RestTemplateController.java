@@ -39,8 +39,11 @@ public class RestTemplateController {
          * 原理
          * {@link org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration}
          * 这个类中会获取标记了@LoadBalanced的RestTempalte的Bean,在这个bean上加上拦截器
-         * @Todo 这个地方先暂停 ，因为李浩那个坑比要我去看config手动刷新的bug 等我把手动刷新写完在回来
-         *
+         * 然后在 {@link org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration.LoadBalancerInterceptorConfig}
+         * 的restTemplateCustomizer方法给restTemplate加了一个
+         * {@link org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor}
+         * 当服务发送请求的时候会判断这个restTemplate是否存在拦截器，如果存在就会调用LoadBalancerInterceptor的intercept方法
+         * 然后回去调用{@link org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient} 中的execute方法
          *
          */
         response = restTemplate2.getForObject("http://PRODUCT/msg",String.class);
