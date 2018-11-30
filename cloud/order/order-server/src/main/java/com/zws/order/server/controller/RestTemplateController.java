@@ -39,7 +39,7 @@ public class RestTemplateController {
          * 原理
          * 通过在RestTemplate上加载拦截器，使拦截器去ribbon那里获取的ip，然后去调用
          * 详见 笔记1.1-源码分析-spring boot-cloud-ribbon 有道云
-         *
+         * @TODO ribbon 原理 {@link com.netflix.loadbalancer.ZoneAwareLoadBalancer,org.springframework.cloud.netflix.ribbon.ZonePreferenceServerListFilter} 未解析透
          *
          */
         response = restTemplate2.getForObject("http://PRODUCT/msg",String.class);
