@@ -19,10 +19,13 @@
         <module>order</module>
         <module>product</module>
         <module>config-server</module>
+        <module>cloud-common</module>
     </modules>
 
     <properties>
         <boot.maven.plugin.version>1.3.3.RELEASE</boot.maven.plugin.version>
+        <cloud-common-version>1.0.0-SNAPSHOT</cloud-common-version>
+        <swagger.version>2.1.2-RELEASE</swagger.version>
     </properties>
 
 
@@ -74,12 +77,22 @@
                 <scope>import</scope>
             </dependency>-->
 
-
+                <dependency>
+                    <groupId>com.zws.cloud</groupId>
+                    <artifactId>cloud-common</artifactId>
+                    <version>${cloud-common-version}</version>
+                </dependency>
         </dependencies>
-
-
-
     </dependencyManagement>
+
+    <dependencies>
+        <!-- 文档地址 https://github.com/battcn/swagger-spring-boot -->
+        <dependency>
+            <groupId>com.battcn</groupId>
+            <artifactId>swagger-spring-boot-starter</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+    </dependencies>
 
 
 

@@ -50,6 +50,11 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.zws.cloud</groupId>
+            <artifactId>cloud-common</artifactId>
+        </dependency>
+
 
     </dependencies>
 

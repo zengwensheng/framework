@@ -25,6 +25,8 @@ public class DemoAuthorizeConfigProvider implements AuthorizeConfigProvider {
                 "/user/binding"
                         ,"/user/appBinding"
                         ,"/login.html"
+                        ,"/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger-resources/configuration/ui","/swagge‌​r-ui.html"
+
                      )
                 .permitAll();
         return false;

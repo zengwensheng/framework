@@ -7,6 +7,28 @@ spring:
         service-id: config
         enabled: true
       profile: dev
+    encoding: UTF-8
+  swagger:
+    enabled: true
+    security:
+       username: zws
+       password: zws123456
+       filter-plugin: true
+    global-response-messages:
+       POST[0]:
+          code: 400
+          message: 请求参数错误
+       POST[1]:
+          code: 404
+          message: 页面未找到
+    global-operation-parameters:
+        -   description: 'Token信息,必填项'
+            modelRef: 'string'
+            name: 'Authorization'
+            parameter-type: 'header'
+            required: true
+    base-package: com.zws
+
 eureka:
   client:
     service-url:

@@ -1,4 +1,4 @@
-package com.zws.common;
+package com.zws.common.util;
 
 /**
  * @author zws

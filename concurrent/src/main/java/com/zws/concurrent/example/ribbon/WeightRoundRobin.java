@@ -1,6 +1,6 @@
 package com.zws.concurrent.example.ribbon;
 
-import com.zws.common.MathUtil;
+import com.zws.common.util.MathUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
