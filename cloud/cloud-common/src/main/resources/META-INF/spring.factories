@@ -1,4 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.zws.common.validate.ValidateAspect,\
-com.zws.common.swagger.SwaggerConfigurer,\
-com.zws.common.validate.ControllerException
+com.zws.common.validate.ValidateAutoConfiguration

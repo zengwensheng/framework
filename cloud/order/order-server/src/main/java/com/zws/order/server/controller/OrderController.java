@@ -2,8 +2,12 @@ package com.zws.order.server.controller;
 
 import com.zws.order.common.dto.OrderDto;
 import com.zws.order.common.vo.OrderVO;
+import com.zws.order.server.service.OrderService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +23,8 @@ import javax.validation.Valid;
 @Api(value="/order", tags="订单模块")
 public class OrderController {
 
+    @Autowired
+    private OrderService orderService;
 
     /**
      * 1. 参数检验
@@ -30,7 +36,7 @@ public class OrderController {
      @ApiOperation("创建订单")
      @PostMapping("/create")
      public OrderVO create(@Valid OrderDto orderDto, BindingResult bindingResult){
-         return new OrderVO();
+         return orderService.create(orderDto);
      }
 
 }

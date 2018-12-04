@@ -12,4 +12,16 @@ spring:
 eureka:
   client:
     service-url:
-       defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/,http://localhost:8763/eureka/ # 多个以逗号隔开，eureka即是服务端，也是客户端
+       # 多个以逗号隔开，eureka即是服务端，也是客户端
+       defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/,http://localhost:8763/eureka/
+encrypt:
+  key-store:
+    #keytool -genkeypair -alias zws -keyalg RSA -dname "CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US" -keypass zwssecret -keystore server.jks -storepass zws123456
+    location: classpath：/server.jks
+    password: zws123456
+    alias: zws
+    secret: zwssecret
+
+
+
+

@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author zws
@@ -36,6 +38,6 @@ public class OrderDto {
 
 
     @ApiModelProperty(value = "购物车")
-    @NotEmpty(message = "购物车不能为空")
-    private String items;
+    @NotNull(message = "购物车不能空")
+    private List<OrderDetailDto> items;
 }

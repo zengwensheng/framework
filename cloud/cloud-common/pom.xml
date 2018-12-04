@@ -12,6 +12,10 @@
     <groupId>com.zws.cloud</groupId>
     <artifactId>cloud-common</artifactId>
 
+    <properties>
+        <common.version>1.0.0-SNAPSHOT</common.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -20,6 +24,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zws.framework</groupId>
+            <artifactId>common</artifactId>
+            <version>${common.version}</version>
         </dependency>
     </dependencies>
 
