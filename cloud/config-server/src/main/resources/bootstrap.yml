@@ -16,6 +16,9 @@ eureka:
        defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/,http://localhost:8763/eureka/
 encrypt:
   key-store:
+    # 注：如果配置了这个东西必须配置在bootstrap.yml中，不然EncryptionAutoConfiguration 会加载不到RsaProperties 导致报错
+    # 原因：因为RsaProperties在EncryptionBootstrapConfiguration这个配置初始化的，所以它是放在bootstratp Context中的，不是放在spring Applicaiton context
+    # 如果放在application.yml会找不到RsaProperties
     #keytool -genkeypair -alias zws -keyalg RSA -dname "CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US" -keypass zwssecret -keystore server.jks -storepass zws123456
     location: classpath：/server.jks
     password: zws123456
