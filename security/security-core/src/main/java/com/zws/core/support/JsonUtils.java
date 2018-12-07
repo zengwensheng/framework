@@ -7,12 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @email 2848392861@qq.com
  * date 2018/9/30
  */
-public class JsonUtils {
+public interface JsonUtils {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    ObjectMapper objectMapper = new ObjectMapper();
 
 
-    public static String writeValueAsString(Object object){
+    static String writeValueAsString(Object object){
         if(object==null){
             return "";
         }
@@ -23,7 +23,7 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T readValue(String result,Class<T> obj){
+    static <T> T readValue(String result,Class<T> obj){
          try{
             return objectMapper.readValue(result,obj);
          }catch (Exception e){

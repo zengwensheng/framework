@@ -14,7 +14,6 @@
         <module>security</module>
         <module>sso-demo</module>
         <module>concurrent</module>
-        <module>jvm</module>
         <module>cloud</module>
         <module>springboot</module>
         <module>common</module>

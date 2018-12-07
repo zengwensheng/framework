@@ -5,7 +5,7 @@ package com.zws.common.util;
  * @email 2848392861@qq.com
  * date 2018/11/23
  */
-public class MathUtil {
+public interface MathUtil {
 
     /**
      * 辗转相除法求最大公约数
@@ -13,7 +13,7 @@ public class MathUtil {
      * @param n2
      * @return
      */
-    public static int getGcdByDivide(Integer n1,Integer n2){
+     static int getGcdByDivide(Integer n1,Integer n2){
         int max = n1>n2?n1:n2;
         int min = n1<n2?n1:n2;
         if(max%min==0){
@@ -29,7 +29,7 @@ public class MathUtil {
      * @param b
      * @return
      */
-    public static int getLcm(int a, int b) {
+    static int getLcm(int a, int b) {
         return a * b / getGcdByDivide(a, b);
     }
 
@@ -39,7 +39,7 @@ public class MathUtil {
      * @param n2
      * @return
      */
-    public static int getGcdByLess(Integer n1,Integer n2){
+    static int getGcdByLess(Integer n1,Integer n2){
         int max = n1>n2?n1:n2;
         int min = n1<n2?n1:n2;
 
