@@ -9,6 +9,7 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  * @author zws
  * @email 2848392861@qq.com
  * date 2018/11/27
+ * @Todo config 框架尚未解析
  */
 @SpringBootApplication
 @EnableConfigServer

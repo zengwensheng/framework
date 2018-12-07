@@ -1,0 +1,10 @@
+eureka:
+  client:
+    service-url:
+       # 多个以逗号隔开，eureka即是服务端，也是客户端
+       defaultZone: http://eureka1:8761/eureka/,http://eureka2:8762/eureka/
+  instance:
+      ip-address: 192.168.1.73
+
+
+
