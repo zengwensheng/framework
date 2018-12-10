@@ -32,7 +32,7 @@ public class ControllerException {
         log.error("##### url:{},ValidateException#######",request.getRequestURI(),validateException);
         List<ErrorResponse> list = new ArrayList<>();
         for (ObjectError objectError:validateException.getErrors()){
-           list.add(new ErrorResponse(validateException.getErrorEnum().getCode(),objectError.getDefaultMessage()));
+           list.add(new ErrorResponse(validateException.getCode(),objectError.getDefaultMessage()));
         }
         return list;
     }

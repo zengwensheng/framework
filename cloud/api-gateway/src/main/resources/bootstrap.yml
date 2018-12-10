@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      discovery:
+        service-id: config
+        enabled: true
+      profile: @spring.profiles.active@
+    encoding: UTF-8
+  profiles:
+      active: @spring.profiles.active@
+eureka:
+  instance:
+    prefer-ip-address: true

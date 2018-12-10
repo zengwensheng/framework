@@ -30,6 +30,7 @@
         </dependency>
     </dependencies>
 
+
     <build>
         <plugins>
             <plugin>
@@ -58,7 +59,6 @@
             </resource>
         </resources>
     </build>
-
     <profiles>
         <profile>
             <!--执行打包命令时将使用此处的id进行定位-->

@@ -1,5 +1,6 @@
 package com.zws.product.client;
 
+import com.zws.product.common.dto.DecreaseStockDTO;
 import com.zws.product.common.vo.ProductInfoVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,5 +27,9 @@ public interface ProductClient {
      */
     @PostMapping("/findProductInfoByProductIdIn")
     List<ProductInfoVO> findProductInfoByProductIdIn(@RequestBody List<String> productIds);
+
+
+    @PostMapping("/decreaseStock")
+    void decreaseStock(@RequestBody List<DecreaseStockDTO> decreaseStockInputList);
 
 }

@@ -1,15 +1,20 @@
 package com.zws.product.server.service.impl;
 
+import com.zws.product.common.dto.DecreaseStockDTO;
 import com.zws.product.common.vo.ProductInfoVO;
 import com.zws.product.server.dao.ProductInfoDao;
+import com.zws.product.server.exception.ProductEnum;
+import com.zws.product.server.exception.ProductException;
 import com.zws.product.server.po.ProductInfo;
 import com.zws.product.server.service.ProductInfoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author zws
@@ -41,5 +46,28 @@ public class ProductInfoServiceImpl implements ProductInfoService {
             }
         }
         return productInfoVOList;
+    }
+
+
+    @Transactional
+    @Override
+    public void decreaseStock(List<DecreaseStockDTO> decreaseStockDTOList) {
+        for (DecreaseStockDTO decreaseStockInput: decreaseStockDTOList) {
+            Optional<ProductInfo> productInfoOptional = productInfoDao.findById(decreaseStockInput.getProductId());
+            //判断商品是否存在
+            if (!productInfoOptional.isPresent()){
+                throw new ProductException(ProductEnum.PRODUCT_NOT_EXIST);
+            }
+
+            ProductInfo productInfo = productInfoOptional.get();
+            //库存是否足够
+            Integer result = productInfo.getProductStock() - decreaseStockInput.getProductQuantity();
+            if (result < 0) {
+                throw new ProductException(ProductEnum.PRODUCT_STOCK_ERROR);
+            }
+
+            productInfo.setProductStock(result);
+            productInfoDao.save(productInfo);
+        }
     }
 }

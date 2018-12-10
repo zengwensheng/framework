@@ -1,5 +1,6 @@
 package com.zws.product.server.service;
 
+import com.zws.product.common.dto.DecreaseStockDTO;
 import com.zws.product.common.vo.ProductInfoVO;
 import com.zws.product.server.po.ProductInfo;
 
@@ -13,4 +14,6 @@ import java.util.List;
 public interface ProductInfoService {
 
     List<ProductInfoVO> findProductInfoByProductIdIn(List<String> productIds);
+
+    void decreaseStock(List<DecreaseStockDTO> decreaseStockInputList);
 }

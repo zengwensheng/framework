@@ -1,17 +1,26 @@
 package com.zws.order.server.service.impl;
 
-import com.netflix.discovery.converters.Auto;
-import com.zws.order.common.dto.OrderDetailDto;
-import com.zws.order.common.dto.OrderDto;
+import com.zws.order.common.dto.OrderDetailDTO;
+import com.zws.order.common.dto.OrderMasterDTO;
+import com.zws.order.common.enums.OrderStatusEnum;
+import com.zws.order.common.enums.PayStatusEnum;
 import com.zws.order.common.vo.OrderVO;
+import com.zws.order.server.dao.OrderDetailDao;
+import com.zws.order.server.dao.OrderMasterDao;
+import com.zws.order.server.po.OrderDetail;
+import com.zws.order.server.po.OrderMaster;
 import com.zws.order.server.service.OrderService;
 import com.zws.product.client.ProductClient;
+import com.zws.product.common.dto.DecreaseStockDTO;
 import com.zws.product.common.vo.ProductInfoVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -26,11 +35,54 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ProductClient productClient;
 
-    @Override
-    public OrderVO create(OrderDto orderDto) {
-        List<String> productIds = orderDto.getItems().stream().map(OrderDetailDto::getProductId).collect(Collectors.toList());
-        List<ProductInfoVO> productInfoVOList =  productClient.findProductInfoByProductIdIn(productIds);
+    @Autowired
+    private OrderDetailDao orderDetailDao;
+    @Autowired
+    private OrderMasterDao orderMasterDao;
 
-        return null;
+    @Override
+    public OrderVO create(OrderMasterDTO orderMasterDTO) {
+        String orderId = UUID.randomUUID().toString();
+        List<String> productIds = orderMasterDTO.getItems().stream().map(OrderDetailDTO::getProductId).collect(Collectors.toList());
+        List<ProductInfoVO> productInfoVOList = productClient.findProductInfoByProductIdIn(productIds);
+
+        BigDecimal orderAmount = new BigDecimal(BigInteger.ZERO);
+
+        for (OrderDetailDTO orderDetailDTO : orderMasterDTO.getItems()) {
+            for (ProductInfoVO productInfoVO : productInfoVOList) {
+                if (orderDetailDTO.getProductId().equals(productInfoVO.getProductId())) {
+
+                    orderAmount = productInfoVO.getProductPrice().multiply(new BigDecimal(orderDetailDTO.getProductQuantity())).add(orderAmount);
+                    OrderDetail orderDetail = new OrderDetail();
+                    BeanUtils.copyProperties(productInfoVO,orderDetail);
+                    orderDetail.setOrderId(orderId);
+                    orderDetail.setDetailId(UUID.randomUUID().toString());
+                    orderDetail.setProductQuantity(orderDetailDTO.getProductQuantity());
+
+                    orderDetailDao.save(orderDetail);
+                }
+            }
+        }
+
+        List<DecreaseStockDTO> decreaseStockDTOList = orderMasterDTO.getItems()
+                .stream()
+                .map(orderDetailDTO -> new DecreaseStockDTO(orderDetailDTO.getProductId(),orderDetailDTO.getProductQuantity()))
+                .collect(Collectors.toList());
+        productClient.decreaseStock(decreaseStockDTOList);
+
+        //订单入库
+        OrderMaster orderMaster = new OrderMaster();
+        BeanUtils.copyProperties(orderMasterDTO, orderMaster);
+        orderMaster.setOrderId(orderId);
+        orderMaster.setOrderAmount(orderAmount);
+        orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
+        orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
+        orderMasterDao.save(orderMaster);
+
+        OrderVO vo;
+        BeanUtils.copyProperties(orderMaster,vo = new OrderVO());
+        return vo;
+
+
     }
 }

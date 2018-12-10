@@ -3,66 +3,33 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>order</artifactId>
+        <artifactId>cloud</artifactId>
         <groupId>com.zws.cloud</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zws.cloud</groupId>
-    <artifactId>order-server</artifactId>
+    <artifactId>api-gateway</artifactId>
 
 
     <dependencies>
         <dependency>
-            <groupId>com.zws.cloud</groupId>
-            <artifactId>order-common</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
-       <dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-
-        <!--<dependency>
+       <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>-->
-
-        <!-- @TODO eureka客户端搭建存在问题
-        日志错误（Unregistering application ORDER with eureka with status DOWN）
-        解决方法 加入web组件即可解决，没有找出原因  -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.zws.cloud</groupId>
-            <artifactId>cloud-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.zws.cloud</groupId>
-            <artifactId>product-client</artifactId>
-        </dependency>
-
-
-
     </dependencies>
 
     <build>
@@ -93,7 +60,6 @@
             </resource>
         </resources>
     </build>
-
     <profiles>
         <profile>
             <!--执行打包命令时将使用此处的id进行定位-->
@@ -113,6 +79,5 @@
             </properties>
         </profile>
     </profiles>
-
 
 </project>

@@ -18,7 +18,7 @@ public class ValidateException extends CloudException {
     private List<ObjectError> errors;
 
     public ValidateException(List<ObjectError> errors,ErrorEnum errorEnum) {
-        super(errorEnum);
+        super(errorEnum.getCode(),errorEnum.getMsg());
         this.errors = errors;
     }
 }

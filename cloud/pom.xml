@@ -20,6 +20,7 @@
         <module>product</module>
         <module>config-server</module>
         <module>cloud-common</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>
@@ -99,6 +100,7 @@
             <version>${swagger.version}</version>
         </dependency>
     </dependencies>
+
 
 
 

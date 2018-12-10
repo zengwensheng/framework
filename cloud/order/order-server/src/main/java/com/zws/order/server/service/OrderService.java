@@ -1,6 +1,6 @@
 package com.zws.order.server.service;
 
-import com.zws.order.common.dto.OrderDto;
+import com.zws.order.common.dto.OrderMasterDTO;
 import com.zws.order.common.vo.OrderVO;
 
 /**
@@ -10,5 +10,5 @@ import com.zws.order.common.vo.OrderVO;
  */
 public interface OrderService {
 
-    OrderVO create(OrderDto orderDto);
+    OrderVO create(OrderMasterDTO orderMasterDTO);
 }

@@ -16,11 +16,14 @@ public class CloudException extends RuntimeException{
     private static final long serialVersionUID = -4033877326715070699L;
 
 
-    private ErrorEnum errorEnum;
+    private Integer code;
+
+    private String msg;
 
 
-    public CloudException(ErrorEnum errorEnum) {
-        super(errorEnum.getMsg());
-        this.errorEnum= errorEnum;
+    public CloudException(int code,String msg) {
+        super(msg);
+        this.code=code;
+        this.msg=msg;
     }
 }

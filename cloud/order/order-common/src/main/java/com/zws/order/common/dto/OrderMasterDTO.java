@@ -16,7 +16,7 @@ import java.util.List;
  */
 @ApiModel(description = "订单创建传输对象")
 @Data
-public class OrderDto {
+public class OrderMasterDTO {
 
     @ApiModelProperty(value = "买家姓名")
     @NotEmpty(message = "买家姓名必填")
@@ -39,5 +39,5 @@ public class OrderDto {
 
     @ApiModelProperty(value = "购物车")
     @NotNull(message = "购物车不能空")
-    private List<OrderDetailDto> items;
+    private List<OrderDetailDTO> items;
 }
