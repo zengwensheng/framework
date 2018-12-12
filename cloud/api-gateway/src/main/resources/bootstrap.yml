@@ -13,3 +13,17 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
+zuul:
+  ratelimit:
+    enabled: true
+    behind-proxy: true
+    policy-list:
+       product:
+         - limit: 10
+           refresh-interval: 60
+           type:
+             - user
+             - origin
+             - url
+    repository: redis
+

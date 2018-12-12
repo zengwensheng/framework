@@ -9,6 +9,7 @@ import java.util.function.Function;
  * @email 2848392861@qq.com
  * date 2018/12/7
  * 通过jdk提供的函数接口，来使用lambda
+ * 函数接口详细介绍详见：笔记1.1-java-java基础-jdk-function
  */
 class MyMoney{
     private final int money;
