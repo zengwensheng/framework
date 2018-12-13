@@ -22,14 +22,22 @@ import java.util.stream.Stream;
  */
 public class RunStream {
 
+    static  Random random = new Random();
+    public static Integer randomInteger(){
+        return random.nextInt();
+    }
+
     public static void main(String[] args) {
-        Random random = new Random();
+
 
         //随机产生数据
-        Stream<Integer>  stream = Stream.generate(()->random.nextInt())
+        Stream<Integer>  stream = Stream.generate(RunStream::randomInteger)
                 //无限流需要短路操作
-                .limit(500)
-                //无状态操作
+                .limit(500);
+         stream.count();
+
+        stream = stream
+        //无状态操作
                 .peek(s->print("peek:"+s))
                 //无状态操作
                 .filter(s->{
