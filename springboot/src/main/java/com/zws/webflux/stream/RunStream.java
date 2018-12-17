@@ -72,6 +72,7 @@ public class RunStream {
         List<String> list = Lists.newArrayList(
                 "bcd", "cde", "def", "abc");
         list = list.stream()
+                .parallel()
                 .filter(e->e.length()>=3)
                 .map(e->e.charAt(0))
                 .map(String::valueOf)

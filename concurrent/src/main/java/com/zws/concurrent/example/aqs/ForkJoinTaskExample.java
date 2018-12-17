@@ -58,6 +58,9 @@ public class ForkJoinTaskExample extends RecursiveTask<Long> {
     }
 
     public static void main(String[] args) {
+
+
+
         long startNum =0;
         long endNum = 2000000000;
 
@@ -72,6 +75,7 @@ public class ForkJoinTaskExample extends RecursiveTask<Long> {
         log.info("java 8 顺序流 耗费时间：{}"+Duration.between(start,Instant.now()).toMillis());
 
         start = Instant.now();
+
         ForkJoinPool forkjoinPool = new ForkJoinPool();
         //生成一个计算任务，计算1+2+3+4
 
