@@ -62,7 +62,7 @@ public class ForkJoinTaskExample extends RecursiveTask<Long> {
 
 
         long startNum =0;
-        long endNum = 2000000000;
+        long endNum = 100;
 
         Instant start = Instant.now();
         long l =  LongStream.rangeClosed(startNum,endNum).parallel().reduce(0,Long::sum);
