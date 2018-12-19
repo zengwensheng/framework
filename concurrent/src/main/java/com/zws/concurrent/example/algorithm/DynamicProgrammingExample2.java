@@ -108,15 +108,15 @@ public class DynamicProgrammingExample2 {
 
         if(tempList.get(0).getWeight()>maxWeight){
             tempList.remove(0);
-            return  maxVal(tempList,maxWeight);
+            return  fastMaxVal(tempList,maxWeight,memo);
         }
 
         Item nextItem = tempList.remove(0);
 
-        List<Item> leftToken = maxVal(tempList,maxWeight-nextItem.getWeight());
+        List<Item> leftToken = fastMaxVal(tempList,maxWeight-nextItem.getWeight(),memo);
         Double leftPrice =  leftToken.parallelStream().map(Item::getPrice).mapToDouble(Float::doubleValue).sum()+nextItem.getPrice();
 
-        List<Item> rightToken = maxVal(tempList,maxWeight);
+        List<Item> rightToken = fastMaxVal(tempList,maxWeight,memo);
         Double rightPrice =  rightToken.parallelStream().map(Item::getPrice).mapToDouble(Float::doubleValue).sum();
 
         if(leftPrice>rightPrice){

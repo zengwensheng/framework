@@ -1,14 +1,10 @@
 package com.zws.webflux.stream;
 
-import org.assertj.core.util.Lists;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * @author zws
@@ -69,8 +65,12 @@ public class RunStream {
          * 运行原理详见： 笔记1.1-java-java基础-jdk-stream
          */
 
-        List<String> list = Lists.newArrayList(
-                "bcd", "cde", "def", "abc");
+        List<String> list =  new ArrayList<String>(){{
+           add("bcd");
+           add("cde");
+           add("def");
+           add("abc");
+        }};
         list = list.stream()
                 .parallel()
                 .filter(e->e.length()>=3)

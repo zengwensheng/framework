@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.RecursiveTask;
 import java.util.stream.Collectors;
 
 /**
@@ -100,6 +101,7 @@ enum Grade {
 
 public class CollectDemo {
     public static void main(String[] args) {
+
         // 测试数据
         List<Student> students = Arrays.asList(
                 new Student("小明", 10, Gender.MALE, Grade.ONE),
