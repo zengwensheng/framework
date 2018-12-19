@@ -46,9 +46,16 @@ public class DynamicProgrammingExample2 {
         };
         Instant instant = Instant.now();
 
-        itemList =  maxVal(itemList,150F);
-        itemList.parallelStream().forEach(System.out::println);
-        System.out.println("价格："+(itemList.parallelStream().map(Item::getPrice).mapToDouble(Float::doubleValue).sum()));
+        List<Item> itemList1 =  maxVal(itemList,150F);
+        itemList1.parallelStream().forEach(System.out::println);
+        System.out.println("价格："+(itemList1.parallelStream().map(Item::getPrice).mapToDouble(Float::doubleValue).sum()));
+        System.out.println("时间："+Duration.between(instant,Instant.now()).toMillis());
+
+
+        instant = Instant.now();
+        List<Item> itemList2 =  fastMaxVal(itemList,150F,new HashMap<>());
+        itemList2.parallelStream().forEach(System.out::println);
+        System.out.println("价格："+(itemList2.parallelStream().map(Item::getPrice).mapToDouble(Float::doubleValue).sum()));
         System.out.println("时间："+Duration.between(instant,Instant.now()).toMillis());
 
     }
@@ -81,6 +88,49 @@ public class DynamicProgrammingExample2 {
         }
         return rightToken;
   }
+
+    private static List<Item> fastMaxVal(List<Item> itemList, Float maxWeight,Map<String,Map<Float,List<Item>>> memo){
+        String firstKey =   itemList.parallelStream().map(Item::getName).reduce((s1,s2)-> s1+s2).orElse("");
+        Map<Float,List<Item>> secondMemo ;
+        if((secondMemo=memo.get(firstKey))!=null){
+             List<Item> thirdMemo;
+             if((thirdMemo =secondMemo.get(maxWeight))!=null){
+                 return thirdMemo;
+             }
+        }
+
+
+        List<Item> tempList  = (List<Item>)((ArrayList)itemList).clone();
+
+        if(tempList.size()==0 || maxWeight==0){
+            return new ArrayList<>();
+        }
+
+        if(tempList.get(0).getWeight()>maxWeight){
+            tempList.remove(0);
+            return  maxVal(tempList,maxWeight);
+        }
+
+        Item nextItem = tempList.remove(0);
+
+        List<Item> leftToken = maxVal(tempList,maxWeight-nextItem.getWeight());
+        Double leftPrice =  leftToken.parallelStream().map(Item::getPrice).mapToDouble(Float::doubleValue).sum()+nextItem.getPrice();
+
+        List<Item> rightToken = maxVal(tempList,maxWeight);
+        Double rightPrice =  rightToken.parallelStream().map(Item::getPrice).mapToDouble(Float::doubleValue).sum();
+
+        if(leftPrice>rightPrice){
+            leftToken.add(nextItem);
+            secondMemo = new HashMap<>();
+            secondMemo.put(maxWeight,leftToken);
+            memo.put(firstKey,secondMemo);
+            return leftToken;
+        }
+        secondMemo = new HashMap<>();
+        secondMemo.put(maxWeight,rightToken);
+        memo.put(firstKey,secondMemo);
+        return rightToken;
+    }
 
 
 
