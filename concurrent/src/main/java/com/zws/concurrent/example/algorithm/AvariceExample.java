@@ -29,6 +29,7 @@ import java.util.stream.IntStream;
 public class AvariceExample {
 
     public static void main(String[] args) {
+
         //初始化广播台信息
         HashMap<String,HashSet<String>> broadcasts = new HashMap<String,HashSet<String>>();
         broadcasts.put("K1", new HashSet(Arrays.asList(new String[] {"ID","NV","UT"})));

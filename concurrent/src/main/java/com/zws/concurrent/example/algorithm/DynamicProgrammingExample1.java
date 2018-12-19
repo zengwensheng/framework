@@ -33,9 +33,7 @@ public class DynamicProgrammingExample1 {
 
 
 
-        Long n = 120L;
-
-
+        Long n =37L;
 
         Instant start = Instant.now();
         /*System.out.println(fibnacci(n));
