@@ -3,8 +3,16 @@ package com.zws.webflux.jdk9;
 import java.util.concurrent.Flow;
 import java.util.concurrent.SubmissionPublisher;
 
-
-public class FlowDemo {
+/**
+ * @author zws
+ * @email 2848392861@qq.com
+ * date 2018/12/20
+ *
+ * jdk 1.9 新特性
+ * 响应式编程
+ *
+ */
+public class FlowDemo1 {
 
     public static void main(String[] args) {
         /**
@@ -86,7 +94,7 @@ public class FlowDemo {
         submissionPublisher.close();
 
         try {
-            Thread.currentThread().join(1000);
+            Thread.currentThread().join();
         }catch (Exception e){
         }
 
