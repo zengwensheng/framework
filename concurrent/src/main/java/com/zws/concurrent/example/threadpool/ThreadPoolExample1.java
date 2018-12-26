@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
  * @author zws
  * @email 2848392861@qq.com
  * date 2018/11/14
- * @TODO 源码还未解析
+ * 原理详见：笔记1.1-java基础-并发编程-线程池解析
  */
 @Slf4j
 public class ThreadPoolExample1 {
