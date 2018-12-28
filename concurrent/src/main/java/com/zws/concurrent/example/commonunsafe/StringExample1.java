@@ -3,6 +3,7 @@ package com.zws.concurrent.example.commonunsafe;
 import com.zws.concurrent.annoations.NotThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.DecimalFormat;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -48,7 +49,8 @@ public class StringExample1 {
     }
 
 
-    private static void update(){
+    private static  void update(){
+
         builder.append("1");
     }
 }
