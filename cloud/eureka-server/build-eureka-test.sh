@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+l#!/usr/bin/env bash
 
 mvn clean package -Dmaven.test.skip=true -P test  -U
 
