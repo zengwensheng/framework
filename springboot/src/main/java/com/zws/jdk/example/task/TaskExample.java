@@ -1,4 +1,4 @@
-package com.zws.jvm.task;
+package com.zws.jdk.example.task;
 
 import java.util.Date;
 import java.util.Timer;
@@ -17,7 +17,7 @@ import java.util.TimerTask;
  *  TimerTask是按nextExecutionTime进行堆排序的
  *  单线程 + 最小堆 + 不断轮询
  */
-public class TaskTest {
+public class TaskExample {
     public static void main(String[] args)throws   Exception {
         Timer timer = new Timer();
         Task task = new Task();
