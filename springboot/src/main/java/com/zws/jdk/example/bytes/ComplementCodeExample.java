@@ -42,14 +42,14 @@ package com.zws.jdk.example.bytes;
  *    无符号数及带符号数的加法运算可以用同一电路完成；
  *    使用补码，修复了原码中0的符号(有 [+0] [-0] 之分)以及存在两个编码(0000 0000 和 1000 0000)的问题，而且还能够多表示一个最低数。
  *
- * 详细： 笔记1。1-java-Java基础-jdk-byte-补码
+ * 详细： 笔记1。1-java-Java基础-jdk-base-补码
  *
  */
-public class ComplementalCodeExample {
+public class ComplementCodeExample {
 
 
     public static void main(String[] args) {
-        printByte(-1);
+        overflow();
     }
 
 
@@ -90,11 +90,7 @@ public class ComplementalCodeExample {
     }
 
 
-    public static void printByte(Integer i){
-        byte b =   i.byteValue();
 
-
-    }
 
 
 

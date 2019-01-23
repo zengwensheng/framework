@@ -39,18 +39,24 @@ public class LexicalStructExample {
     private static float d =0x1.ffffeP+127f;
 
     private static float e=1996;
-    /**
-     *   private static float f = 1996.3;
-     */
 
     /**
-     *  private static int g= 9999e2;
+     * 不合法的float
+     * private static float f = 1996.3;
      */
+
+
+   // private static int g= 9999e2;
 
     private static double h = 33e2;
 
-    private static float i = 0x1.ff
+   private static float i = 0x1.fffep-12f;
 
+  //  private static float j = 1.fffep-12f; 不合法e的p次方
+
+    private static long k = 0b1_1_1_0_1;
+
+   // private static long l=0b1_1_1_0_2; 不合法    二进制数字没有2
 
 
 
@@ -64,5 +70,9 @@ public class LexicalStructExample {
         System.out.println(a);
         System.out.println(b);
         System.out.println(d);
+        System.out.println(e);
+        System.out.println(h);
+        System.out.println(i);
+        System.out.println(k);
     }
 }
