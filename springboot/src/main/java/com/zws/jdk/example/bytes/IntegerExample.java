@@ -1,5 +1,7 @@
 package com.zws.jdk.example.bytes;
 
+import com.zws.jdk.util.BinaryUtil;
+
 /**
  * @author zws
  * @email 2848392861@qq.com
@@ -16,12 +18,17 @@ public class IntegerExample {
 
     public static void main(String[] args) {
 
-        System.out.println(printComplementCode(0x80000000));
+        System.out.println(printBinary(0x80000000));
 
         int n = 99;
-        System.out.println(printComplementCode(n));
 
         System.out.println(Integer.toBinaryString(n));
+
+        String nBinary =  printBinary(n);
+        System.out.println(printBinary(n));
+        System.out.println(BinaryUtil.twoToTen(nBinary));
+
+
 
     }
 
@@ -31,7 +38,7 @@ public class IntegerExample {
      * @param n
      * @return
      */
-    public static String printComplementCode(Integer n) {
+    public static String printBinary(Integer n) {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < 32; i++) {
             int t = (n & 0x80000000 >>> i) >>> (31 - i);

@@ -1,5 +1,7 @@
 package com.zws.jdk.example.bytes;
 
+import com.zws.jdk.util.BinaryUtil;
+
 /**
  * @author zws
  * @email 2848392861@qq.com
@@ -22,7 +24,7 @@ package com.zws.jdk.example.bytes;
  *   R：2
  *
  *  100.2f 的二进制  0 10000101 10010000110011001100110
- *
+ *  1.1001000011001100110011 * 10^6  =100.2f
  *
  *
  */
@@ -30,13 +32,14 @@ public class FloatExample {
 
 
     public static void main(String[] args) {
-        System.out.println( printComplementCode(100.2f));
+        System.out.println(printBinary(100.2f));
+        System.out.println(BinaryUtil.twoToTen("1.1001000011001100110011"));
 
 
     }
 
 
-    public static String printComplementCode(float f){
+    public static String printBinary(float f){
         int val = Float.floatToIntBits(f);
         return f>0?"0"+Integer.toBinaryString(val):Integer.toBinaryString(val);
     }
