@@ -15,15 +15,15 @@ public class BinaryUtil {
     static String NUMBER_REGEX = "[0-9].*";
 
 
-    public static String twoToTen(String binary) {
+    public static BigDecimal twoToTen(String binary) {
         Pattern pattern = Pattern.compile(NUMBER_REGEX);
         Matcher matcher = pattern.matcher(binary);
         if (!matcher.matches()) {
-            return "";
+            return BigDecimal.ZERO;
         }
         int length = binary.length();
         if (binary.indexOf(".") != -1) {
-            length = binary.split(".")[0].length();
+            length = binary.indexOf(".");
             binary = binary.replace(".", "");
         }
 
@@ -32,8 +32,18 @@ public class BinaryUtil {
             ten = ten.add(BigDecimal.valueOf(Long.valueOf(binary.substring(j,j+1))).multiply(BigDecimal.valueOf(Math.pow(2, i))));
         }
 
-        return ten.toString();
+        return ten;
 
+    }
+
+
+    public static Integer twoToInteger(String binary){
+
+        binary =  twoToTen(binary).toString();
+        if(binary.lastIndexOf(".")!=-1) {
+            return Integer.valueOf(binary.substring(0, binary.lastIndexOf(".")));
+        }
+        return Integer.valueOf(binary);
     }
 
 

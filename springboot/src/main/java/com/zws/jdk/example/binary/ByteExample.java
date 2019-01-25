@@ -1,15 +1,16 @@
-package com.zws.jdk.example.bytes;
+package com.zws.jdk.example.binary;
 
 /**
  * @author zws
  * @email 2848392861@qq.com
- * date 2019/1/21
+ * date 2019/1/25
  *
  * byte类型的表示范围为[-128，+127
  *
  * 十进制方式，直接书写十进制数字
  * 八进制方式，格式以0打头，例如012表示十进制10
  * 十六进制方式，格式为0x打头，例如0xff表示十进制255
+ *
  *
  * 在计算机内，有符号数有3种表示法：原码、反码和补码
  *
@@ -43,16 +44,14 @@ package com.zws.jdk.example.bytes;
  *    使用补码，修复了原码中0的符号(有 [+0] [-0] 之分)以及存在两个编码(0000 0000 和 1000 0000)的问题，而且还能够多表示一个最低数。
  *
  * 详细： 笔记1。1-java-Java基础-jdk-base-补码
- *
  */
-public class ComplementCodeExample {
+public class ByteExample {
+
 
 
     public static void main(String[] args) {
         overflow();
     }
-
-
 
 
     /**
@@ -88,10 +87,4 @@ public class ComplementCodeExample {
         System.out.println(e);  // 127
         System.out.println(f);  // 126
     }
-
-
-
-
-
-
 }
