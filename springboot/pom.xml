@@ -13,6 +13,7 @@
     <artifactId>springboot</artifactId>
 
 
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -49,8 +50,9 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>
 
+
+    </dependencies>
 
 
 
