@@ -11,7 +11,7 @@ package com.zws.jdk.example.startup;
  *   三： 设置线程栈大小
  *   四： 执行java main方法
  *
- *
+ * 详细见： 笔记1.1-java基础-jdk-base-jvm启动流程
  */
 public class StartupExample {
 
