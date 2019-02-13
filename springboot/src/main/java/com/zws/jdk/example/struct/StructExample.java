@@ -20,6 +20,8 @@ package com.zws.jdk.example.struct;
  *         对象刚产生时是放在eden区，当经过一次GC后，放入s0或s1区,然后每次GC会给对象加一岁，当达到一定年龄会进入老年代
  *     GC的主要工作区间
  *
+ *     详见：笔记1.1 -java基础-jdk-base-JVM 堆及对象分配过程,对象内存布局,对象内存访问
+ *
  *  Java栈
  *    见  {@link StackExample}
  *

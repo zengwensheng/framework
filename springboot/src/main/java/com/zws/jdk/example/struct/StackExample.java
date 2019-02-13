@@ -40,6 +40,17 @@ package com.zws.jdk.example.struct;
  * java虚拟机提供的一种优化技术，基本思想是对于那些线程私有的对象（指的是不可能被其他线程访问的对象），可以将它们打散分配在栈上，而不是分配在堆上。
  * 分配在栈上的好处是可以在函数调用结束后自行销毁，而不需要垃圾回收器的介入，从而提供系统的性能。栈上分配的一个技术基础是进行逃逸分析，
  * 逃逸分析的目的是判断对象的作用域是否有可能逃逸出函数体。
+ *
+ * Java对象分配的过程
+ *   1。编译器通过逃逸分析，确定对象是在栈上分配还是在堆上分配。如果是在堆上分配，则进入选项2.
+ *   2。如果tlab_top + size <= tlab_end，则在在TLAB上直接分配对象并增加tlab_top 的值，如果现有的TLAB不足以存放当前对象则3.
+ *   3。重新申请一个TLAB，并再次尝试存放当前对象。如果放不下，则4.
+ *   4。在Eden区加锁（这个区是多线程共享的），如果eden_top + size <= eden_end则将对象存放在Eden区，增加eden_top 的值，如果Eden区不足以存放，则5.
+ *   5。执行一次Young GC（minor collection）。
+ *   进行Young GC：将Eden和在使用的Survivor区中活着的对象复制到另一个Survivor区，并回收Eden和使用着的Survivor区。然后把对象分配到Eden，以后另一个Survivor成为使用的Survivor区；
+ *   6。经过Young GC之后，如果Eden区任然不足以存放当前对象，则直接分配到老年代。若老年代剩余空间不够了则进行Full GC，若Full GC后仍不够则抛出OOM异常。
+
+ *
  */
 public class StackExample {
 
@@ -49,32 +60,29 @@ public class StackExample {
      * 逃逸分析 详见：笔记1.1-java基础-jdk-base-JVM栈分配与TLAB
      * <p>
      * 开启逃逸分析
-     * -server -XX:+DoEscapeAnalysis -Xlog:gc
+     * -server -Xmx10m -Xms10m -XX:+DoEscapeAnalysis -Xlog:gc
      * <p>
      * 未开启逃逸分析
-     * -server -XX:-DoEscapeAnalysis -Xlog:gc
+     * -server -Xmx10m -Xms10m -XX:-DoEscapeAnalysis -Xlog:gc
      *
      * @param args
      */
     public static void main(String[] args) {
-        long start = System.nanoTime();
-        for (int i = 0; i < 1000 * 1000 * 10; ++i) {
-            Foo foo = new Foo();
+        long b=System.currentTimeMillis();
+        for(int i=0;i<100000000;i++){
+            alloc();
         }
-        long end = System.nanoTime();
-        System.out.println("Time cost is " + (end - start));
+        long e=System.currentTimeMillis();
+        System.out.println(e-b);
+
 
     }
 
 
 
-    private static class Foo {
-        private int x;
-        private static int counter;
-
-        public Foo() {
-            x = (++counter);
-        }
+    public static void alloc(){
+        byte[] b=new byte[2];
+        b[0]=1;
     }
 
 
