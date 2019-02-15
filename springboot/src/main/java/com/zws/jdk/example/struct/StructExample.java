@@ -5,6 +5,9 @@ package com.zws.jdk.example.struct;
  * @email 2848392861@qq.com
  * date 2019/2/11
  *
+ * JDK6时，String等常量信息置于方法
+ * JDK7时，已经移动到了堆
+ *
  *
  * jvm基本结构
  *
