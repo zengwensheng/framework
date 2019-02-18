@@ -19,6 +19,11 @@ public class StopTheWorldExample {
      * 通过集合引用对象，保证对象不被gc回收
      */
     private List<byte[]> content=new ArrayList<>();
+
+    /**
+     * -Xms512m -Xmx512m -Xmn4m  -XX:+UseSerialGC
+     * @param args
+     */
     public static void main(String[] args) {
         StopTheWorldExample stw=new StopTheWorldExample();
         stw.start();
