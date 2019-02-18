@@ -1,6 +1,8 @@
 package com.zws.jdk.example.gc;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author zws
@@ -12,60 +14,34 @@ import java.util.HashMap;
  */
 public class StopTheWorldExample {
 
+
     /**
-     * -Xmx512M -Xms512M -XX:+UseSerialGC  -Xmn1m -XX:PretenureSizeThreshold=50 -XX:MaxTenuringThreshold=1
-     * @param args
-     * @throws Exception
+     * 通过集合引用对象，保证对象不被gc回收
      */
-    public static void main(String[] args) throws Exception {
-
-        new MyThread().start();
-        new PrintThread().start();
+    private List<byte[]> content=new ArrayList<>();
+    public static void main(String[] args) {
+        StopTheWorldExample stw=new StopTheWorldExample();
+        stw.start();
     }
-}
 
+    private void start() {
+        while(true){
+            try {
+                content.add(new byte[1024]);
+            } catch (OutOfMemoryError e) {
+                //在不可以分配的时候，进行清理部分空间,继续运行，这样会很快产生下一次垃圾回收
+                for(int i=0;i<1024;i++){
+                    content.remove(i);
+                }
 
-class PrintThread extends Thread {
-    public static final long starttime = System.currentTimeMillis();
-
-    @Override
-    public void run() {
-        try {
-            while (true) {
-                long t = System.currentTimeMillis() - starttime;
-                System.out.println("time:" + t);
-                Thread.sleep(10);
             }
-        } catch (Exception e) {
 
         }
     }
 }
 
 
-class MyThread extends Thread {
-    HashMap<Long, byte[]> map = new HashMap<Long, byte[]>();
 
-    @Override
-    public void run() {
-        try {
-            while (true) {
-                if (map.size() * 512 / 1024 / 1024 >= 400) {
-                    System.out.println("=====准备清理=====:" + map.size());
-                    map.clear();
-                }
-
-                for (int i = 0; i < 1024; i++) {
-                    map.put(System.nanoTime(), new byte[512]);
-                }
-
-                Thread.sleep(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
 
 
 
