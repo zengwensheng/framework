@@ -23,6 +23,7 @@ import java.util.List;
  * <p>
  * GC参数整理：
  * -XX:+UseSerialGC：在新生代和老年代使用串行收集器
+ *
  * -XX:SurvivorRatio：设置eden区大小和survivior区大小的比例
  * -XX:NewRatio:新生代和老年代的比
  * -XX:+UseParNewGC：在新生代使用并行收集器
@@ -38,6 +39,7 @@ import java.util.List;
  * -XX:CMSInitiatingPermOccupancyFraction：当永久区占用率达到这一百分比时，启动CMS回收
  * -XX:UseCMSInitiatingOccupancyOnly：表示只在到达阀值的时候，才进行CMS回收
  * -XX:+UseParallelOldGC 使用Parallel收集器+ 老年代并行
+ *
  */
 public class GCExample {
 
@@ -75,13 +77,13 @@ public class GCExample {
      *     Parallel Scavenge策略主要是关注一个可控的吞吐量：应用程序运行时间 / (应用程序运行时间 + GC时间)，
      *     可见这会使得CPU的利用率尽可能的高，适用于后台持久运行的应用程序，而不适用于交互较多的应用程序。
      *
-     *
+     * -XX:+UseParNewGC -XX:+UseSerialOldGC -Xmx200m -Xms200m -Xmn70m -XX:+PrintGCDetails
      *
      *
      *
      * 六：新生代GC策略：Parallel Scavenge  老年代GC策略：Parallel Old
      *
-     * -XX:+UseParallelGC -XX:+UseParallelOldGC  -Xmx200m -Xms200m -Xmn70m -XX:+PrintGCDetails
+     *
      *
      *
      *
