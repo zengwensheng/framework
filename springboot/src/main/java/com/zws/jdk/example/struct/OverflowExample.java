@@ -11,34 +11,43 @@ package com.zws.jdk.example.struct;
  *     减少栈贞的空间很必要。或者增大线程的线的大小。
  *     通过volatile增加调用层次深度。线程会对一个没有volatile的变量进行临时存储，这就导致线程栈的空间增大，如果对一个变量增加volatile修饰，可以适当增加深度
  *
- * 实践测试下来没有效果
- * 原因可能是：
- *     为了提高代码效率，被volatile修饰的变量，编译器在判断只是在单线程占有的情况下，会取消volatile修饰，所以还是有工作内存
  *
  */
 public class OverflowExample {
 
-    private volatile int i=0;
-    private volatile int b=0;
-    private volatile int c=0;
 
-//	private  int i=0;
-//	private  int b=0;
-//	private  int c=0;
 
-    public static void main(String[] args) {
+    private  static byte[] b = new byte[1000];
+	private  static int  count=0;
+
+    /**
+     *  -Xss100k
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws  Exception {
         OverflowExample o=new OverflowExample();
         try {
-            o.deepTest();
-        } catch (Throwable e) {
-            System.out.println("over flow deep:"+o.i);
-            e.printStackTrace();
+
+            //o.deepTest1(0,0,0);
+            //o.deepTest2();
+        } catch (StackOverflowError e) {
+            System.out.println("over flow deep:"+o.count);
         }
     }
-    private void deepTest() {
-        ++i;
-        ++b;
+
+
+    private void deepTest1(int c,int b,int a) {
         ++c;
-        deepTest();
+        ++b;
+        ++a;
+        ++count;
+        deepTest1(c,b,a);
     }
+
+    private void deepTest2() {
+        ++count;
+        deepTest2();
+    }
+
 }

@@ -28,9 +28,6 @@ import java.util.Vector;
  *                          可以在OOM时，发送邮件，甚至是重启程序
  *
  *
- * 因为在jdk1.8中垃圾收集器的默认是Garbage First(G1)，
- * 但是G1不是按照分代区回收的
- * 为了方便学习就用了根据分代区回收的收集器
  *
  *
  * 总结
@@ -86,27 +83,27 @@ public class HeapConfigurationExample {
     /**
      * 堆大小配置
      *
-     * -XX:+UseSerialGC -Xmx200m -Xms200m -Xmn10m  -Xlog:gc*
+     * -XX:+UseSerialGC -Xmx200m -Xms200m -Xmn10m -XX:+PrintGCDetails
      * 没有触发GC
      * 全部分配在老年代
      *
-     * -XX:+UseSerialGC -Xmx200m -Xms200m -Xmn150m  -Xlog:gc*
+     * -XX:+UseSerialGC -Xmx200m -Xms200m -Xmn150m  -XX:+PrintGCDetails
      * 没有触发GC
      * 全部分配在eden
      * 老年代没有使用
      *
-     * -XX:+UseSerialGC -Xmx200m -Xms200m -Xmn70m -Xlog:gc*
+     * -XX:+UseSerialGC -Xmx200m -Xms200m -Xmn70m -XX:+PrintGCDetails
      * 进行2次新生代GC
      * so s1 太小需要老年代担保
      *
-     * -XX:+UseSerialGC -Xmx200m -Xms200m -Xmn70m -XX:SurvivorRatio=2 -Xlog:gc*
+     * -XX:+UseSerialGC -Xmx200m -Xms200m -Xmn70m -XX:SurvivorRatio=2 -XX:+PrintGCDetails
      * 进行了3次新生代GC
      * s0 s1 增大
      *
-     * -XX:+UseSerialGC -Xmx200m -Xms200m  -XX:NewRatio=1 -XX:SurvivorRatio=2 -Xlog:gc*
+     * -XX:+UseSerialGC -Xmx200m -Xms200m  -XX:NewRatio=1 -XX:SurvivorRatio=2 -XX:+PrintGCDetails
      *  2次GC
      *
-     * -XX:+UseSerialGC -Xmx200m -Xms200m  -XX:NewRatio=1 -XX:SurvivorRatio=4 -Xlog:gc*
+     * -XX:+UseSerialGC -Xmx200m -Xms200m  -XX:NewRatio=1 -XX:SurvivorRatio=4 -XX:+PrintGCDetails
      *  1次GC
      *
      *

@@ -29,10 +29,20 @@ import java.util.UUID;
  *
  */
 public class PermOOMExample {
+
+    static String  base = "string";
+    /**
+     *
+     * jdk 1.7以后将String 的字面变量移动到堆了
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        while (true) {
-            list.add(UUID.randomUUID().toString().intern());
+        List<String> list = new ArrayList<String>();
+        for (int i=0;i< Integer.MAX_VALUE;i++){
+            String str = base + base;
+            base = str;
+            list.add(str.intern());
         }
     }
 }

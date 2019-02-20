@@ -50,7 +50,7 @@ public class StackExample {
      * 逃逸分析 详见：笔记1.1-java基础-jdk-base-JVM栈分配与TLAB
      * <p>
      * 开启逃逸分析
-     * -server -Xmx10m -Xms10m -XX:+DoEscapeAnalysis -Xlog:gc
+     * -server -Xmx10m -Xms10m -XX:+DoEscapeAnalysis -Xlog:gc*
      * <p>
      * 未开启逃逸分析
      * -server -Xmx10m -Xms10m -XX:-DoEscapeAnalysis -Xlog:gc
