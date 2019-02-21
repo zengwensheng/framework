@@ -39,7 +39,8 @@ import java.util.List;
  * -XX:CMSInitiatingPermOccupancyFraction：当永久区占用率达到这一百分比时，启动CMS回收
  * -XX:UseCMSInitiatingOccupancyOnly：表示只在到达阀值的时候，才进行CMS回收
  * -XX:+UseParallelOldGC 使用Parallel收集器+ 老年代并行
- *
+ * -XX:G1NewSizePercent   设置年轻代最少使用的空间比率 G1
+ * -XX:G1MaxNewSizePercent  设置年轻代最大使用的空间比率 G1
  */
 public class GCExample {
 
@@ -88,7 +89,12 @@ public class GCExample {
      *
      *
      * 七：新生代GC策略：G1GC               年老代GC策略年代GC策略：G1GC
-     * -XX:+UseG1GC  -Xmx200m -Xms200m -Xmn70m -XX:+PrintGCDetails
+     * -XX:+UseG1GC  -Xmx200m -Xms200m  -XX:+PrintGCDetails
+     *
+     *
+     *
+     *
+     *
      *
      * @param args
      */
@@ -96,13 +102,23 @@ public class GCExample {
         alloc();
     }
 
-
     public static void alloc() {
         List<byte[]> bytes = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 35; i++) {
             if (bytes.size() == 10) {
                 bytes = new ArrayList<>();
             }
+            bytes.add(new byte[10 * 1024 * 1024]);
+        }
+
+    }
+
+    /**
+     *  新生代GC
+     */
+    public static void alloc1() {
+        List<byte[]> bytes = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
             bytes.add(new byte[10 * 1024 * 1024]);
         }
 
