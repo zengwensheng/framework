@@ -9,11 +9,10 @@ import java.util.regex.Pattern;
  * @email 2848392861@qq.com
  * date 2019/1/24
  */
-public class BinaryUtil {
-    static String NUMBER_REGEX = "[0-9].*";
+public interface BinaryUtil {
+     String NUMBER_REGEX = "[0-9].*";
 
-
-    public static BigDecimal twoToTen(String binary) {
+     static BigDecimal twoToTen(String binary) {
         Pattern pattern = Pattern.compile(NUMBER_REGEX);
         Matcher matcher = pattern.matcher(binary);
         if (!matcher.matches()) {
@@ -35,7 +34,7 @@ public class BinaryUtil {
     }
 
 
-    public static Integer twoToInteger(String binary){
+     static Integer twoToInteger(String binary){
 
         binary =  twoToTen(binary).toString();
         if(binary.lastIndexOf(".")!=-1) {
