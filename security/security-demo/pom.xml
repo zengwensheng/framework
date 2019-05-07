@@ -22,7 +22,7 @@
     <dependencies>
         <dependency>
             <groupId>com.zws.security</groupId>
-            <artifactId>security-browser</artifactId>
+            <artifactId>security-app</artifactId>
             <version>${security.version}</version>
         </dependency>
         <dependency>

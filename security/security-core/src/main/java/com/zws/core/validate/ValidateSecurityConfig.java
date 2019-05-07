@@ -23,6 +23,6 @@ public class ValidateSecurityConfig extends SecurityConfigurerAdapter<DefaultSec
 
     @Override
     public void configure(HttpSecurity http)  {
-          http.addFilterAfter(validateCodeFilter,AbstractPreAuthenticatedProcessingFilter.class);
+        http.addFilterAfter(validateCodeFilter,AbstractPreAuthenticatedProcessingFilter.class);
     }
 }

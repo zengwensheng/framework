@@ -46,7 +46,7 @@ public class HotReplaceExample {
      * @param args
      * @throws Exception
      */
-    public static void main(String args[]) throws Exception {
+    public static void main2(String args[]) throws Exception {
         OrderClassLoader orderClassLoader =  new OrderClassLoader("file:///Users/zws/IdeaProjects/framework/springboot/target/classes/","classLoader1");
         orderClassLoader.loadClass("com.zws.jdk.example.classloader.HelloLoader");
 
@@ -75,7 +75,7 @@ public class HotReplaceExample {
      *
      * @param args
      */
-    public static void main2(String[] args) {
+    public static void main(String[] args) {
         new HotReplaceThread().start();
         new PrintThread().start();
     }

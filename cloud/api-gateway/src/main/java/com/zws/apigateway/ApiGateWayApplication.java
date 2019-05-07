@@ -1,8 +1,11 @@
 package com.zws.apigateway;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.codec.ServerCodecConfigurer;
+import org.springframework.http.codec.support.DefaultServerCodecConfigurer;
 
 /**
  * @author zws
@@ -11,9 +14,16 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  *
  * TODO 将限流框架未写，权限验证框架未升级
  */
-@SpringBootApplication
-@EnableZuulProxy
+@SpringCloudApplication
+/*@EnableZuulProxy*/
+@Configuration
 public class ApiGateWayApplication {
+
+    @Bean
+    public ServerCodecConfigurer serverCodecConfigurer(){
+        ServerCodecConfigurer serverCodecConfigurer = new DefaultServerCodecConfigurer();
+        return serverCodecConfigurer;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(ApiGateWayApplication.class,args);
