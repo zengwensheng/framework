@@ -17,6 +17,7 @@
         <module>cloud</module>
         <module>springboot</module>
         <module>common</module>
+        <module>task</module>
     </modules>
 
     <properties>
